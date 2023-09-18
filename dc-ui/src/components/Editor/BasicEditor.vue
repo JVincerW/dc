@@ -3,12 +3,10 @@
     <div style="border: 1px solid #ccc; margin-top: 10px">
       <Toolbar
           :editor="editorRef"
-          :mode="mode"
           style="border-bottom: 1px solid #ccc"
       />
       <Editor
           :defaultConfig="editorConfig"
-          :mode="mode"
           v-model="valueHtml"
           style="height: 400px; overflow-y: hidden"
           @onCreated="handleCreated"
