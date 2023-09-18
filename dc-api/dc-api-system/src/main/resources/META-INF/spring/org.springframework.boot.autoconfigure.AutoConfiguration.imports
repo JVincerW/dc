@@ -1,0 +1,3 @@
+com.vincer.system.api.factory.RemoteUserFallbackFactory
+com.vincer.system.api.factory.RemoteLogFallbackFactory
+com.vincer.system.api.factory.RemoteFileFallbackFactory

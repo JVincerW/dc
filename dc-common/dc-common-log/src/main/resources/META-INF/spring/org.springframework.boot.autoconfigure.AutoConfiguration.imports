@@ -1,0 +1,2 @@
+com.vincer.common.log.service.AsyncLogService
+com.vincer.common.log.aspect.LogAspect
