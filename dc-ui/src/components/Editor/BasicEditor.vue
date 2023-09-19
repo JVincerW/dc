@@ -25,11 +25,12 @@
 
 <script setup>
 import '@wangeditor/editor/dist/css/style.css';
-import { ref, shallowRef, defineExpose } from 'vue';
-import { Editor, Toolbar } from '@wangeditor/editor-for-vue';
+import {ref, shallowRef} from 'vue';
+import {Editor, Toolbar} from '@wangeditor/editor-for-vue';
+
 const editorRef = shallowRef();
 const valueHtml = ref(null);
-const editorConfig = { placeholder: '请输入内容...' };
+const editorConfig = {placeholder: '请输入内容...'};
 
 const handleCreated = (editor) => {
   console.log('子组件内部打印：子组件被创建');
@@ -37,5 +38,5 @@ const handleCreated = (editor) => {
 };
 
 
-defineExpose({ valueHtml });
+defineExpose({valueHtml});
 </script>
