@@ -31,12 +31,9 @@ defineExpose({valueHtml});
 
 .editorBody {
   border: 1px solid #00ff00;
-  height: 100vh;;
 }
-.editor-container{
-  height: 100vh;;
-}
+
 .editorToolBar {
-  border: 1px solid #00f;
+  border-bottom: 1px solid #ccc
 }
 </style>

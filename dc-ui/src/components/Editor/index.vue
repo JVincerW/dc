@@ -92,9 +92,9 @@ watch(() => props.modelValue, (v) => {
   content: "请输入链接地址:";
 }
 .ql-snow .ql-tooltip.ql-editing a.ql-action::after {
-  border-right: 0;
+  border-right: 0px;
   content: "保存";
-  padding-right: 0;
+  padding-right: 0px;
 }
 
 .ql-snow .ql-tooltip[data-mode="video"]::before {

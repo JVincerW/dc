@@ -239,7 +239,7 @@ function resetQuery() {
 /** 多选框选中数据 */
 function handleSelectionChange(selection) {
   ids.value = selection.map(item => item.configId);
-  single.value = selection.length !== 1;
+  single.value = selection.length != 1;
   multiple.value = !selection.length;
 }
 /** 新增按钮操作 */
@@ -262,7 +262,7 @@ function handleUpdate(row) {
 function submitForm() {
   proxy.$refs["configRef"].validate(valid => {
     if (valid) {
-      if (form.value.configId !== undefined) {
+      if (form.value.configId != undefined) {
         updateConfig(form.value).then(response => {
           proxy.$modal.msgSuccess("修改成功");
           open.value = false;

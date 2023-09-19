@@ -74,7 +74,7 @@ const sideTheme = computed(() => settingsStore.sideTheme);
 
   &.collapse {
     .sidebar-logo {
-      margin-right: 0;
+      margin-right: 0px;
     }
   }
 }

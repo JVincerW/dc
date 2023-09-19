@@ -232,7 +232,7 @@ defineExpose({
 
   .comp-style {
     float: right;
-    margin: -3px 8px 0 0;
+    margin: -3px 8px 0px 0px;
   }
 }
 </style>
