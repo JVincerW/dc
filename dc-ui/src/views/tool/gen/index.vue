@@ -152,6 +152,7 @@
 <script setup name="Gen">
 import { listTable, previewTable, delTable, genCode, synchDb } from "@/api/tool/gen";
 import router from "@/router";
+import {useRoute} from "vue-router";
 import importTable from "./importTable";
 
 const route = useRoute();
@@ -187,7 +188,7 @@ const { queryParams, preview } = toRefs(data);
 
 onActivated(() => {
   const time = route.query.t;
-  if (time != null && time != uniqueId.value) {
+  if (time != null && time !== uniqueId.value) {
     uniqueId.value = time;
     queryParams.value.pageNum = Number(route.query.pageNum);
     dateRange.value = [];
@@ -213,7 +214,7 @@ function handleQuery() {
 /** 生成代码操作 */
 function handleGenTable(row) {
   const tbNames = row.tableName || tableNames.value;
-  if (tbNames == "") {
+  if (tbNames === "") {
     proxy.$modal.msgError("请选择要生成的数据");
     return;
   }
@@ -260,7 +261,7 @@ function copyTextSuccess() {
 function handleSelectionChange(selection) {
   ids.value = selection.map(item => item.tableId);
   tableNames.value = selection.map(item => item.tableName);
-  single.value = selection.length != 1;
+  single.value = selection.length !== 1;
   multiple.value = !selection.length;
 }
 /** 修改按钮操作 */
