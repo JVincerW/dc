@@ -93,7 +93,7 @@ for (let item in props.columns) {
 :deep(.el-transfer__button) {
   border-radius: 50%;
   display: block;
-  margin-left: 0px;
+  margin-left: 0;
 }
 :deep(.el-transfer__button:first-child) {
   margin-bottom: 10px;

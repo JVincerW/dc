@@ -208,6 +208,6 @@ onMounted(() => {
   position: static;
   vertical-align: middle;
   margin-left: 8px;
-  margin-top: 0px;
+  margin-top: 0;
 }
 </style>
