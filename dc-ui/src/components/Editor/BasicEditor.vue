@@ -19,37 +19,23 @@
           style="width: 100%; height: 200px; outline: none"
       ></textarea>
     </div>
+
   </div>
 </template>
 
-<script >
+<script setup>
 import '@wangeditor/editor/dist/css/style.css';
-import {provide, ref, shallowRef} from 'vue';
-import {Editor, Toolbar} from '@wangeditor/editor-for-vue';
+import { ref, shallowRef, defineExpose } from 'vue';
+import { Editor, Toolbar } from '@wangeditor/editor-for-vue';
+const editorRef = shallowRef();
+const valueHtml = ref(null);
+const editorConfig = { placeholder: '请输入内容...' };
 
-export default {
-  components: { Editor, Toolbar },
-
-  setup() {
-    const editorRef = shallowRef();
-    const valueHtml = ref('');
-    const editorConfig = { placeholder: '请输入内容...' };
-
-    const handleCreated = (editor) => {
-      console.log('created', editor);
-      editorRef.value = editor;
-    };
-
-
-    provide('editorValue', valueHtml);
-
-    return {
-      editorRef,
-      mode: 'default',
-      editorConfig,
-      valueHtml,
-      handleCreated
-    };
-  },
+const handleCreated = (editor) => {
+  console.log('子组件内部打印：子组件被创建');
+  editorRef.value = editor;
 };
+
+
+defineExpose({ valueHtml });
 </script>
