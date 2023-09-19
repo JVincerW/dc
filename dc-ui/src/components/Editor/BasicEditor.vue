@@ -10,7 +10,6 @@
           v-model="valueHtml"
           style="height: 400px; overflow-y: hidden"
           @onCreated="handleCreated"
-          @onChange="handleChange"
       />
     </div>
     <div style="margin-top: 10px">
@@ -23,17 +22,15 @@
   </div>
 </template>
 
-<script>
+<script >
 import '@wangeditor/editor/dist/css/style.css';
 import {provide, ref, shallowRef} from 'vue';
 import {Editor, Toolbar} from '@wangeditor/editor-for-vue';
 
 export default {
   components: { Editor, Toolbar },
-  props: {
-    initData: Object, // 接收包含 initValueHtml 的对象
-  },
-  setup(props) {
+
+  setup() {
     const editorRef = shallowRef();
     const valueHtml = ref('');
     const editorConfig = { placeholder: '请输入内容...' };
@@ -41,16 +38,8 @@ export default {
     const handleCreated = (editor) => {
       console.log('created', editor);
       editorRef.value = editor;
-
-      // 设置初始值
-      if (props.initData && props.initData.html) {
-        valueHtml.value = props.initData.html;
-      }
     };
 
-    const handleChange = (editor) => {
-      console.log('子页面获取到的值:', editor.getHtml());
-    };
 
     provide('editorValue', valueHtml);
 
@@ -59,8 +48,7 @@ export default {
       mode: 'default',
       editorConfig,
       valueHtml,
-      handleCreated,
-      handleChange,
+      handleCreated
     };
   },
 };
