@@ -1,9 +1,11 @@
 <template>
   <BasicEditor ref="wEditorRef"/>
+  <dig></dig>
 </template>
 
 <script setup>
 import BasicEditor from "@/components/Editor/BasicEditor.vue";
+import Dig from "@/views/wEditor/C/dig.vue";
 
 const wEditorRef = ref();
 

@@ -7,7 +7,7 @@
       <div class="inputDeep">
         <el-input placeholder="请输入标题"></el-input>
       </div>
-      <Editor :defaultConfig="editorConfig" v-model="valueHtml" @onCreated="handleCreated"/>
+      <Editor style="background-color: #4AB7BD" :defaultConfig="editorConfig" v-model="valueHtml" @onCreated="handleCreated"/>
     </div>
   </div>
 </template>
@@ -27,6 +27,7 @@ const cref = ref(null);
 const handleCreated = (editor) => {
   console.log('子组件内部打印：子组件被创建');
   editorRef.value = editor;
+  console.log(editor.getConfig());
 };
 defineExpose({valueHtml});
 </script>
@@ -36,7 +37,7 @@ defineExpose({valueHtml});
   flex-direction: column;
   padding: 10px;
   height: calc(100vh - 84px);
-  //background-color: #1ab394;
+  background-color: #eee;
   box-sizing: border-box;
 }
 
