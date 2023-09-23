@@ -1,14 +1,14 @@
 <template>
-  <div class="editor-container">
-    <Toolbar class="editorToolBar"
-             :editor="editorRef"
-    />
-    <Editor
-        :defaultConfig="editorConfig"
-        v-model="valueHtml"
-        class="editorBody"
-        @onCreated="handleCreated"
-    />
+
+  <div class="bg-red" ref="cref">
+    <Toolbar class="tb" :editor="editorRef"/>
+
+    <div class="scroll-container">
+      <div class="inputDeep">
+        <el-input placeholder="请输入标题"></el-input>
+      </div>
+      <Editor :defaultConfig="editorConfig" v-model="valueHtml" @onCreated="handleCreated"/>
+    </div>
   </div>
 </template>
 
@@ -19,7 +19,10 @@ import {Editor, Toolbar} from '@wangeditor/editor-for-vue';
 
 const editorRef = shallowRef();
 const valueHtml = ref(null);
-const editorConfig = {placeholder: '请输入内容...'};
+const editorConfig = {placeholder: '请输入内容...',scroll:false};
+
+// 使用 ref 引用元素
+const cref = ref(null);
 
 const handleCreated = (editor) => {
   console.log('子组件内部打印：子组件被创建');
@@ -28,12 +31,46 @@ const handleCreated = (editor) => {
 defineExpose({valueHtml});
 </script>
 <style scoped>
-
-.editorBody {
-  border: 1px solid #00ff00;
+.bg-red {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  height: calc(100vh - 84px);
+  //background-color: #1ab394;
+  box-sizing: border-box;
 }
 
-.editorToolBar {
-  border-bottom: 1px solid #ccc
+.tb {
+  top: 0;
+  width: 100%;
+  border-bottom: 1px solid #ccc;
+  box-sizing: border-box;
+  z-index: 999;
+}
+
+.scroll-container {
+  border-top: 1px solid #cccccc;
+  box-sizing: border-box;
+  overflow-y: scroll;
+  display: flex; /* 使用flex布局 */
+  flex-direction: column; /* 垂直方向布局 */
+  flex: 1;
+}
+
+/* 使用 :deep() 来覆盖 Element Plus 的默认样式 */
+.inputDeep :deep(.el-input__inner) {
+  border: 0;
+  font-size: 2em;
+  height: 2.5em;
+  text-align: center;
+
+}
+
+/* 去掉输入框的边框，聚焦时也没有边框 */
+.inputDeep :deep(.el-input__wrapper) {
+  border-bottom: 1px solid #cccccc;
+  box-sizing: border-box;
+  box-shadow: none;
+  border-radius: unset;
 }
 </style>
