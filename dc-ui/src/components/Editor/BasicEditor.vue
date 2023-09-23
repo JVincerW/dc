@@ -7,7 +7,7 @@
       <div class="inputDeep">
         <el-input placeholder="请输入标题"></el-input>
       </div>
-      <Editor style="background-color: #4AB7BD" :defaultConfig="editorConfig" v-model="valueHtml" @onCreated="handleCreated"/>
+      <Editor style="background-color: #fff" :defaultConfig="editorConfig" v-model="valueHtml" @onCreated="handleCreated"/>
     </div>
   </div>
 </template>
@@ -52,6 +52,7 @@ defineExpose({valueHtml});
 .scroll-container {
   border-top: 1px solid #cccccc;
   box-sizing: border-box;
+  background-color: #fff;
   overflow-y: scroll;
   display: flex; /* 使用flex布局 */
   flex-direction: column; /* 垂直方向布局 */
