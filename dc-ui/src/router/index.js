@@ -1,12 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router';
-/* Layout */
 import Layout from '@/layout';
+
+// 提取常用路由属性
+const routeDefaults = {
+	component: Layout,
+	hidden: true,
+};
 
 export const constantRoutes = [
 	{
 		path: '/redirect',
-		component: Layout,
-		hidden: true,
+		...routeDefaults,
 		children: [
 			{
 				path: '/redirect/:path(.*)',
@@ -16,27 +20,27 @@ export const constantRoutes = [
 	},
 	{
 		path: '/login',
+		...routeDefaults,
 		component: () => import('@/views/login'),
-		hidden: true,
 	},
 	{
 		path: '/register',
+		...routeDefaults,
 		component: () => import('@/views/register'),
-		hidden: true,
 	},
 	{
 		path: '/:pathMatch(.*)*',
+		...routeDefaults,
 		component: () => import('@/views/error/404'),
-		hidden: true,
 	},
 	{
 		path: '/401',
+		...routeDefaults,
 		component: () => import('@/views/error/401'),
-		hidden: true,
 	},
 	{
 		path: '',
-		component: Layout,
+		...routeDefaults,
 		redirect: '/index',
 		children: [
 			{
@@ -49,7 +53,7 @@ export const constantRoutes = [
 	},
 	{
 		path: '/user',
-		component: Layout,
+		...routeDefaults,
 		hidden: true,
 		redirect: 'noredirect',
 		children: [
@@ -141,11 +145,7 @@ const router = createRouter({
 	history: createWebHistory(),
 	routes: constantRoutes,
 	scrollBehavior(to, from, savedPosition) {
-		if( savedPosition ) {
-			return savedPosition;
-		} else {
-			return { top: 0 };
-		}
+		return savedPosition || { top: 0 };
 	},
 });
 
