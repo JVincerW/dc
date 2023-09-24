@@ -14,7 +14,7 @@
 
 <script setup>
 import '@wangeditor/editor/dist/css/style.css';
-import { defineExpose, ref, shallowRef } from 'vue';
+import { ref, shallowRef } from 'vue';
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue';
 
 const editorRef    = shallowRef();

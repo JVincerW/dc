@@ -7,7 +7,7 @@
 
 <script setup>
 import BasicEditor from '@/components/Editor/BasicEditor.vue';
-import Dig from '@/views/wEditor/C/dig.vue';
+import Dig from '@/views/blogs/wEditor/C/dig.vue';
 
 const wEditorRef = ref();
 
