@@ -23,9 +23,7 @@ const useSettingsStore = defineStore(
 				// 修改布局设置
 				changeSetting(data) {
 					const { key, value } = data;
-					if( this.hasOwnProperty(key) ) {
-						this[key] = value;
-					}
+					this[key]            = value;
 				},
 				// 设置网页标题
 				setTitle(title) {
