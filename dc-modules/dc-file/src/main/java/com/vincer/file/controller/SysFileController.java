@@ -3,6 +3,7 @@ package com.vincer.file.controller;
 import com.vincer.common.core.domain.R;
 import com.vincer.common.core.utils.file.FileUtils;
 import com.vincer.file.service.ISysFileService;
+import com.vincer.file.service.LocalSysFileServiceImpl;
 import com.vincer.system.api.domain.SysFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +22,7 @@ public class SysFileController {
     private static final Logger log = LoggerFactory.getLogger(SysFileController.class);
 
     @Autowired
-    private ISysFileService sysFileService;
+    private LocalSysFileServiceImpl sysFileService;
 
     /**
      * 文件上传请求

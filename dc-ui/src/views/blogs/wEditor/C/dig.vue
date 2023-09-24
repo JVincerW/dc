@@ -1,40 +1,55 @@
 <script setup>
+import { ref } from 'vue';
 import { Plus } from '@element-plus/icons-vue';
+import { uploadFileRequest } from '@/api/system/file';
 
-const articTypes         = [ '分类1', '分类2', '分类3', '分类4', '分类5' ];
-const tags               = ref([
+const articTypes = [ '分类1', '分类2', '分类3', '分类4', '分类5' ];
+const tags       = ref([
 	{ id: 1, type: '', label: 'java', flag: false },
 	{ id: 2, type: 'success', label: 'vue', flag: false },
 	{ id: 3, type: 'info', label: '博客', flag: false },
 	{ id: 4, type: 'danger', label: '生活', flag: false },
 	{ id: 5, type: 'warning', label: '感悟', flag: false },
 ]);
+
 const dialogTableVisible = true;
-const uploadFile         = () => {
-	console.log('ddd');
+const uploadFile         = (msg) => {
+	console.log(msg.file);
+	uploadFileRequest(msg.file).then(response => {
+		console.log(response);
+	});
+	// uploadFile
+	// console.log('ddd');
+	
 };
 const tag                = (clickedTag) => {
 	clickedTag.flag = !clickedTag.flag;
-};
-const handleCancel       = () => {
-	console.log('ddd2');
-};
-const handleSubmit       = () => {
-	console.log('ddd1');
+	
+	// 更新selectedTags
+	selectedTags = tags.value.filter((tag) => tag.flag).map((tag) => tag.label);
 };
 
+const handleCancel = () => {
+	console.log('ddd2');
+};
+const handleSubmit = () => {
+	console.log('选择的阅读类型：', selectedReadType);
+	console.log('选择的文章分类：', selectedCategory);
+	console.log('选择的文章标签：', selectedTags);
+	console.log('选择的封面图片：', selectedCoverImage);
+};
+
+let selectedReadType   = 0;
+let selectedCategory   = articTypes[0];
+let selectedTags       = tags.value.filter((tag) => tag.flag).map((tag) => tag.label);
+let selectedCoverImage = '';
 </script>
 
 <template>
-	<el-dialog
-			v-model='dialogTableVisible'
-			:visible.sync='false'
-			center
-			title='文章信息'
-			width='30%'>
+	<el-dialog v-model='dialogTableVisible' :visible.sync='false' center title='文章信息' width='30%'>
 		<el-form label-width='80px'>
 			<el-form-item label='阅读类型'>
-				<el-radio-group>
+				<el-radio-group v-model='selectedReadType'>
 					<el-radio :label='0'>无需验证</el-radio>
 					<el-radio :label='1'>评论阅读</el-radio>
 					<el-radio :label='2'>点赞阅读</el-radio>
@@ -42,21 +57,19 @@ const handleSubmit       = () => {
 				</el-radio-group>
 			</el-form-item>
 			<el-form-item label='文章分类'>
-				<el-select placeholder='请选择分类'>
-					<el-option
-							v-for='item in articTypes'
-							:key='item'
-							:label='item'
-							:value='item'>
-					</el-option>
+				<el-select v-model='selectedCategory' placeholder='请选择分类'>
+					<el-option v-for='item in articTypes' :key='item' :label='item' :value='item'></el-option>
 				</el-select>
 			</el-form-item>
 			<el-form-item form.tags label='文章标签'>
 				<el-tag
 						v-for='item in tags'
-						:key='item.id' :type="item.flag?'info':'success'"
-						effect='dark' style='cursor: pointer;margin-left: 10px'
-						@click='tag(item)'>
+						:key='item.id'
+						:type="item.flag ? 'info' : 'success'"
+						effect='dark'
+						style='cursor: pointer; margin-left: 10px'
+						@click='tag(item)'
+				>
 					{{ item.label }}
 				</el-tag>
 			</el-form-item>
@@ -73,7 +86,6 @@ const handleSubmit       = () => {
 						<Plus />
 					</el-icon>
 				</el-upload>
-			
 			</el-form-item>
 			<el-form-item>
 				<el-button @click='handleCancel'>取消</el-button>

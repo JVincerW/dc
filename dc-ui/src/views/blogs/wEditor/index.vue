@@ -11,6 +11,10 @@ import Dig from '@/views/blogs/wEditor/C/dig.vue';
 
 const wEditorRef = ref();
 
+// const blogMsg = reactive({
+// 	content: wEditorRef.value.valueHtml,
+// });
+
 const getChildValueHtml = () => {
 	console.log('父页面获取到的值', wEditorRef.value.valueHtml);
 };
