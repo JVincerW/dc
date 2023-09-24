@@ -1,52 +1,40 @@
 <script setup>
 import { ref } from 'vue';
-import { Plus } from '@element-plus/icons-vue';
-import { uploadFileRequest } from '@/api/system/file';
 
-const articTypes = [ '分类1', '分类2', '分类3', '分类4', '分类5' ];
-const tags       = ref([
+const articTypes          = [ '分类1', '分类2', '分类3', '分类4', '分类5' ];
+const tags                = ref([
 	{ id: 1, type: '', label: 'java', flag: false },
 	{ id: 2, type: 'success', label: 'vue', flag: false },
 	{ id: 3, type: 'info', label: '博客', flag: false },
 	{ id: 4, type: 'danger', label: '生活', flag: false },
 	{ id: 5, type: 'warning', label: '感悟', flag: false },
 ]);
+const selectedCoverImages = ref([]);
 
-const dialogTableVisible = true;
-const uploadFile         = (msg) => {
-	console.log(msg.file);
-	uploadFileRequest(msg.file).then(response => {
-		console.log(response);
-	});
-	// uploadFile
-	// console.log('ddd');
-	
-};
-const tag                = (clickedTag) => {
-	clickedTag.flag = !clickedTag.flag;
-	
-	// 更新selectedTags
-	selectedTags = tags.value.filter((tag) => tag.flag).map((tag) => tag.label);
+const dialogTableVisible = ref(true);
+let selectedReadType     = ref(0);
+let selectedCategory     = ref(articTypes[0]);
+let selectedTags         = ref([]);
+
+const tag = (clickedTag) => {
+	clickedTag.flag    = !clickedTag.flag;
+	selectedTags.value = tags.value.filter((tag) => tag.flag).map((tag) => tag.label);
 };
 
 const handleCancel = () => {
-	console.log('ddd2');
-};
-const handleSubmit = () => {
-	console.log('选择的阅读类型：', selectedReadType);
-	console.log('选择的文章分类：', selectedCategory);
-	console.log('选择的文章标签：', selectedTags);
-	console.log('选择的封面图片：', selectedCoverImage);
+	dialogTableVisible.value = false;
 };
 
-let selectedReadType   = 0;
-let selectedCategory   = articTypes[0];
-let selectedTags       = tags.value.filter((tag) => tag.flag).map((tag) => tag.label);
-let selectedCoverImage = '';
+const handleSubmit = () => {
+	console.log('选择的阅读类型：', selectedReadType.value);
+	console.log('选择的文章分类：', selectedCategory.value);
+	console.log('选择的文章标签：', selectedTags.value);
+	console.log('选择的封面图片：', selectedCoverImages.value);
+};
 </script>
 
 <template>
-	<el-dialog v-model='dialogTableVisible' :visible.sync='false' center title='文章信息' width='30%'>
+	<el-dialog v-model='dialogTableVisible' center title='文章信息' width='30%'>
 		<el-form label-width='80px'>
 			<el-form-item label='阅读类型'>
 				<el-radio-group v-model='selectedReadType'>
@@ -74,18 +62,14 @@ let selectedCoverImage = '';
 				</el-tag>
 			</el-form-item>
 			<el-form-item label='封面图片'>
-				<el-upload
-						:http-request='uploadFile'
+				<image-upload
+						ref='upi'
+						v-model='selectedCoverImages'
+						:fileSize='20'
+						:fileType="['png', 'jpg', 'jpeg']"
+						:isShowTip='true'
 						:limit='1'
-						:show-file-list='false'
-						action='#'
-						class='avatar-uploader'
-				>
-					<img v-if='false' alt='ggg' class='avatar' src='https://img-blog.csdnimg.cn/d658f31b81f84566be9de5b6db880b82.png' />
-					<el-icon v-else class='avatar-uploader-icon'>
-						<Plus />
-					</el-icon>
-				</el-upload>
+				/>
 			</el-form-item>
 			<el-form-item>
 				<el-button @click='handleCancel'>取消</el-button>
@@ -98,9 +82,8 @@ let selectedCoverImage = '';
 <style lang='scss' scoped>
 .f_r {
 	position: fixed;
-	width: auto;
-	bottom: 40px; /* 距离底部的距离，根据需要调整 */
-	right: 60px; /* 距离右边的距离，根据需要调整 */
+	bottom: 40px;
+	right: 60px;
 }
 
 .inputDeep :deep(.el-input__inner) {
