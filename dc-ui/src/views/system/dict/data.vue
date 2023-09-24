@@ -306,7 +306,7 @@ function handleAdd() {
 /** 多选框选中数据 */
 function handleSelectionChange(selection) {
 	ids.value      = selection.map(item => item.dictCode);
-	single.value   = selection.length != 1;
+	single.value   = selection.length !== 1;
 	multiple.value = !selection.length;
 }
 
@@ -325,7 +325,7 @@ function handleUpdate(row) {
 function submitForm() {
 	proxy.$refs['dataRef'].validate(valid => {
 		if( valid ) {
-			if( form.value.dictCode != undefined ) {
+			if( form.value.dictCode !== undefined ) {
 				updateData(form.value).then(response => {
 					useDictStore().removeDict(queryParams.value.dictType);
 					proxy.$modal.msgSuccess('修改成功');

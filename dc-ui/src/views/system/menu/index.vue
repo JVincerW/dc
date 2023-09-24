@@ -176,7 +176,7 @@
 							<el-input v-model='form.path' placeholder='请输入路由地址' />
 						</el-form-item>
 					</el-col>
-					<el-col v-if="form.menuType == 'C'" :span='12'>
+					<el-col v-if="form.menuType === 'C'" :span='12'>
 						<el-form-item prop='component'>
 							<template #label>
                         <span>
@@ -189,7 +189,7 @@
 							<el-input v-model='form.component' placeholder='请输入组件路径' />
 						</el-form-item>
 					</el-col>
-					<el-col v-if="form.menuType != 'M'" :span='12'>
+					<el-col v-if="form.menuType !== 'M'" :span='12'>
 						<el-form-item>
 							<el-input v-model='form.perms' maxlength='100' placeholder='请输入权限标识' />
 							<template #label>
@@ -202,7 +202,7 @@
 							</template>
 						</el-form-item>
 					</el-col>
-					<el-col v-if="form.menuType == 'C'" :span='12'>
+					<el-col v-if="form.menuType === 'C'" :span='12'>
 						<el-form-item>
 							<el-input v-model='form.query' maxlength='255' placeholder='请输入路由参数' />
 							<template #label>
@@ -215,7 +215,7 @@
 							</template>
 						</el-form-item>
 					</el-col>
-					<el-col v-if="form.menuType == 'C'" :span='12'>
+					<el-col v-if="form.menuType === 'C'" :span='12'>
 						<el-form-item>
 							<template #label>
                         <span>
@@ -231,7 +231,7 @@
 							</el-radio-group>
 						</el-form-item>
 					</el-col>
-					<el-col v-if="form.menuType != 'F'" :span='12'>
+					<el-col v-if="form.menuType !== 'F'" :span='12'>
 						<el-form-item>
 							<template #label>
                         <span>
@@ -251,7 +251,7 @@
 							</el-radio-group>
 						</el-form-item>
 					</el-col>
-					<el-col v-if="form.menuType != 'F'" :span='12'>
+					<el-col v-if="form.menuType !== 'F'" :span='12'>
 						<el-form-item>
 							<template #label>
                         <span>
@@ -374,8 +374,8 @@ function selected(name) {
 
 /** 图标外层点击隐藏下拉列表 */
 function hideSelectIcon(event) {
-	var elem      = event.relatedTarget || event.srcElement || event.target || event.currentTarget;
-	var className = elem.className;
+	const elem      = event.relatedTarget || event.srcElement || event.target || event.currentTarget;
+	const className = elem.className;
 	if( className !== 'el-input__inner' ) {
 		showChooseIcon.value = false;
 	}
@@ -429,7 +429,7 @@ async function handleUpdate(row) {
 function submitForm() {
 	proxy.$refs['menuRef'].validate(valid => {
 		if( valid ) {
-			if( form.value.menuId != undefined ) {
+			if( form.value.menuId !== undefined ) {
 				updateMenu(form.value).then(response => {
 					proxy.$modal.msgSuccess('修改成功');
 					open.value = false;

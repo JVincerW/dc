@@ -136,7 +136,7 @@
 						</p>
 						<p>
 							<i class='el-icon-chat-dot-round'></i> 微信：<a
-								href='javascript:;'
+								href='javascript:'
 						>/ *若依</a
 						>
 						</p>

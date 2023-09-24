@@ -3,7 +3,7 @@
 		<template v-for='(item, index) in options'>
 			<template v-if='values.includes(item.value)'>
         <span
-		        v-if="(item.elTagType == 'default' || item.elTagType == '') && (item.elTagClass == '' || item.elTagClass == null)"
+		        v-if="(item.elTagType === 'default' || item.elTagType === '') && (item.elTagClass === '' || item.elTagClass == null)"
 		        :key='item.value'
 		        :class='item.elTagClass'
 		        :index='index'
@@ -59,7 +59,7 @@ const unmatch = computed(() => {
 	if( props.value !== null && typeof props.value !== 'undefined' ) {
 		// 传入值为非数组
 		if( !Array.isArray(props.value) ) {
-			if( props.options.some((v) => v.value == props.value) ) {
+			if( props.options.some((v) => v.value === props.value) ) {
 				return false;
 			}
 			unmatchArray.value.push(props.value);
@@ -67,7 +67,7 @@ const unmatch = computed(() => {
 		}
 		// 传入值为Array
 		props.value.forEach((item) => {
-			if( !props.options.some((v) => v.value == item) ) {
+			if( !props.options.some((v) => v.value === item) ) {
 				unmatchArray.value.push(item);
 			}
 		});

@@ -202,7 +202,6 @@
 	}
 }
 
-// when menu collapsed
 .el-menu--vertical {
 	& > .el-menu {
 		.svg-icon {
@@ -218,7 +217,6 @@
 		}
 	}
 
-	// the scroll bar appears when the sub-menu is too long
 	> .el-menu--popup {
 		max-height: 100vh;
 		overflow-y: auto;

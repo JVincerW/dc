@@ -227,7 +227,7 @@ function resetQuery() {
 /** 多选框选中数据 */
 function handleSelectionChange(selection) {
 	ids.value      = selection.map(item => item.postId);
-	single.value   = selection.length != 1;
+	single.value   = selection.length !== 1;
 	multiple.value = !selection.length;
 }
 
@@ -253,7 +253,7 @@ function handleUpdate(row) {
 function submitForm() {
 	proxy.$refs['postRef'].validate(valid => {
 		if( valid ) {
-			if( form.value.postId != undefined ) {
+			if( form.value.postId !== undefined ) {
 				updatePost(form.value).then(response => {
 					proxy.$modal.msgSuccess('修改成功');
 					open.value = false;

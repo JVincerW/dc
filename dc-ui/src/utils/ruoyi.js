@@ -32,7 +32,7 @@ export function parseTime(time, pattern) {
 		s: date.getSeconds(),
 		a: date.getDay(),
 	};
-	const time_str  = format.replace(/{(y|m|d|h|i|s|a)+}/g, (result, key) => {
+	return format.replace(/{(y|m|d|h|i|s|a)+}/g, (result, key) => {
 		let value = formatObj[key];
 		// Note: getDay() returns 0 on Sunday
 		if( key === 'a' ) { return [ '日', '一', '二', '三', '四', '五', '六' ][value]; }
@@ -41,7 +41,6 @@ export function parseTime(time, pattern) {
 		}
 		return value || 0;
 	});
-	return time_str;
 }
 
 // 表单重置
@@ -73,7 +72,7 @@ export function selectDictLabel(datas, value) {
 	}
 	var actions = [];
 	Object.keys(datas).some((key) => {
-		if( datas[key].value == ( '' + value ) ) {
+		if( datas[key].value === ( '' + value ) ) {
 			actions.push(datas[key].label);
 			return true;
 		}
@@ -98,7 +97,7 @@ export function selectDictLabels(datas, value, separator) {
 	Object.keys(value.split(currentSeparator)).some((val) => {
 		var match = false;
 		Object.keys(datas).some((key) => {
-			if( datas[key].value == ( '' + temp[val] ) ) {
+			if( datas[key].value === ( '' + temp[val] ) ) {
 				actions.push(datas[key].label + currentSeparator);
 				match = true;
 			}
@@ -126,7 +125,7 @@ export function sprintf(str) {
 
 // 转换字符串，undefined,null等转化为""
 export function parseStrEmpty(str) {
-	if( !str || str == 'undefined' || str == 'null' ) {
+	if( !str || str === 'undefined' || str === 'null' ) {
 		return '';
 	}
 	return str;
@@ -136,7 +135,7 @@ export function parseStrEmpty(str) {
 export function mergeRecursive(source, target) {
 	for( var p in target ) {
 		try {
-			if( target[p].constructor == Object ) {
+			if( target[p].constructor === Object ) {
 				source[p] = mergeRecursive(source[p], target[p]);
 			} else {
 				source[p] = target[p];
@@ -162,9 +161,9 @@ export function handleTree(data, id, parentId, children) {
 		childrenList: children || 'children',
 	};
 
-	var childrenListMap = {};
-	var nodeIds         = {};
-	var tree            = [];
+	const childrenListMap = {};
+	const nodeIds         = {};
+	const tree            = [];
 
 	for( let d of data ) {
 		let parentId = d[config.parentId];
@@ -208,13 +207,13 @@ export function tansParams(params) {
 	let result = '';
 	for( const propName of Object.keys(params) ) {
 		const value = params[propName];
-		var part    = encodeURIComponent(propName) + '=';
+		const part  = encodeURIComponent(propName) + '=';
 		if( value !== null && value !== '' && typeof ( value ) !== 'undefined' ) {
 			if( typeof value === 'object' ) {
 				for( const key of Object.keys(value) ) {
 					if( value[key] !== null && value[key] !== '' && typeof ( value[key] ) !== 'undefined' ) {
-						let params  = propName + '[' + key + ']';
-						var subPart = encodeURIComponent(params) + '=';
+						let params    = propName + '[' + key + ']';
+						const subPart = encodeURIComponent(params) + '=';
 						result += subPart + encodeURIComponent(value[key]) + '&';
 					}
 				}
@@ -228,7 +227,7 @@ export function tansParams(params) {
 
 // 返回项目路径
 export function getNormalPath(p) {
-	if( p.length === 0 || !p || p == 'undefined' ) {
+	if( p.length === 0 || !p || p === 'undefined' ) {
 		return p;
 	}
 

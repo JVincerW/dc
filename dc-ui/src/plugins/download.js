@@ -9,10 +9,10 @@ const baseURL = import.meta.env.VITE_APP_BASE_API;
 
 export default {
 	zip(url, name) {
-		var url = baseURL + url;
+		var u = baseURL + url;
 		axios({
 			method: 'get',
-			url: url,
+			url: u,
 			responseType: 'blob',
 			headers: { 'Authorization': 'Bearer ' + getToken() },
 		}).then((res) => {
@@ -21,7 +21,7 @@ export default {
 				const blob = new Blob([ res.data ], { type: 'application/zip' });
 				this.saveAs(blob, name);
 			} else {
-				this.printErrMsg(res.data);
+				this.printErrMsg(res.data).then(r => console.log(r));
 			}
 		});
 	},

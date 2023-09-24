@@ -116,8 +116,7 @@ const useTagsViewStore = defineStore(
 				},
 				delAllVisitedViews(view) {
 					return new Promise(resolve => {
-						const affixTags   = this.visitedViews.filter(tag => tag.meta.affix);
-						this.visitedViews = affixTags;
+						this.visitedViews = this.visitedViews.filter(tag => tag.meta.affix);
 						this.iframeViews  = [];
 						resolve([ ...this.visitedViews ]);
 					});
@@ -183,6 +182,6 @@ const useTagsViewStore = defineStore(
 					});
 				},
 			},
-		})
+		});
 
-export default useTagsViewStore
+export default useTagsViewStore;

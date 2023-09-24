@@ -180,7 +180,7 @@ function resetQuery() {
 function handleSelectionChange(selection) {
 	ids.value        = selection.map(item => item.infoId);
 	multiple.value   = !selection.length;
-	single.value     = selection.length != 1;
+	single.value     = selection.length !== 1;
 	selectName.value = selection.map(item => item.userName);
 }
 

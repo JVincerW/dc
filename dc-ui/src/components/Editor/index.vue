@@ -5,7 +5,7 @@
 				:options='options'
 				:style='styles'
 				contentType='html'
-				@textChange="(e) => $emit('update:modelValue', content)"
+				@textChange="() => $emit('update:modelValue', content)"
 		/>
 	</div>
 </template>
@@ -94,9 +94,9 @@ watch(() => props.modelValue, (v) => {
 }
 
 .ql-snow .ql-tooltip.ql-editing a.ql-action::after {
-	border-right: 0px;
+	border-right: 0;
 	content: "保存";
-	padding-right: 0px;
+	padding-right: 0;
 }
 
 .ql-snow .ql-tooltip[data-mode="video"]::before {

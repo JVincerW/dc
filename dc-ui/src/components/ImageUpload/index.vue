@@ -41,8 +41,8 @@
 		>
 			<img
 					:src='dialogImageUrl'
-					style='display: block; max-width: 100%; margin: 0 auto'
-			/>
+					alt=''
+					style='display: block; max-width: 100%; margin: 0 auto' />
 		</el-dialog>
 	</div>
 </template>
@@ -107,7 +107,7 @@ watch(() => props.modelValue, val => {
 
 // 上传前loading加载
 function handleBeforeUpload(file) {
-	let isImg = false;
+	let isImg;
 	if( props.fileType.length ) {
 		let fileExtension = '';
 		if( file.name.lastIndexOf('.') > -1 ) {
@@ -117,10 +117,8 @@ function handleBeforeUpload(file) {
 			if( file.type.indexOf(type) > -1 ) {
 				return true;
 			}
-			if( fileExtension && fileExtension.indexOf(type) > -1 ) {
-				return true;
-			}
-			return false;
+			return !!( fileExtension && fileExtension.indexOf(type) > -1 );
+			
 		});
 	} else {
 		isImg = file.type.indexOf('image') > -1;
@@ -203,7 +201,7 @@ function listToString(list, separator) {
 			strs += list[i].url.replace(baseUrl, '') + separator;
 		}
 	}
-	return strs != '' ? strs.substr(0, strs.length - 1) : '';
+	return strs !== '' ? strs.substr(0, strs.length - 1) : '';
 }
 </script>
 

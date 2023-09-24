@@ -83,14 +83,14 @@ function handleSizeChange(val) {
 	}
 	emit('pagination', { page: currentPage.value, limit: val });
 	if( props.autoScroll ) {
-		scrollTo(0, 800);
+		scrollTo(0, 800, null);
 	}
 }
 
 function handleCurrentChange(val) {
 	emit('pagination', { page: val, limit: pageSize.value });
 	if( props.autoScroll ) {
-		scrollTo(0, 800);
+		scrollTo(0, 800, null);
 	}
 }
 

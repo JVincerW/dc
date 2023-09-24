@@ -184,7 +184,7 @@ function expressionChange() {
 						}
 					} else if( thisWeek === 7 ) {
 						// 当星期6时只需判断不是1号就可进行操作
-						if( dayRuleSup.value !== 1 ) {
+						if( parseInt(dayRuleSup.value) !== 1 ) {
 							DD--;
 						} else {
 							DD += 2;
@@ -377,25 +377,25 @@ function getWeekArr(rule) {
 	if( dayRule.value === '' && dayRuleSup.value === '' ) {
 		if( rule.indexOf('-') >= 0 ) {
 			dayRule.value    = 'weekDay';
-			dayRuleSup.value = getCycleArr(rule, 7, false);
+			dayRuleSup.value = getCycleArr(rule, 7, false).toString();
 		} else if( rule.indexOf('#') >= 0 ) {
 			dayRule.value    = 'assWeek';
-			let matchRule    = rule.match(/[0-9]{1}/g);
-			dayRuleSup.value = [ Number(matchRule[1]), Number(matchRule[0]) ];
+			let matchRule    = rule.match(/[0-9]/g);
+			dayRuleSup.value = [ matchRule[1], matchRule[0] ].toString();
 			dateArr.value[3] = [ 1 ];
-			if( dayRuleSup.value[1] === 7 ) {
-				dayRuleSup.value[1] = 0;
+			if( dayRuleSup.value[1] === '7' ) {
+				dayRuleSup.value[1] = '0';
 			}
 		} else if( rule.indexOf('L') >= 0 ) {
 			dayRule.value    = 'lastWeek';
-			dayRuleSup.value = Number(rule.match(/[0-9]{1,2}/g)[0]);
+			dayRuleSup.value = rule.match(/[0-9]{1,2}/g)[0];
 			dateArr.value[3] = [ 31 ];
-			if( dayRuleSup.value === 7 ) {
-				dayRuleSup.value = 0;
+			if( parseInt(dayRuleSup.value) === 7 ) {
+				dayRuleSup.value = '0';
 			}
 		} else if( rule !== '*' && rule !== '?' ) {
 			dayRule.value    = 'weekDay';
-			dayRuleSup.value = getAssignArr(rule);
+			dayRuleSup.value = getAssignArr(rule).toString();
 		}
 	}
 }
@@ -413,7 +413,7 @@ function getDayArr(rule) {
 		dayRuleSup.value = 'null';
 	} else if( rule.indexOf('W') >= 0 ) {
 		dayRule.value    = 'workDay';
-		dayRuleSup.value = Number(rule.match(/[0-9]{1,2}/g)[0]);
+		dayRuleSup.value = rule.match(/[0-9]{1,2}/g)[0];
 		dateArr.value[3] = [ dayRuleSup.value ];
 	} else if( rule.indexOf('L') >= 0 ) {
 		dayRule.value    = 'lastDay';

@@ -219,12 +219,12 @@
 				</el-row>
 				<el-row>
 					<el-col :span='12'>
-						<el-form-item v-if='form.userId == undefined' label='用户名称' prop='userName'>
+						<el-form-item v-if='form.userId === undefined' label='用户名称' prop='userName'>
 							<el-input v-model='form.userName' maxlength='30' placeholder='请输入用户名称' />
 						</el-form-item>
 					</el-col>
 					<el-col :span='12'>
-						<el-form-item v-if='form.userId == undefined' label='用户密码' prop='password'>
+						<el-form-item v-if='form.userId === undefined' label='用户密码' prop='password'>
 							<el-input v-model='form.password' maxlength='20' placeholder='请输入用户密码' show-password type='password' />
 						</el-form-item>
 					</el-col>
@@ -262,7 +262,7 @@
 								<el-option
 										v-for='item in postOptions'
 										:key='item.postId'
-										:disabled='item.status == 1'
+										:disabled='item.status === 1'
 										:label='item.postName'
 										:value='item.postId'
 								></el-option>
@@ -275,7 +275,7 @@
 								<el-option
 										v-for='item in roleOptions'
 										:key='item.roleId'
-										:disabled='item.status == 1'
+										:disabled='item.status === 1'
 										:label='item.roleName'
 										:value='item.roleId'
 								></el-option>
@@ -341,6 +341,7 @@
 <script name='User' setup>
 import { getToken } from '@/utils/auth';
 import { addUser, changeUserStatus, delUser, deptTreeSelect, getUser, listUser, resetUserPwd, updateUser } from '@/api/system/user';
+import { useRouter } from 'vue-router';
 
 const router                               = useRouter();
 const { proxy }                            = getCurrentInstance();
@@ -526,7 +527,7 @@ function handleResetPwd(row) {
 /** 选择条数  */
 function handleSelectionChange(selection) {
 	ids.value      = selection.map(item => item.userId);
-	single.value   = selection.length != 1;
+	single.value   = selection.length !== 1;
 	multiple.value = !selection.length;
 }
 
@@ -540,6 +541,7 @@ function handleImport() {
 function importTemplate() {
 	proxy.download('system/user/importTemplate', {}, `user_template_${ new Date().getTime() }.xlsx`);
 }
+
 /**文件上传中处理 */
 const handleFileUploadProgress = (event, file, fileList) => {
 	upload.isUploading = true;
@@ -615,7 +617,7 @@ function handleUpdate(row) {
 function submitForm() {
 	proxy.$refs['userRef'].validate(valid => {
 		if( valid ) {
-			if( form.value.userId != undefined ) {
+			if( form.value.userId !== undefined ) {
 				updateUser(form.value).then(response => {
 					proxy.$modal.msgSuccess('修改成功');
 					open.value = false;

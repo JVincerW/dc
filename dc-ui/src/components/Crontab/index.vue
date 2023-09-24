@@ -97,8 +97,7 @@
 					<td>
 						<span v-if='crontabValueObj.week.length < 10'>{{ crontabValueObj.week }}</span>
 						<el-tooltip v-else :content='crontabValueObj.week' placement='top'><span>{{ crontabValueObj.week }}</span></el-tooltip>
-					</td>
-					<td>
+						
 						<span v-if='crontabValueObj.year.length < 10'>{{ crontabValueObj.year }}</span>
 						<el-tooltip v-else :content='crontabValueObj.year' placement='top'><span>{{ crontabValueObj.year }}</span></el-tooltip>
 					</td>
@@ -311,7 +310,7 @@ onMounted(() => {
 .popup-result table span {
 	display: block;
 	width: 100%;
-	font-family: arial;
+	font-family: arial, serif;
 	line-height: 30px;
 	height: 30px;
 	white-space: nowrap;

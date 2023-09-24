@@ -293,6 +293,7 @@
 <script name='Job' setup>
 import { addJob, changeJobStatus, delJob, getJob, listJob, runJob, updateJob } from '@/api/monitor/job';
 import Crontab from '@/components/Crontab';
+import { useRouter } from 'vue-router';
 
 const router                            = useRouter();
 const { proxy }                         = getCurrentInstance();
@@ -380,7 +381,7 @@ function resetQuery() {
 // 多选框选中数据
 function handleSelectionChange(selection) {
 	ids.value      = selection.map(item => item.jobId);
-	single.value   = selection.length != 1;
+	single.value   = selection.length !== 1;
 	multiple.value = !selection.length;
 }
 
@@ -470,7 +471,7 @@ function handleUpdate(row) {
 function submitForm() {
 	proxy.$refs['jobRef'].validate(valid => {
 		if( valid ) {
-			if( form.value.jobId != undefined ) {
+			if( form.value.jobId !== undefined ) {
 				updateJob(form.value).then(response => {
 					proxy.$modal.msgSuccess('修改成功');
 					open.value = false;

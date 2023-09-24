@@ -86,6 +86,7 @@
 <script setup>
 import { ElMessageBox } from 'element-plus';
 import { getCodeImg, register } from '@/api/login';
+import { useRouter } from 'vue-router';
 
 const router    = useRouter();
 const { proxy } = getCurrentInstance();
@@ -223,7 +224,7 @@ getCode();
 	width: 100%;
 	text-align: center;
 	color: #fff;
-	font-family: Arial;
+	font-family: Arial, serif;
 	font-size: 12px;
 	letter-spacing: 1px;
 }

@@ -20,8 +20,7 @@ const usePermissionStore = defineStore(
 			} ),
 			actions: {
 				setRoutes(routes) {
-					this.addRoutes = routes;
-					this.routes    = constantRoutes.concat(routes);
+					this.routes = constantRoutes.concat(routes);
 				},
 				setDefaultRoutes(routes) {
 					this.defaultRoutes = constantRoutes.concat(routes);
@@ -32,7 +31,7 @@ const usePermissionStore = defineStore(
 				setSidebarRouters(routes) {
 					this.sidebarRouters = routes;
 				},
-				generateRoutes(roles) {
+				generateRoutes() {
 					return new Promise(resolve => {
 						// 向后端请求路由数据
 						getRouters().then(res => {
@@ -84,7 +83,7 @@ function filterAsyncRouter(asyncRouterMap, lastRouter = false, type = false) {
 }
 
 function filterChildren(childrenMap, lastRouter = false) {
-	var children = [];
+	let children = [];
 	childrenMap.forEach((el, index) => {
 		if( el.children && el.children.length ) {
 			if( el.component === 'ParentView' && !lastRouter ) {

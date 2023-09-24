@@ -177,6 +177,7 @@
 <script name='JobLog' setup>
 import { getJob } from '@/api/monitor/job';
 import { cleanJobLog, delJobLog, listJobLog } from '@/api/monitor/jobLog';
+import { useRoute } from 'vue-router';
 
 const { proxy }                            = getCurrentInstance();
 const { sys_common_status, sys_job_group } = proxy.useDict('sys_common_status', 'sys_job_group');
@@ -274,7 +275,7 @@ function handleExport() {
 
 ( () => {
 	const jobId = route.params && route.params.jobId;
-	if( jobId !== undefined && jobId != 0 ) {
+	if( jobId !== undefined && jobId !== 0 ) {
 		getJob(jobId).then(response => {
 			queryParams.value.jobName  = response.data.jobName;
 			queryParams.value.jobGroup = response.data.jobGroup;

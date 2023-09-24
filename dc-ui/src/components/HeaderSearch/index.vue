@@ -22,6 +22,7 @@ import Fuse from 'fuse.js';
 import { getNormalPath } from '@/utils/ruoyi';
 import { isHttp } from '@/utils/validate';
 import usePermissionStore from '@/store/modules/permission';
+import { useRouter } from 'vue-router';
 
 const search                = ref('');
 const options               = ref([]);

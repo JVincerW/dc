@@ -3,7 +3,6 @@
 		<iframe
 				:id='iframeId'
 				:src='src'
-				frameborder='no'
 				style='width: 100%; height: 100%'
 		></iframe>
 	</div>

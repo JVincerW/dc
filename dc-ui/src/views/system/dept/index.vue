@@ -222,7 +222,7 @@ function handleAdd(row) {
 	listDept().then(response => {
 		deptOptions.value = proxy.handleTree(response.data, 'deptId');
 	});
-	if( row != undefined ) {
+	if( row !== undefined ) {
 		form.value.parentId = row.deptId;
 	}
 	open.value  = true;
@@ -255,7 +255,7 @@ function handleUpdate(row) {
 function submitForm() {
 	proxy.$refs['deptRef'].validate(valid => {
 		if( valid ) {
-			if( form.value.deptId != undefined ) {
+			if( form.value.deptId !== undefined ) {
 				updateDept(form.value).then(response => {
 					proxy.$modal.msgSuccess('修改成功');
 					open.value = false;

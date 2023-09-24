@@ -41,6 +41,7 @@ import { isHttp } from '@/utils/validate';
 import useAppStore from '@/store/modules/app';
 import useSettingsStore from '@/store/modules/settings';
 import usePermissionStore from '@/store/modules/permission';
+import { useRoute, useRouter } from 'vue-router';
 
 // 顶部栏初始数
 const visibleNumber = ref(null);
@@ -147,7 +148,7 @@ function activeRoutes(key) {
 	let routes = [];
 	if( childrenMenus.value && childrenMenus.value.length > 0 ) {
 		childrenMenus.value.map((item) => {
-			if( key == item.parentPath || ( key == 'index' && '' == item.path ) ) {
+			if( key === item.parentPath || ( key === 'index' && '' === item.path ) ) {
 				routes.push(item);
 			}
 		});
@@ -212,6 +213,6 @@ onMounted(() => {
 	position: static;
 	vertical-align: middle;
 	margin-left: 8px;
-	margin-top: 0px;
+	margin-top: 0;
 }
 </style>
