@@ -1,13 +1,13 @@
 <template>
-  <div>
-    <svg-icon icon-class="question" @click="goto" />
-  </div>
+	<div>
+		<svg-icon icon-class='question' @click='goto' />
+	</div>
 </template>
 
 <script setup>
-const url = ref('http://doc.ruoyi.vip/ruoyi-cloud');
+const url = ref('');
 
 function goto() {
-  window.open(url.value)
+	window.open(url.value);
 }
 </script>

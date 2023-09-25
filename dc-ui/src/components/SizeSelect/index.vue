@@ -1,45 +1,45 @@
 <template>
-  <div>
-    <el-dropdown trigger="click" @command="handleSetSize">
-      <div class="size-icon--style">
-        <svg-icon class-name="size-icon" icon-class="size" />
-      </div>
-      <template #dropdown>
-        <el-dropdown-menu>
-          <el-dropdown-item v-for="item of sizeOptions" :key="item.value" :disabled="size === item.value" :command="item.value">
-            {{ item.label }}
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </template>
-    </el-dropdown>
-  </div>
+	<div>
+		<el-dropdown trigger='click' @command='handleSetSize'>
+			<div class='size-icon--style'>
+				<svg-icon class-name='size-icon' icon-class='size' />
+			</div>
+			<template #dropdown>
+				<el-dropdown-menu>
+					<el-dropdown-item v-for='item of sizeOptions' :key='item.value' :command='item.value' :disabled='size === item.value'>
+						{{ item.label }}
+					</el-dropdown-item>
+				</el-dropdown-menu>
+			</template>
+		</el-dropdown>
+	</div>
 </template>
 
 <script setup>
-import useAppStore from "@/store/modules/app";
+import useAppStore from '@/store/modules/app';
 
-const appStore = useAppStore();
-const size = computed(() => appStore.size);
-const route = useRoute();
-const router = useRouter();
-const { proxy } = getCurrentInstance();
+const appStore    = useAppStore();
+const size        = computed(() => appStore.size);
+const route       = useRoute();
+const router      = useRouter();
+const { proxy }   = getCurrentInstance();
 const sizeOptions = ref([
-  { label: "½Ï´ó", value: "large" },
-  { label: "Ä¬ÈÏ", value: "default" },
-  { label: "ÉÔĞ¡", value: "small" },
+	{ label: 'è¾ƒå¤§', value: 'large' },
+	{ label: 'é»˜è®¤', value: 'default' },
+	{ label: 'ç¨å°', value: 'small' },
 ]);
 
 function handleSetSize(size) {
-  proxy.$modal.loading("ÕıÔÚÉèÖÃ²¼¾Ö´óĞ¡£¬ÇëÉÔºò...");
-  appStore.setSize(size);
-  setTimeout("window.location.reload()", 1000);
+	proxy.$modal.loading('æ­£åœ¨è®¾ç½®å¸ƒå±€å¤§å°ï¼Œè¯·ç¨å€™...');
+	appStore.setSize(size);
+	setTimeout('window.location.reload()', 1000);
 }
 </script>
 
 <style lang='scss' scoped>
 .size-icon--style {
-  font-size: 18px;
-  line-height: 50px;
-  padding-right: 7px;
+	font-size: 18px;
+	line-height: 50px;
+	padding-right: 7px;
 }
 </style>
