@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<BasicEditor ref='wEditorRef' />
+		<BasicEditor :editorData="editorData" />
 		<dig></dig>
 	</div>
 </template>
@@ -9,14 +9,19 @@
 import BasicEditor from '@/components/Editor/BasicEditor.vue';
 import Dig from '@/views/blogs/wEditor/C/dig.vue';
 
-const wEditorRef = ref();
-
+const editorData = {
+    isInit:true,
+    isOnlyRead:true,
+    valueHtml: '<p>初始内容</p>',
+    hasTitle:true,
+    title:"初始化标题"
+};
 // const blogMsg = reactive({
 // 	content: wEditorRef.value.valueHtml,
 // });
 
 const getChildValueHtml = () => {
-	console.log('父页面获取到的值', wEditorRef.value.valueHtml);
+	// console.log('父页面获取到的值', wEditorRef.value.valueHtml);
 };
 
 const setChildValueHtml = () => {

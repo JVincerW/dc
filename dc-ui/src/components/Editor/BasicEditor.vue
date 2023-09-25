@@ -1,36 +1,35 @@
 <template>
-	
-	<div ref='cref' class='bg-red'>
-		<Toolbar :editor='editorRef' class='tb' />
-		
-		<div class='scroll-container'>
-			<div class='inputDeep'>
-				<el-input placeholder='请输入标题'></el-input>
-			</div>
-			<Editor v-model='valueHtml' :defaultConfig='editorConfig' style='background-color: #fff' @onCreated='handleCreated' />
-		</div>
-	</div>
+    <div ref="cref" class="bg-red">
+        <Toolbar :editor="editorRef" class="tb" />
+        <div class="scroll-container">
+            <div class="inputDeep" v-if="initEditor.hasTitle">
+                <el-input v-model="initEditor.title" placeholder="请输入标题"></el-input>
+            </div>
+            <Editor v-model="initEditor.valueHtml" :defaultConfig="editorConfig" style="background-color: #fff" @onCreated="handleCreated" />
+        </div>
+    </div>
 </template>
 
-<script setup>
+<script setup props="props">
 import '@wangeditor/editor/dist/css/style.css';
-import { ref, shallowRef } from 'vue';
+import { ref, shallowRef, defineProps } from 'vue';
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue';
 
 const editorRef = shallowRef();
-const valueHtml = ref(null);
-const editorConfig = { placeholder: '请输入内容...', scroll: false };
-
+const props = defineProps({editorData:Object});
+const initEditor=props.editorData
+const editorConfig = { placeholder: '请输入内容...', scroll: false,readOnly :initEditor.isOnlyRead};
+console.log(props.editorData,"editorData")
 // 使用 ref 引用元素
 const cref = ref(null);
 
 const handleCreated = (editor) => {
-	console.log('子组件内部打印：子组件被创建');
-	editorRef.value = editor;
-	console.log(editor.getConfig());
+    console.log('子组件内部打印：子组件被创建');
+    editorRef.value = editor;
+    console.log(editor.getConfig());
 };
-defineExpose({ valueHtml });
 </script>
+
 <style scoped>
 .bg-red {
 	display: flex;
@@ -65,7 +64,7 @@ defineExpose({ valueHtml });
 	font-size: 2em;
 	height: 2.5em;
 	text-align: center;
-	
+
 }
 
 /* 去掉输入框的边框，聚焦时也没有边框 */
