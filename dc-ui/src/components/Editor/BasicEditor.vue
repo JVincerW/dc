@@ -1,37 +1,26 @@
 <template>
-
+	
 	<div ref='cref' class='bg-red'>
 		<Toolbar :editor='editorRef' class='tb' />
-
+		
 		<div class='scroll-container'>
 			<div class='inputDeep'>
-				<el-input v-if="initContent.hasTitle" placeholder='请输入标题'></el-input>
+				<el-input placeholder='请输入标题'></el-input>
 			</div>
-			<Editor v-model='initContent.valueHtml' :defaultConfig='editorConfig' style='background-color: #fff' @onCreated='handleCreated' />
+			<Editor v-model='valueHtml' :defaultConfig='editorConfig' style='background-color: #fff' @onCreated='handleCreated' />
 		</div>
 	</div>
 </template>
 
 <script setup>
 import '@wangeditor/editor/dist/css/style.css';
+import { ref, shallowRef } from 'vue';
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue';
 
-const initContent=reactive({
-    isInit:true,
-    hasTitle:true,
-    valueHtml:null,
-    title:null
-})
-/*
-* todo 需要修改为：
-*  1.传入参数：
-*   是否初始化
-*   是否带有title
-*       初始化内容
-*       title内容
-*  */
-const editorRef    = shallowRef();
+const editorRef = shallowRef();
+const valueHtml = ref(null);
 const editorConfig = { placeholder: '请输入内容...', scroll: false };
+
 // 使用 ref 引用元素
 const cref = ref(null);
 
@@ -39,9 +28,8 @@ const handleCreated = (editor) => {
 	console.log('子组件内部打印：子组件被创建');
 	editorRef.value = editor;
 	console.log(editor.getConfig());
-    console.log(initContent.hasTitle)
 };
-defineExpose({ initContent });
+defineExpose({ valueHtml });
 </script>
 <style scoped>
 .bg-red {
@@ -77,7 +65,7 @@ defineExpose({ initContent });
 	font-size: 2em;
 	height: 2.5em;
 	text-align: center;
-
+	
 }
 
 /* 去掉输入框的边框，聚焦时也没有边框 */
