@@ -1,8 +1,8 @@
 package com.vincer.file.controller;
 
+import com.alibaba.fastjson2.JSONObject;
 import com.vincer.common.core.domain.R;
 import com.vincer.common.core.utils.file.FileUtils;
-import com.vincer.file.service.ISysFileService;
 import com.vincer.file.service.LocalSysFileServiceImpl;
 import com.vincer.system.api.domain.SysFile;
 import org.slf4j.Logger;
@@ -39,6 +39,29 @@ public class SysFileController {
         } catch (Exception e) {
             log.error("上传文件失败", e);
             return R.fail(e.getMessage());
+        }
+    }
+
+    @PostMapping("uploadEditor")
+    public JSONObject uploadEditor(MultipartFile file) {
+        JSONObject json = new JSONObject();
+        try {
+            String url = sysFileService.uploadFile(file);
+            System.out.println(url);
+            JSONObject data = new JSONObject();
+            json.put("errno", 0);
+            data.put("url", url);
+            data.put("alt", FileUtils.getName(url));
+            data.put("href", url);
+            json.put("data", data);
+            System.out.println(json);
+            return json;
+        } catch (Exception e) {
+            log.error("上传文件失败", e);
+            json.put("errno", 1);
+            json.put("message", "图片上传失败");
+            System.out.println(json);
+            return json;
         }
     }
 }

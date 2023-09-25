@@ -41,6 +41,8 @@ public class LocalSysFileServiceImpl implements ISysFileService {
      */
     @Override
     public String uploadFile(MultipartFile file) throws Exception {
+        System.out.println(localFilePath);
+        System.out.println(file);
         String name = FileUploadUtils.upload(localFilePath, file);
         String url = domain + localFilePrefix + name;
         return url;

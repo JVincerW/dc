@@ -14,11 +14,23 @@
 import '@wangeditor/editor/dist/css/style.css';
 import { ref, shallowRef } from 'vue';
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue';
+import { getToken } from '@/utils/auth';
+
+const uploadImgUrl = ref(import.meta.env.VITE_APP_BASE_API + '/file/uploadEditor'); // 上传的图片服务器地址
 
 const editorRef = shallowRef();
 const props = defineProps({ editorData: Object });
 const initEditor = props.editorData;
-const editorConfig = { placeholder: '请输入内容...', scroll: false, readOnly: initEditor.isOnlyRead };
+const editorConfig = { placeholder: '请输入内容...', scroll: false, readOnly: initEditor.isOnlyRead, MENU_CONF: {} };
+// 修改 uploadImage 菜单配置
+// 插入图片
+editorConfig.MENU_CONF['uploadImage'] = {
+	fieldName: 'dsfsdfdsfdsf.png',
+	server: uploadImgUrl.value,
+	// 自定义增加 http  header
+	headers: { Authorization: 'Bearer ' + getToken() },
+};
+
 console.log(props.editorData, 'editorData');
 // 使用 ref 引用元素
 const cref = ref(null);
@@ -26,7 +38,9 @@ const cref = ref(null);
 const handleCreated = (editor) => {
 	console.log('子组件内部打印：子组件被创建');
 	editorRef.value = editor;
-	console.log(editor.getConfig());
+	// console.log(editor.getConfig());
+	console.log(editor.getMenuConfig('uploadImage'));
+	console.log(uploadImgUrl.value, '图片上传地址');
 };
 
 defineExpose({ initEditor });

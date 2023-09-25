@@ -41,14 +41,8 @@ public class FileUploadUtils {
      * @return 文件名称
      * @throws IOException
      */
-    public static String upload(String baseDir, MultipartFile file) throws IOException {
-        try {
-            return upload(baseDir, file, MimeTypeUtils.DEFAULT_ALLOWED_EXTENSION);
-        } catch (FileException fe) {
-            throw new IOException(fe.getDefaultMessage(), fe);
-        } catch (Exception e) {
-            throw new IOException(e.getMessage(), e);
-        }
+    public static String upload(String baseDir, MultipartFile file) throws IOException, InvalidExtensionException {
+        return upload(baseDir, file, MimeTypeUtils.DEFAULT_ALLOWED_EXTENSION);
     }
 
     /**
