@@ -28,6 +28,9 @@ const handleCreated = (editor) => {
     editorRef.value = editor;
     console.log(editor.getConfig());
 };
+
+defineExpose({ initEditor });
+
 </script>
 
 <style scoped>
