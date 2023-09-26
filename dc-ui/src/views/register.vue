@@ -183,15 +183,15 @@ getCode();
 	background: #fff;
 	width: 400px;
 	padding: 25px 25px 5px 25px;
-	
+
 	.el-input {
 		height: 40px;
-		
+
 		input {
 			height: 40px;
 		}
 	}
-	
+
 	.input-icon {
 		height: 39px;
 		width: 14px;
@@ -209,7 +209,7 @@ getCode();
 	width: 33%;
 	height: 40px;
 	float: right;
-	
+
 	img {
 		cursor: pointer;
 		vertical-align: middle;
