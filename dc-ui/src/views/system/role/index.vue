@@ -94,7 +94,7 @@
 			</el-col>
 			<right-toolbar v-model:showSearch='showSearch' @queryTable='getList'></right-toolbar>
 		</el-row>
-		
+
 		<!-- 表格数据 -->
 		<el-table v-loading='loading' :data='roleList' @selection-change='handleSelectionChange'>
 			<el-table-column align='center' type='selection' width='55' />
@@ -134,7 +134,7 @@
 				</template>
 			</el-table-column>
 		</el-table>
-		
+
 		<pagination
 				v-show='total > 0'
 				v-model:limit='queryParams.pageSize'
@@ -142,7 +142,7 @@
 				:total='total'
 				@pagination='getList'
 		/>
-		
+
 		<!-- 添加或修改角色配置对话框 -->
 		<el-dialog v-model='open' :title='title' append-to-body width='500px'>
 			<el-form ref='roleRef' :model='form' :rules='rules' label-width='100px'>
@@ -199,7 +199,7 @@
 				</div>
 			</template>
 		</el-dialog>
-		
+
 		<!-- 分配角色数据权限对话框 -->
 		<el-dialog v-model='openDataScope' :title='title' append-to-body width='500px'>
 			<el-form :model='form' label-width='80px'>
@@ -219,7 +219,7 @@
 						></el-option>
 					</el-select>
 				</el-form-item>
-				<el-form-item v-show='form.dataScope == 2' label='数据权限'>
+				<el-form-item v-show='form.dataScope === 2' label='数据权限'>
 					<el-checkbox v-model='deptExpand' @change="handleCheckedTreeExpand($event, 'dept')">展开/折叠</el-checkbox>
 					<el-checkbox v-model='deptNodeAll' @change="handleCheckedTreeNodeAll($event, 'dept')">全选/全不选</el-checkbox>
 					<el-checkbox v-model='form.deptCheckStrictly' @change="handleCheckedTreeConnect($event, 'dept')">父子联动</el-checkbox>
@@ -250,6 +250,7 @@
 import { addRole, changeRoleStatus, dataScope, delRole, deptTreeSelect, getRole, listRole, updateRole } from '@/api/system/role';
 import { roleMenuTreeselect, treeselect as menuTreeselect } from '@/api/system/menu';
 import { useRouter } from 'vue-router';
+import {parseTime} from "../../../utils/ruoyi";
 
 const router                 = useRouter();
 const { proxy }              = getCurrentInstance();
@@ -400,28 +401,27 @@ function getDeptAllCheckedKeys() {
 
 /** 重置新增的表单以及其他数据  */
 function reset() {
-	if( menuRef.value !== undefined ) {
-		menuRef.value.setCheckedKeys([]);
-	}
-	menuExpand.value  = false;
-	menuNodeAll.value = false;
-	deptExpand.value  = true;
-	deptNodeAll.value = false;
-	form.value        = {
-		roleId: undefined,
-		roleName: undefined,
-		roleKey: undefined,
-		roleSort: 0,
-		status: '0',
-		menuIds: [],
-		deptIds: [],
-		menuCheckStrictly: true,
-		deptCheckStrictly: true,
-		remark: undefined,
-	};
-	proxy.resetForm('roleRef');
+    if (menuRef.value) { // 添加条件检查
+        menuRef.value.setCheckedKeys([]);
+    }
+    menuExpand.value = false;
+    menuNodeAll.value = false;
+    deptExpand.value = true;
+    deptNodeAll.value = false;
+    form.value = {
+        roleId: undefined,
+        roleName: undefined,
+        roleKey: undefined,
+        roleSort: 0,
+        status: '0',
+        menuIds: [],
+        deptIds: [],
+        menuCheckStrictly: true,
+        deptCheckStrictly: true,
+        remark: undefined,
+    };
+    proxy.resetForm('roleRef');
 }
-
 /** 添加角色 */
 function handleAdd() {
 	reset();
@@ -432,26 +432,29 @@ function handleAdd() {
 
 /** 修改角色 */
 function handleUpdate(row) {
-	reset();
-	const roleId   = row.roleId || ids.value;
-	const roleMenu = getRoleMenuTreeselect(roleId);
-	getRole(roleId).then(response => {
-		form.value          = response.data;
-		form.value.roleSort = Number(form.value.roleSort);
-		open.value          = true;
-		nextTick(() => {
-			roleMenu.then((res) => {
-				let checkedKeys = res.checkedKeys;
-				checkedKeys.forEach((v) => {
-					nextTick(() => {
-						menuRef.value.setChecked(v, true, false);
-					});
-				});
-			});
-		});
-		title.value = '修改角色';
-	});
+    reset();
+    const roleId = row.roleId || ids.value;
+    const roleMenu = getRoleMenuTreeselect(roleId);
+    getRole(roleId).then(response => {
+        form.value = response.data;
+        form.value.roleSort = Number(form.value.roleSort);
+        open.value = true;
+        nextTick(() => {
+            roleMenu.then((res) => {
+                let checkedKeys = res.checkedKeys;
+                checkedKeys.forEach((v) => {
+                    nextTick(() => {
+                        if (menuRef.value) {
+                            menuRef.value.setChecked(v, true, false);
+                        }
+                    });
+                });
+            });
+        });
+        title.value = '修改角色';
+    });
 }
+
 
 /** 根据角色ID查询菜单树结构 */
 function getRoleMenuTreeselect(roleId) {
