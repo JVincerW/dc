@@ -20,7 +20,7 @@ const uploadFile = ref(import.meta.env.VITE_APP_BASE_API + '/file/uploadEditor')
 
 const editorRef = shallowRef();
 const props = defineProps({ editorData: Object });
-const initEditor = props.editorData;
+const initEditor = ref(props.editorData);
 const editorConfig = { placeholder: '请输入内容...', scroll: false, readOnly: initEditor.isOnlyRead, MENU_CONF: {} };
 // 修改 uploadImage 菜单配置
 // 插入图片
