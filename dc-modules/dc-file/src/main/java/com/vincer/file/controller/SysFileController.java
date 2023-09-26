@@ -47,6 +47,8 @@ public class SysFileController {
     public JSONObject uploadEditor(@RequestParam("file") MultipartFile file) {
         JSONObject json = new JSONObject();
         try {
+            long size = file.getSize();
+            System.out.println("文件长度："+size);
             String url = sysFileService.uploadFile(file);
             JSONObject data = new JSONObject();
             json.put("errno", 0);
@@ -58,7 +60,7 @@ public class SysFileController {
         } catch (Exception e) {
             log.error("上传文件失败", e);
             json.put("errno", 1);
-            json.put("message", "图片上传失败");
+            json.put("message", "文件上传失败");
             System.out.println(json);
         }
         return json;

@@ -16,7 +16,7 @@ import { ref, shallowRef } from 'vue';
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue';
 import { getToken } from '@/utils/auth';
 
-const uploadImgUrl = ref(import.meta.env.VITE_APP_BASE_API + '/file/uploadEditor'); // 上传的图片服务器地址
+const uploadFile = ref(import.meta.env.VITE_APP_BASE_API + '/file/uploadEditor'); // 上传的图片服务器地址
 
 const editorRef = shallowRef();
 const props = defineProps({ editorData: Object });
@@ -26,12 +26,22 @@ const editorConfig = { placeholder: '请输入内容...', scroll: false, readOnl
 // 插入图片
 editorConfig.MENU_CONF['uploadImage'] = {
     fieldName: 'file',
-    server: uploadImgUrl.value,
+    server: uploadFile.value,
+    // 单个文件的最大体积限制，默认为 50M
+    maxFileSize: 20 * 1024 * 1024, // 100M
     metaWithUrl: true,
     withCredentials: true,
     headers: { Authorization: 'Bearer ' + getToken() },
 };
-
+editorConfig.MENU_CONF['uploadVideo'] = {
+    fieldName: 'file',
+    server: uploadFile.value,
+    metaWithUrl: true,
+    // 单个文件的最大体积限制，默认为 50M
+    maxFileSize: 100 * 1024 * 1024, // 100M
+    withCredentials: true,
+    headers: { Authorization: 'Bearer ' + getToken() },
+}
 console.log(props.editorData, 'editorData');
 // 使用 ref 引用元素
 const cref = ref(null);
@@ -41,7 +51,7 @@ const handleCreated = (editor) => {
 	editorRef.value = editor;
 	// console.log(editor.getConfig());
 	console.log(editor.getMenuConfig('uploadImage'));
-	console.log(uploadImgUrl.value, '图片上传地址');
+	console.log(uploadFile.value, '图片上传地址');
 };
 
 defineExpose({ initEditor });
