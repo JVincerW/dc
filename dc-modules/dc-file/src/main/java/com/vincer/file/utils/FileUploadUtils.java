@@ -108,7 +108,6 @@ public class FileUploadUtils {
         if (size > DEFAULT_MAX_SIZE) {
             throw new FileSizeLimitExceededException(DEFAULT_MAX_SIZE / 1024 / 1024);
         }
-
         String fileName = file.getOriginalFilename();
         String extension = FileTypeUtils.getExtension(file);
         if (allowedExtension != null && !isAllowedExtension(extension, allowedExtension)) {
