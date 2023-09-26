@@ -96,8 +96,8 @@
 			<el-table-column align='center' label='字典编码' prop='dictCode' />
 			<el-table-column align='center' label='字典标签' prop='dictLabel'>
 				<template #default='scope'>
-					<span v-if="(scope.row.listClass == '' || scope.row.listClass == 'default') && (scope.row.cssClass == '' || scope.row.cssClass == null)">{{ scope.row.dictLabel }}</span>
-					<el-tag v-else :class='scope.row.cssClass' :type="scope.row.listClass == 'primary' ? '' : scope.row.listClass">{{ scope.row.dictLabel }}</el-tag>
+					<span v-if="(scope.row.listClass === '' || scope.row.listClass === 'default') && (scope.row.cssClass === '' || scope.row.cssClass == null)">{{scope.row.dictLabel}}</span>
+					<el-tag v-else :class='scope.row.cssClass' :type="scope.row.listClass === 'primary' ? '' : scope.row.listClass">{{scope.row.dictLabel}}</el-tag>
 				</template>
 			</el-table-column>
 			<el-table-column align='center' label='字典键值' prop='dictValue' />
@@ -110,7 +110,7 @@
 			<el-table-column :show-overflow-tooltip='true' align='center' label='备注' prop='remark' />
 			<el-table-column align='center' label='创建时间' prop='createTime' width='180'>
 				<template #default='scope'>
-					<span>{{ parseTime(scope.row.createTime) }}</span>
+					<span>{{parseTime(scope.row.createTime)}}</span>
 				</template>
 			</el-table-column>
 			<el-table-column align='center' class-name='small-padding fixed-width' label='操作' width='160'>
@@ -130,7 +130,7 @@
 		/>
 		
 		<!-- 添加或修改参数配置对话框 -->
-		<el-dialog v-model='open' :title='title' append-to-body width='500px'>
+		<el-dialog v-model='open' :title='title' append-to-body label-position='right' width='500px'>
 			<el-form ref='dataRef' :model='form' :rules='rules' label-width='80px'>
 				<el-form-item label='字典类型'>
 					<el-input v-model='form.dictType' :disabled='true' />
@@ -163,7 +163,7 @@
 								v-for='dict in sys_normal_disable'
 								:key='dict.value'
 								:label='dict.value'
-						>{{ dict.label }}
+						>{{dict.label}}
 						</el-radio>
 					</el-radio-group>
 				</el-form-item>
@@ -186,21 +186,21 @@ import useDictStore from '@/store/modules/dict';
 import { getType, optionselect as getDictOptionselect } from '@/api/system/dict/type';
 import { addData, delData, getData, listData, updateData } from '@/api/system/dict/data';
 
-const { proxy }              = getCurrentInstance();
+const { proxy } = getCurrentInstance();
 const { sys_normal_disable } = proxy.useDict('sys_normal_disable');
 
-const dataList         = ref([]);
-const open             = ref(false);
-const loading          = ref(true);
-const showSearch       = ref(true);
-const ids              = ref([]);
-const single           = ref(true);
-const multiple         = ref(true);
-const total            = ref(0);
-const title            = ref('');
-const defaultDictType  = ref('');
-const typeOptions      = ref([]);
-const route            = useRoute();
+const dataList = ref([]);
+const open = ref(false);
+const loading = ref(true);
+const showSearch = ref(true);
+const ids = ref([]);
+const single = ref(true);
+const multiple = ref(true);
+const total = ref(0);
+const title = ref('');
+const defaultDictType = ref('');
+const typeOptions = ref([]);
+const route = useRoute();
 // 数据标签回显样式
 const listClassOptions = ref([
 	{ value: 'default', label: '默认' },
@@ -233,7 +233,7 @@ const { queryParams, form, rules } = toRefs(data);
 function getTypes(dictId) {
 	getType(dictId).then(response => {
 		queryParams.value.dictType = response.data.dictType;
-		defaultDictType.value      = response.data.dictType;
+		defaultDictType.value = response.data.dictType;
 		getList();
 	});
 }
@@ -250,8 +250,8 @@ function getList() {
 	loading.value = true;
 	listData(queryParams.value).then(response => {
 		dataList.value = response.rows;
-		total.value    = response.total;
-		loading.value  = false;
+		total.value = response.total;
+		loading.value = false;
 	});
 }
 
@@ -298,15 +298,15 @@ function resetQuery() {
 /** 新增按钮操作 */
 function handleAdd() {
 	reset();
-	open.value          = true;
-	title.value         = '添加字典数据';
+	open.value = true;
+	title.value = '添加字典数据';
 	form.value.dictType = queryParams.value.dictType;
 }
 
 /** 多选框选中数据 */
 function handleSelectionChange(selection) {
-	ids.value      = selection.map(item => item.dictCode);
-	single.value   = selection.length !== 1;
+	ids.value = selection.map(item => item.dictCode);
+	single.value = selection.length !== 1;
 	multiple.value = !selection.length;
 }
 
@@ -315,8 +315,8 @@ function handleUpdate(row) {
 	reset();
 	const dictCode = row.dictCode || ids.value;
 	getData(dictCode).then(response => {
-		form.value  = response.data;
-		open.value  = true;
+		form.value = response.data;
+		open.value = true;
 		title.value = '修改字典数据';
 	});
 }
