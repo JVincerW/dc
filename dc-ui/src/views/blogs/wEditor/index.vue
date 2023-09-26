@@ -10,7 +10,11 @@
 </template>
 
 <script setup>
+import {getDicts} from "@/api/system/dict/data";
 import BasicEditor from '@/components/Editor/BasicEditor.vue';
+import useDictStore from "@/store/modules/dict";
+import {useDict} from "@/utils/dict";
+
 import Dig from '@/views/blogs/wEditor/C/dig.vue';
 
 const wEditorRef = ref();
@@ -24,8 +28,12 @@ const editorData = {
 };
 
 const getChildValueHtml = () => {
+
 	console.log('父页面获取到的值', wEditorRef.value.initEditor);
-	dig.value.handleShow();
+
+
+
+    dig.value.handleShow();
 };
 
 </script>
