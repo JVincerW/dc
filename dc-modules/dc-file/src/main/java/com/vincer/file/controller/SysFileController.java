@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,11 +44,10 @@ public class SysFileController {
     }
 
     @PostMapping("uploadEditor")
-    public JSONObject uploadEditor(MultipartFile file) {
+    public JSONObject uploadEditor(@RequestParam("file") MultipartFile file) {
         JSONObject json = new JSONObject();
         try {
             String url = sysFileService.uploadFile(file);
-            System.out.println(url);
             JSONObject data = new JSONObject();
             json.put("errno", 0);
             data.put("url", url);
@@ -55,13 +55,12 @@ public class SysFileController {
             data.put("href", url);
             json.put("data", data);
             System.out.println(json);
-            return json;
         } catch (Exception e) {
             log.error("上传文件失败", e);
             json.put("errno", 1);
             json.put("message", "图片上传失败");
             System.out.println(json);
-            return json;
         }
+        return json;
     }
 }

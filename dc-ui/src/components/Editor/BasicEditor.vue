@@ -25,10 +25,11 @@ const editorConfig = { placeholder: '请输入内容...', scroll: false, readOnl
 // 修改 uploadImage 菜单配置
 // 插入图片
 editorConfig.MENU_CONF['uploadImage'] = {
-	fieldName: 'dsfsdfdsfdsf.png',
-	server: uploadImgUrl.value,
-	// 自定义增加 http  header
-	headers: { Authorization: 'Bearer ' + getToken() },
+    fieldName: 'file',
+    server: uploadImgUrl.value,
+    metaWithUrl: true,
+    withCredentials: true,
+    headers: { Authorization: 'Bearer ' + getToken() },
 };
 
 console.log(props.editorData, 'editorData');
@@ -81,7 +82,7 @@ defineExpose({ initEditor });
 	font-size: 2em;
 	height: 2.5em;
 	text-align: center;
-	
+
 }
 
 /* 去掉输入框的边框，聚焦时也没有边框 */

@@ -44,7 +44,7 @@ public class LocalSysFileServiceImpl implements ISysFileService {
         System.out.println(localFilePath);
         System.out.println(file);
         String name = FileUploadUtils.upload(localFilePath, file);
-        String url = domain + localFilePrefix + name;
-        return url;
+        System.out.println(domain + localFilePrefix + name);
+        return domain + localFilePrefix + name;
     }
 }
