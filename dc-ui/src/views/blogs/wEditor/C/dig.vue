@@ -27,7 +27,6 @@ const initTags = () => {
         const tags_tmp = resp.data
         tags_tmp.map((tag) => tag.flag = false)
         tags.value = resp.data
-
         console.log(tags.value);
     });
 }
