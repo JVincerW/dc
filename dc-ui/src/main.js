@@ -3,6 +3,8 @@ import Cookies from 'js-cookie';
 import ElementPlus from 'element-plus';
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs';
 import '@/assets/styles/index.scss'; // global css
+
+
 import App from './App';
 import store from './store';
 import router from './router';

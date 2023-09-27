@@ -2,7 +2,6 @@
 
 import { getDicts } from '@/api/system/dict/data';
 import { ref } from 'vue';
-import { Plus } from '@element-plus/icons-vue';
 
 const props = defineProps({ dialogTableVisible: Boolean, editorData: Object });
 const editorData = props.editorData;
@@ -10,9 +9,10 @@ const articTypes = [ '分类1', '分类2', '分类3', '分类4', '分类5' ];
 const selectedCoverImages = ref([]);
 const tags = ref([]);
 const dialogTableVisible = ref(false);
+const newTagValue=ref()
 let selectedReadType = ref(0);
 let selectedCategory = ref(articTypes[0]);
-
+const addVisible=ref()
 const handleShow = () => {
 	dialogTableVisible.value = true;
 	initTags();
@@ -32,10 +32,14 @@ const initTags = () => {
 		console.log(tags.value);
 	});
 };
-
-const showInput = () => {
-	console.log('打印');
-};
+function showInput(){
+    console.log('打印');
+    addVisible.value=true
+}
+function addConfirm(){
+    addVisible.value=false
+    console.log("新增标签",newTagValue)
+}
 const handleCancel = () => {
 	dialogTableVisible.value = false;
 };
@@ -46,7 +50,7 @@ const handleSubmit = () => {
 	console.log('选择的文章标签：', selectedTagsLabel.value);
 	console.log('选择的封面图片：', selectedCoverImages.value);
 	console.log(editorData, 'editorData');
-	
+
 };
 defineExpose({ handleShow });
 </script>
@@ -67,7 +71,7 @@ defineExpose({ handleShow });
 					<el-option v-for='item in articTypes' :key='item' :label='item' :value='item'></el-option>
 				</el-select>
 			</el-form-item>
-			
+
 			<el-form-item form.tags label='文章标签'>
 				<el-tag
 						v-for='tag in tags'
@@ -79,7 +83,18 @@ defineExpose({ handleShow });
 				>
 					{{tag.dictLabel}}
 				</el-tag>
-				<el-button :icon='Plus' class='button-new-tag' size='small' type='primary' @click='showInput' />
+                <el-input
+                    v-if="addVisible"
+                    ref="InputRef"
+                    v-model="newTagValue"
+                    class="ml-1 w-20"
+                    size="small"
+                    @keyup.enter="addConfirm"
+                    @blur="addConfirm"
+                />
+                <el-button v-else class="button-new-tag ml-1" size="small" @click="showInput">
+                    + New Tag
+                </el-button>
 			</el-form-item>
 			<el-form-item label='封面图片'>
 				<image-upload
@@ -93,7 +108,7 @@ defineExpose({ handleShow });
 			</el-form-item>
 			<el-form-item>
 				<el-button @click='handleCancel'>取消</el-button>
-				<el-button type='primary' @click='handleSubmit'>确认</el-button>
+				<el-button type='primary' maxlength=5 clearable @click='handleSubmit'>确认</el-button>
 			</el-form-item>
 		</el-form>
 	</el-dialog>
