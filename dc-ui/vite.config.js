@@ -5,7 +5,7 @@ import createVitePlugins from './vite/plugins';
 export default defineConfig(({ mode, command }) => {
 	const env                                   = loadEnv(mode, process.cwd());
 	const { VITE_APP_ENV, VITE_APP_SERVER_API } = env;
-	console.log('Current mode:', mode);
+
 	return {
 		base: VITE_APP_ENV === 'production' ? '/' : '/',
 		plugins: createVitePlugins(env, command === 'build'),
