@@ -7,6 +7,8 @@ import { ref } from 'vue';
 const props = defineProps({ dialogTableVisible: Boolean, editorData: Object });
 const editorData = props.editorData;
 const articTypes = [ '分类1', '分类2', '分类3', '分类4', '分类5' ];
+const selectedStatus = ref();
+const status = [ '发布', '草稿' ];
 const selectedCoverImages = ref([]);
 const tags = ref([]);
 const dialogTableVisible = ref(false);
@@ -85,6 +87,7 @@ const handleSubmit = () => {
 	console.log('选择的文章分类：', selectedCategory.value);
 	console.log('选择的文章标签：', selectedTagsLabel.value);
 	console.log('选择的封面图片：', selectedCoverImages.value);
+	console.log('选择的发布状态：', selectedStatus.value);
 	console.log(editorData, 'editorData');
 };
 defineExpose({ handleShow });
@@ -107,6 +110,11 @@ defineExpose({ handleShow });
 				</el-select>
 			</el-form-item>
 			
+			<el-form-item label='发布状态'>
+				<el-select v-model='selectedStatus' placeholder='发布状态'>
+					<el-option v-for='status_item in status' :key='status_item' :label='status_item' :value='status_item'></el-option>
+				</el-select>
+			</el-form-item>
 			<el-form-item form.tags label='文章标签'>
 				<el-tag
 						v-for='tag in tags'
