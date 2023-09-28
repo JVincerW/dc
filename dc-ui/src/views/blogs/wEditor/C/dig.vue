@@ -1,18 +1,19 @@
 <script setup>
 
-import {addData, getDicts} from '@/api/system/dict/data';
-import {Plus} from "@element-plus/icons-vue";
+import { addData, getDicts } from '@/api/system/dict/data';
+import { Plus } from '@element-plus/icons-vue';
 import { ref } from 'vue';
+
 const props = defineProps({ dialogTableVisible: Boolean, editorData: Object });
 const editorData = props.editorData;
 const articTypes = [ '分类1', '分类2', '分类3', '分类4', '分类5' ];
 const selectedCoverImages = ref([]);
 const tags = ref([]);
 const dialogTableVisible = ref(false);
-const newTagValue=ref()
+const newTagValue = ref();
 let selectedReadType = ref(0);
 let selectedCategory = ref(articTypes[0]);
-const addVisible=ref()
+const addVisible = ref();
 const handleShow = () => {
 	dialogTableVisible.value = true;
 	initTags();
@@ -32,24 +33,39 @@ const initTags = () => {
 		console.log(tags.value);
 	});
 };
-function showInput(){
-    console.log('打印');
-    addVisible.value=true
-}
-function addConfirm(){
-    addVisible.value=false
-    console.log("新增标签",newTagValue.value)
-    addData({
-        "dictLabel": newTagValue.value,
-        "dictValue": newTagValue.value,
-        "dictType": "artic_tags",
-        "dictSort": 0,
-    }).then((res) => {
-        console.log(res)
-        initTags()
 
-    });
+function showInput() {
+	console.log('打印');
+	addVisible.value = true;
 }
+
+function addConfirm() {
+	addVisible.value = false;
+	console.log('新增标签', newTagValue.value);
+	addData({
+		'dictLabel': newTagValue.value,
+		'dictValue': newTagValue.value,
+		'dictType': 'artic_tags',
+		'dictSort': 0,
+	})
+	.then((res) => {
+		console.log(res);
+		// 添加成功后设置新标签的默认值为true
+		const newTag = {
+			dictLabel: newTagValue.value,
+			dictValue: newTagValue.value,
+			dictType: 'artic_tags',
+			dictSort: 0,
+			flag: true, // 默认值为true
+		};
+		tags.value.push(newTag); // 将新标签添加到tags数组
+		newTagValue.value = ''; // 清空输入框
+	})
+	.catch((error) => {
+		console.error(error);
+	});
+}
+
 const handleCancel = () => {
 	dialogTableVisible.value = false;
 };
@@ -80,29 +96,31 @@ defineExpose({ handleShow });
 					<el-option v-for='item in articTypes' :key='item' :label='item' :value='item'></el-option>
 				</el-select>
 			</el-form-item>
-
+			
 			<el-form-item form.tags label='文章标签'>
 				<el-tag
 						v-for='tag in tags'
 						:key='tag.code'
 						:type="tag.flag ? 'success':'info'"
+						class='mx-1'
 						effect='dark'
-						style='cursor: pointer; margin-left: 10px'
+						style='cursor: pointer; margin-left: 10px;margin-top: 10px'
 						@click='tagTrans(tag)'
 				>
 					{{tag.dictLabel}}
 				</el-tag>
-                <el-input
-                    v-if="addVisible"
-                    clearable
-                    v-model="newTagValue"
-                    style="margin-left: 10px;width: 80px;"
-                    size="small"
-                    @keyup.enter="addConfirm"
-                    @blur="addConfirm"
-                />
-                <el-button v-else class="button-new-tag" style="width: 80px" :icon="Plus" size="small" @click="showInput">
-                </el-button>
+				<el-input
+						v-if='addVisible'
+						v-model='newTagValue'
+						clearable
+						size='small'
+						style='margin-left: 10px;width: 80px;margin-top: 10px'
+						@blur='addConfirm'
+						@keyup.enter.native='$event.target.blur()'
+				
+				/>
+				<el-button v-else :icon='Plus' class='button-new-tag' size='small' style='width: 80px;margin-top: 10px' @click='showInput'>
+				</el-button>
 			</el-form-item>
 			<el-form-item label='封面图片'>
 				<image-upload
@@ -116,7 +134,7 @@ defineExpose({ handleShow });
 			</el-form-item>
 			<el-form-item>
 				<el-button @click='handleCancel'>取消</el-button>
-				<el-button type='primary' maxlength=5 clearable @click='handleSubmit'>确认</el-button>
+				<el-button clearable maxlength='5' type='primary' @click='handleSubmit'>确认</el-button>
 			</el-form-item>
 		</el-form>
 	</el-dialog>
