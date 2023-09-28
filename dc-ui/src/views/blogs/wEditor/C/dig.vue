@@ -10,6 +10,7 @@ const articTypes = [ '分类1', '分类2', '分类3', '分类4', '分类5' ];
 const selectedCoverImages = ref([]);
 const tags = ref([]);
 const dialogTableVisible = ref(false);
+const { proxy } = getCurrentInstance();
 const newTagValue = ref();
 let selectedReadType = ref(0);
 let selectedCategory = ref(articTypes[0]);
@@ -19,8 +20,16 @@ const handleShow = () => {
 	initTags();
 };
 const tagTrans = (clickedTag) => {
-	clickedTag.flag = !clickedTag.flag;
+	// 检查已选中的标签数量
+	const selectedCount = tags.value.filter(tag => tag.flag).length;
+	
+	if( selectedCount < 3 || clickedTag.flag ) {
+		clickedTag.flag = !clickedTag.flag;
+	} else {
+		proxy.$modal.msgWarning('最多选择三个标签，请取消选中的标签后重新选择');
+	}
 };
+
 // 计算属性
 const selectedTagsLabel = computed(() => {
 	return tags.value.filter((tag) => tag.flag).map((tag) => tag.dictLabel);
@@ -63,6 +72,7 @@ function addConfirm() {
 	})
 	.catch((error) => {
 		console.error(error);
+		proxy.$modal.msgError(error);
 	});
 }
 
