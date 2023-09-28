@@ -1,8 +1,8 @@
 <script setup>
 
-import { getDicts } from '@/api/system/dict/data';
+import {addData, getDicts} from '@/api/system/dict/data';
+import {Plus} from "@element-plus/icons-vue";
 import { ref } from 'vue';
-
 const props = defineProps({ dialogTableVisible: Boolean, editorData: Object });
 const editorData = props.editorData;
 const articTypes = [ '分类1', '分类2', '分类3', '分类4', '分类5' ];
@@ -38,7 +38,17 @@ function showInput(){
 }
 function addConfirm(){
     addVisible.value=false
-    console.log("新增标签",newTagValue)
+    console.log("新增标签",newTagValue.value)
+    addData({
+        "dictLabel": newTagValue.value,
+        "dictValue": newTagValue.value,
+        "dictType": "artic_tags",
+        "dictSort": 0,
+    }).then((res) => {
+        console.log(res)
+        initTags()
+
+    });
 }
 const handleCancel = () => {
 	dialogTableVisible.value = false;
@@ -50,7 +60,6 @@ const handleSubmit = () => {
 	console.log('选择的文章标签：', selectedTagsLabel.value);
 	console.log('选择的封面图片：', selectedCoverImages.value);
 	console.log(editorData, 'editorData');
-
 };
 defineExpose({ handleShow });
 </script>
@@ -85,15 +94,14 @@ defineExpose({ handleShow });
 				</el-tag>
                 <el-input
                     v-if="addVisible"
-                    ref="InputRef"
+                    clearable
                     v-model="newTagValue"
-                    class="ml-1 w-20"
+                    style="margin-left: 10px;width: 80px;"
                     size="small"
                     @keyup.enter="addConfirm"
                     @blur="addConfirm"
                 />
-                <el-button v-else class="button-new-tag ml-1" size="small" @click="showInput">
-                    + New Tag
+                <el-button v-else class="button-new-tag" style="width: 80px" :icon="Plus" size="small" @click="showInput">
                 </el-button>
 			</el-form-item>
 			<el-form-item label='封面图片'>

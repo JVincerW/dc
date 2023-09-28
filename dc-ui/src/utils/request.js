@@ -6,7 +6,6 @@ import { blobValidate, tansParams } from '@/utils/ruoyi';
 import cache from '@/plugins/cache';
 import { saveAs } from 'file-saver';
 import useUserStore from '@/store/modules/user';
-
 let downloadLoadingInstance;
 // 是否显示重新登录
 export let isRelogin = { show: false };
@@ -19,7 +18,7 @@ const service                          = axios.create({
 	// 超时
 	timeout: 10000,
 });
-
+console.log(import.meta.env.VITE_APP_SERVER_API,"service")
 // request拦截器
 service.interceptors.request.use(config => {
 	// 是否需要设置 token

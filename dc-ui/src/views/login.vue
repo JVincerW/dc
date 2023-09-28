@@ -1,7 +1,7 @@
 <template>
 	<div class='login'>
 		<el-form ref='loginRef' :model='loginForm' :rules='loginRules' class='login-form'>
-			<h3 class='title'>若依后台管理系统</h3>
+			<h3 class='title'>数据中台管理系统</h3>
 			<el-form-item prop='username'>
 				<el-input
 						v-model='loginForm.username'
@@ -190,15 +190,15 @@ getCookie();
 	background: #fff;
 	width: 400px;
 	padding: 25px 25px 5px 25px;
-	
+
 	.el-input {
 		height: 40px;
-		
+
 		input {
 			height: 40px;
 		}
 	}
-	
+
 	.input-icon {
 		height: 39px;
 		width: 14px;
@@ -216,7 +216,7 @@ getCookie();
 	width: 33%;
 	height: 40px;
 	float: right;
-	
+
 	img {
 		cursor: pointer;
 		vertical-align: middle;
@@ -231,7 +231,7 @@ getCookie();
 	width: 100%;
 	text-align: center;
 	color: #fff;
-	font-family: Arial;
+	font-family: Arial,serif;
 	font-size: 12px;
 	letter-spacing: 1px;
 }
