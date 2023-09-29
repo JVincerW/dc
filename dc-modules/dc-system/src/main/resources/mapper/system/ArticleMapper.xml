@@ -14,9 +14,7 @@
         <result property="readType" column="read_type"/>
         <result property="editorType" column="editor_type"/>
         <result property="qrcodePath" column="qrcode_path"/>
-        <result property="isMarkdown" column="is_markdown"/>
         <result property="content" column="content"/>
-        <result property="contentMd" column="content_md"/>
         <result property="top" column="top"/>
         <result property="typeId" column="type_id"/>
         <result property="status" column="status"/>
@@ -26,8 +24,6 @@
         <result property="keywords" column="keywords"/>
         <result property="comment" column="comment"/>
         <result property="password" column="password"/>
-        <result property="createTime" column="create_time"/>
-        <result property="updateTime" column="update_time"/>
         <collection property="tags" ofType="com.vincer.system.domain.Tag">
             <id column="tag_id" property="tag_id"/>
             <result column="tag_name" property="tag_name"/>
@@ -45,9 +41,7 @@
             a.read_type,
             a.editor_type,
             a.qrcode_path,
-            a.is_markdown,
             a.content,
-            a.content_md,
             a.top,
             a.type_id,
             a.status,
@@ -57,8 +51,6 @@
             a.keywords,
             a.comment,
             a.password,
-            a.create_time,
-            a.update_time,
             t.id   as tag_id,
             t.name as tag_name
         from article a
@@ -77,9 +69,7 @@
             <if test="readType != null  and readType != ''">and read_type = #{readType}</if>
             <if test="editorType != null  and editorType != ''">and editor_type = #{editorType}</if>
             <if test="qrcodePath != null  and qrcodePath != ''">and qrcode_path = #{qrcodePath}</if>
-            <if test="isMarkdown != null  and isMarkdown != ''">and is_markdown = #{isMarkdown}</if>
             <if test="content != null  and content != ''">and content = #{content}</if>
-            <if test="contentMd != null  and contentMd != ''">and content_md = #{contentMd}</if>
             <if test="top != null ">and top = #{top}</if>
             <if test="typeId != null  and typeId != ''">and type_id = #{typeId}</if>
             <if test="status != null  and status != ''">and status = #{status}</if>
@@ -108,9 +98,7 @@
             <if test="readType != null">read_type,</if>
             <if test="editorType != null">editor_type,</if>
             <if test="qrcodePath != null">qrcode_path,</if>
-            <if test="isMarkdown != null">is_markdown,</if>
             <if test="content != null">content,</if>
-            <if test="contentMd != null">content_md,</if>
             <if test="top != null">top,</if>
             <if test="typeId != null and typeId != ''">type_id,</if>
             <if test="status != null">status,</if>
@@ -132,9 +120,7 @@
             <if test="readType != null">#{readType},</if>
             <if test="editorType != null">#{editorType},</if>
             <if test="qrcodePath != null">#{qrcodePath},</if>
-            <if test="isMarkdown != null">#{isMarkdown},</if>
             <if test="content != null">#{content},</if>
-            <if test="contentMd != null">#{contentMd},</if>
             <if test="top != null">#{top},</if>
             <if test="typeId != null and typeId != ''">#{typeId},</if>
             <if test="status != null">#{status},</if>
@@ -160,9 +146,7 @@
             <if test="readType != null">read_type = #{readType},</if>
             <if test="editorType != null">editor_type = #{editorType},</if>
             <if test="qrcodePath != null">qrcode_path = #{qrcodePath},</if>
-            <if test="isMarkdown != null">is_markdown = #{isMarkdown},</if>
             <if test="content != null">content = #{content},</if>
-            <if test="contentMd != null">content_md = #{contentMd},</if>
             <if test="top != null">top = #{top},</if>
             <if test="typeId != null and typeId != ''">type_id = #{typeId},</if>
             <if test="status != null">status = #{status},</if>
@@ -175,7 +159,7 @@
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
         </trim>
-        where id = #{id}
+        where a.id = #{id}
     </update>
 
     <delete id="deleteArticleById" parameterType="String">

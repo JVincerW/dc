@@ -128,8 +128,11 @@
 				<el-form-item label='用户ID' prop='userId'>
 					<el-input v-model='form.userId' placeholder='请输入用户ID' />
 				</el-form-item>
-				<el-form-item label='文章封面图片' prop='coverImage'>
+				<el-form-item label='封面图片' prop='coverImage'>
 					<image-upload v-model='form.coverImage' />
+				</el-form-item>
+				<el-form-item label='文章类别' prop='typeId'>
+					<el-input v-model='form.typeId' placeholder='请输入文章类型id' />
 				</el-form-item>
 				<el-form-item label='二维码地址' prop='qrcodePath'>
 					<el-input v-model='form.qrcodePath' placeholder='请输入文章专属二维码地址' />
@@ -137,14 +140,8 @@
 				<el-form-item label='文章内容'>
 					<editor v-model='form.content' :min-height='192' />
 				</el-form-item>
-				<el-form-item label='markdown版内容' prop='contentMd'>
-					<el-input v-model='form.contentMd' placeholder='请输入内容' type='textarea' />
-				</el-form-item>
 				<el-form-item label='是否置顶' prop='top'>
 					<el-input v-model='form.top' placeholder='请输入是否置顶' />
-				</el-form-item>
-				<el-form-item label='文章类型' prop='top'>
-					<el-input v-model='form.typeId' placeholder='请输入文章类型' />
 				</el-form-item>
 				<el-form-item label='文章简介' prop='description'>
 					<el-input v-model='form.description' placeholder='请输入文章简介，最多200字' />
@@ -152,7 +149,7 @@
 				<el-form-item label='关键字' prop='keywords'>
 					<el-input v-model='form.keywords' placeholder='请输入文章关键字，优化搜索' />
 				</el-form-item>
-				<el-form-item label='访问密钥' prop='password'>
+				<el-form-item label='文章密钥' prop='password'>
 					<el-input v-model='form.password' placeholder='请输入文章私密访问时的密钥' />
 				</el-form-item>
 			</el-form>
@@ -188,26 +185,9 @@ const data = reactive({
 	queryParams: {
 		pageNum: 1,
 		pageSize: 10,
-		uuid: null,
-		version: null,
 		title: null,
 		userId: null,
-		coverImage: null,
-		readType: null,
-		editorType: null,
-		qrcodePath: null,
-		isMarkdown: null,
-		content: null,
-		contentMd: null,
-		top: null,
-		typeId: null,
-		status: null,
-		recommended: null,
-		original: null,
-		description: null,
 		keywords: null,
-		comment: null,
-		password: null,
 	},
 	rules: {
 		typeId: [
@@ -236,31 +216,7 @@ function cancel() {
 
 // 表单重置
 function reset() {
-	form.value = {
-		id: null,
-		uuid: null,
-		version: null,
-		title: null,
-		userId: null,
-		coverImage: null,
-		readType: null,
-		editorType: null,
-		qrcodePath: null,
-		isMarkdown: null,
-		content: null,
-		contentMd: null,
-		top: null,
-		typeId: null,
-		status: null,
-		recommended: null,
-		original: null,
-		description: null,
-		keywords: null,
-		comment: null,
-		password: null,
-		createTime: null,
-		updateTime: null,
-	};
+	form.value = {};
 	proxy.resetForm('articleRef');
 }
 

@@ -17,7 +17,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class Article extends BaseEntity
 {
-    private static final long serialVersionUID = 1L;
+   private static final long serialVersionUID = 1L;
 
     /** $column.columnComment */
     private String id;
@@ -54,17 +54,9 @@ public class Article extends BaseEntity
     @Excel(name = "文章专属二维码地址")
     private String qrcodePath;
 
-    /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
-    private String isMarkdown;
-
     /** 文章内容 */
     @Excel(name = "文章内容")
     private String content;
-
-    /** markdown版的文章内容 */
-    @Excel(name = "markdown版的文章内容")
-    private String contentMd;
 
     /** 是否置顶 */
     @Excel(name = "是否置顶")
@@ -101,7 +93,6 @@ public class Article extends BaseEntity
     /** 文章私密访问时的密钥 */
     @Excel(name = "文章私密访问时的密钥")
     private String password;
-
 
     @Excel(name = "标签")
     private List<Tag> tags;
