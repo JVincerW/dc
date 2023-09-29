@@ -9,7 +9,7 @@ import com.vincer.common.core.web.domain.BaseEntity;
  * 博客标签对象 tag
  *
  * @author vincer
- * @date 2023-09-29
+ * &#064;date  2023-09-29
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -18,14 +18,10 @@ public class Tag extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** $column.columnComment */
-    private String id;
+    private String tag_id;
 
     /** 书签名 */
     @Excel(name = "书签名")
-    private String name;
-
-    /** 描述 */
-    @Excel(name = "描述")
-    private String description;
+    private String tag_name;
 
 }

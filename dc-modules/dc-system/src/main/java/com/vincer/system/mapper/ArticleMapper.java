@@ -4,7 +4,7 @@ import java.util.List;
 import com.vincer.system.domain.Article;
 
 /**
- * 【请填写功能名称】Mapper接口
+ * 【文章】Mapper接口
  *
  * @author vincer
  * @date 2023-09-29
@@ -12,48 +12,47 @@ import com.vincer.system.domain.Article;
 public interface ArticleMapper
 {
     /**
-     * 查询【请填写功能名称】
+     * 查询【文章】
      *
-     * @param id 【请填写功能名称】主键
-     * @return 【请填写功能名称】
+     * @param id 【文章】主键
+     * @return 【文章】
      */
     Article selectArticleById(String id);
 
-
     /**
-     * 查询【请填写功能名称】列表
+     * 查询【文章】列表
      *
-     * @param article 【请填写功能名称】
-     * @return 【请填写功能名称】集合
+     * @param article 【文章】
+     * @return 【文章】集合
      */
     List<Article> selectArticleList(Article article);
 
     /**
-     * 新增【请填写功能名称】
+     * 新增【文章】
      *
-     * @param article 【请填写功能名称】
+     * @param article 【文章】
      * @return 结果
      */
     int insertArticle(Article article);
 
     /**
-     * 修改【请填写功能名称】
+     * 修改【文章】
      *
-     * @param article 【请填写功能名称】
+     * @param article 【文章】
      * @return 结果
      */
     int updateArticle(Article article);
 
     /**
-     * 删除【请填写功能名称】
+     * 删除【文章】
      *
-     * @param id 【请填写功能名称】主键
+     * @param id 【文章】主键
      * @return 结果
      */
     int deleteArticleById(String id);
 
     /**
-     * 批量删除【请填写功能名称】
+     * 批量删除【文章】
      *
      * @param ids 需要删除的数据主键集合
      * @return 结果

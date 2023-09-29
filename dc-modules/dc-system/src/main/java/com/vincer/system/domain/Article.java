@@ -8,7 +8,7 @@ import com.vincer.common.core.web.domain.BaseEntity;
 import java.util.List;
 
 /**
- * 【请填写功能名称】对象 article
+ * 【文章】对象 article
  *
  * @author vincer
  * @date 2023-09-29
@@ -101,7 +101,9 @@ public class Article extends BaseEntity
     /** 文章私密访问时的密钥 */
     @Excel(name = "文章私密访问时的密钥")
     private String password;
-    /** 文章标签列表 */
-    @Excel(name = "文章标签列表")
+
+
+    @Excel(name = "标签")
     private List<Tag> tags;
+
 }

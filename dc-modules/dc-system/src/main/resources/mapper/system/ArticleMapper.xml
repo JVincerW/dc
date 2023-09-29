@@ -28,39 +28,42 @@
         <result property="password" column="password"/>
         <result property="createTime" column="create_time"/>
         <result property="updateTime" column="update_time"/>
-        <collection property="tags" ofType="Tag" resultMap="TagResult"/>
-    </resultMap>
-    <resultMap type="Tag" id="TagResult">
-        <id property="id" column="tag_id"/>
-        <result property="name" column="tag_name"/>
+        <collection property="tags" ofType="com.vincer.system.domain.Tag">
+            <id column="tag_id" property="tag_id"/>
+            <result column="tag_name" property="tag_name"/>
+        </collection>
     </resultMap>
 
     <sql id="selectArticleVo">
         select
-            id,
-            uuid,
-            version,
-            title,
-            user_id,
-            cover_image,
-            read_type,
-            editor_type,
-            qrcode_path,
-            is_markdown,
-            content,
-            content_md,
-            top,
-            type_id,
-            status,
-            recommended,
-            original,
-            description,
-            keywords,
-            comment,
-            password,
-            create_time,
-            update_time
-        from article
+            a.id,
+            a.uuid,
+            a.version,
+            a.title,
+            a.user_id,
+            a.cover_image,
+            a.read_type,
+            a.editor_type,
+            a.qrcode_path,
+            a.is_markdown,
+            a.content,
+            a.content_md,
+            a.top,
+            a.type_id,
+            a.status,
+            a.recommended,
+            a.original,
+            a.description,
+            a.keywords,
+            a.comment,
+            a.password,
+            a.create_time,
+            a.update_time,
+            t.id   as tag_id, -- 使用别名 'tag_id' 明确指定 'id' 列的来源为 tag 表
+            t.name as tag_name
+        from article a
+             left join article_tag ta on a.id=ta.article_id
+             left join tag t on ta.tag_id=t.id
     </sql>
 
     <select id="selectArticleList" parameterType="Article" resultMap="ArticleResult">
@@ -91,7 +94,7 @@
 
     <select id="selectArticleById" parameterType="String" resultMap="ArticleResult">
         <include refid="selectArticleVo"/>
-        where id = #{id}
+        where a.id = #{id}
     </select>
 
     <insert id="insertArticle" parameterType="Article" useGeneratedKeys="true" keyProperty="id">
@@ -172,15 +175,15 @@
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
         </trim>
-        where id = #{id}
+        where a.id = #{id}
     </update>
 
     <delete id="deleteArticleById" parameterType="String">
-        delete from article where id=#{id}
+        delete from article where a.id=#{id}
     </delete>
 
     <delete id="deleteArticleByIds" parameterType="String">
-        delete from article where id in
+        delete from article where a.id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
