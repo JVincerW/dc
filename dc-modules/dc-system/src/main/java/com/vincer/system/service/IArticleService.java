@@ -17,7 +17,7 @@ public interface IArticleService
      * @param id 【请填写功能名称】主键
      * @return 【请填写功能名称】
      */
-    public Article selectArticleById(String id);
+    Article selectArticleById(String id);
 
     /**
      * 查询【请填写功能名称】列表
@@ -25,7 +25,7 @@ public interface IArticleService
      * @param article 【请填写功能名称】
      * @return 【请填写功能名称】集合
      */
-    public List<Article> selectArticleList(Article article);
+    List<Article> selectArticleList(Article article);
 
     /**
      * 新增【请填写功能名称】
@@ -33,7 +33,7 @@ public interface IArticleService
      * @param article 【请填写功能名称】
      * @return 结果
      */
-    public int insertArticle(Article article);
+    int insertArticle(Article article);
 
     /**
      * 修改【请填写功能名称】
@@ -41,7 +41,7 @@ public interface IArticleService
      * @param article 【请填写功能名称】
      * @return 结果
      */
-    public int updateArticle(Article article);
+    int updateArticle(Article article);
 
     /**
      * 批量删除【请填写功能名称】
@@ -49,7 +49,7 @@ public interface IArticleService
      * @param ids 需要删除的【请填写功能名称】主键集合
      * @return 结果
      */
-    public int deleteArticleByIds(String[] ids);
+    int deleteArticleByIds(String[] ids);
 
     /**
      * 删除【请填写功能名称】信息
@@ -57,5 +57,5 @@ public interface IArticleService
      * @param id 【请填写功能名称】主键
      * @return 结果
      */
-    public int deleteArticleById(String id);
+    int deleteArticleById(String id);
 }

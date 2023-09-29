@@ -5,6 +5,8 @@ import lombok.EqualsAndHashCode;
 import com.vincer.common.core.annotation.Excel;
 import com.vincer.common.core.web.domain.BaseEntity;
 
+import java.util.List;
+
 /**
  * 【请填写功能名称】对象 article
  *
@@ -99,5 +101,7 @@ public class Article extends BaseEntity
     /** 文章私密访问时的密钥 */
     @Excel(name = "文章私密访问时的密钥")
     private String password;
-
+    /** 文章标签列表 */
+    @Excel(name = "文章标签列表")
+    private List<Tag> tags;
 }
