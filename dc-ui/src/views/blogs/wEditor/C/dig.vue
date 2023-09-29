@@ -53,29 +53,33 @@ function showInput() {
 function addConfirm() {
 	addVisible.value = false;
 	console.log('新增标签', newTagValue.value);
-	addData({
-		'dictLabel': newTagValue.value,
-		'dictValue': newTagValue.value,
-		'dictType': 'artic_tags',
-		'dictSort': 0,
-	})
-	.then((res) => {
-		console.log(res);
-		// 添加成功后设置新标签的默认值为true
-		const newTag = {
-			dictLabel: newTagValue.value,
-			dictValue: newTagValue.value,
-			dictType: 'artic_tags',
-			dictSort: 0,
-			flag: true, // 默认值为true
-		};
-		tags.value.push(newTag); // 将新标签添加到tags数组
-		newTagValue.value = ''; // 清空输入框
-	})
-	.catch((error) => {
-		console.error(error);
-		proxy.$modal.msgError(error);
-	});
+	if( newTagValue.value && newTagValue.value.length > 0 ) {
+		addData({
+			'dictLabel': newTagValue.value,
+			'dictValue': newTagValue.value,
+			'dictType': 'artic_tags',
+			'dictSort': 0,
+		})
+		.then((res) => {
+			console.log(res);
+			// 添加成功后设置新标签的默认值为true
+			const newTag = {
+				dictLabel: newTagValue.value,
+				dictValue: newTagValue.value,
+				dictType: 'artic_tags',
+				dictSort: 0,
+				flag: true, // 默认值为true
+				isCreate: true,
+				
+			};
+			tags.value.push(newTag); // 将新标签添加到tags数组
+			newTagValue.value = null; // 清空输入框
+		})
+		.catch((error) => {
+			console.error(error);
+			proxy.$modal.msgError(error);
+		});
+	}
 }
 
 const handleCancel = () => {
