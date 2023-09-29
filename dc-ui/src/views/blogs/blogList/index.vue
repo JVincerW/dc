@@ -19,7 +19,7 @@
 				/>
 			</el-form-item>
 			
-			<el-form-item label='文章关键字，优化搜索' prop='keywords'>
+			<el-form-item label='关键字' prop='keywords'>
 				<el-input
 						v-model='queryParams.keywords'
 						clearable
@@ -167,7 +167,9 @@
 </template>
 
 <script name='Article' setup>
-import { addArticle, delArticle, getArticle, listArticle, updateArticle } from '@/api/system/article';
+import { addArticle, delArticle, listArticle, updateArticle } from '@/api/system/article';
+import { getArticle } from '../../../api/system/article';
+import store from '../../../store';
 
 const { proxy } = getCurrentInstance();
 
@@ -277,7 +279,7 @@ function resetQuery() {
 // 多选框选中数据
 function handleSelectionChange(selection) {
 	ids.value = selection.map(item => item.id);
-	single.value = selection.length != 1;
+	single.value = selection.length !== 1;
 	multiple.value = !selection.length;
 }
 
@@ -292,11 +294,26 @@ function handleAdd() {
 function handleUpdate(row) {
 	reset();
 	const _id = row.id || ids.value;
+	
 	getArticle(_id).then(response => {
 		form.value = response.data;
-		open.value = true;
+		// console.log(form, 'form');
+		store.state.value.curBlog = response.data;
+		proxy.$router.push({
+			path: 'blogEditor/index',
+		});
+		// open.value = true;
 		title.value = '修改【文章】';
+		// 调用操作
+		
+		console.log(store.state.value, 'piana');
+		
+		// proxy.$router.push({
+		// 	path: '/blogs/weditor',
+		// 	query: store.state.value.,
+		// });
 	});
+	
 }
 
 /** 提交按钮 */
