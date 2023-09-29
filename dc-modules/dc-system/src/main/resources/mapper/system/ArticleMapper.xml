@@ -1,62 +1,91 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.vincer.system.mapper.ArticleMapper">
 
     <resultMap type="Article" id="ArticleResult">
-        <result property="id"    column="id"    />
-        <result property="uuid"    column="uuid"    />
-        <result property="version"    column="version"    />
-        <result property="title"    column="title"    />
-        <result property="userId"    column="user_id"    />
-        <result property="coverImage"    column="cover_image"    />
-        <result property="readType"    column="read_type"    />
-        <result property="editorType"    column="editor_type"    />
-        <result property="qrcodePath"    column="qrcode_path"    />
-        <result property="isMarkdown"    column="is_markdown"    />
-        <result property="content"    column="content"    />
-        <result property="contentMd"    column="content_md"    />
-        <result property="top"    column="top"    />
-        <result property="typeId"    column="type_id"    />
-        <result property="status"    column="status"    />
-        <result property="recommended"    column="recommended"    />
-        <result property="original"    column="original"    />
-        <result property="description"    column="description"    />
-        <result property="keywords"    column="keywords"    />
-        <result property="comment"    column="comment"    />
-        <result property="password"    column="password"    />
-        <result property="createTime"    column="create_time"    />
-        <result property="updateTime"    column="update_time"    />
+        <result property="id" column="id"/>
+        <result property="uuid" column="uuid"/>
+        <result property="version" column="version"/>
+        <result property="title" column="title"/>
+        <result property="userId" column="user_id"/>
+        <result property="coverImage" column="cover_image"/>
+        <result property="readType" column="read_type"/>
+        <result property="editorType" column="editor_type"/>
+        <result property="qrcodePath" column="qrcode_path"/>
+        <result property="isMarkdown" column="is_markdown"/>
+        <result property="content" column="content"/>
+        <result property="contentMd" column="content_md"/>
+        <result property="top" column="top"/>
+        <result property="typeId" column="type_id"/>
+        <result property="status" column="status"/>
+        <result property="recommended" column="recommended"/>
+        <result property="original" column="original"/>
+        <result property="description" column="description"/>
+        <result property="keywords" column="keywords"/>
+        <result property="comment" column="comment"/>
+        <result property="password" column="password"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <collection property="tags" ofType="Tag" resultMap="TagResult"/>
+    </resultMap>
+    <resultMap type="Tag" id="TagResult">
+        <id property="id" column="tag_id"/>
+        <result property="name" column="tag_name"/>
     </resultMap>
 
     <sql id="selectArticleVo">
-        select id, uuid, version, title, user_id, cover_image, read_type, editor_type, qrcode_path, is_markdown, content, content_md, top, type_id, status, recommended, original, description, keywords, comment, password, create_time, update_time from article
+        select
+            id,
+            uuid,
+            version,
+            title,
+            user_id,
+            cover_image,
+            read_type,
+            editor_type,
+            qrcode_path,
+            is_markdown,
+            content,
+            content_md,
+            top,
+            type_id,
+            status,
+            recommended,
+            original,
+            description,
+            keywords,
+            comment,
+            password,
+            create_time,
+            update_time
+        from article
     </sql>
 
     <select id="selectArticleList" parameterType="Article" resultMap="ArticleResult">
         <include refid="selectArticleVo"/>
         <where>
-            <if test="uuid != null  and uuid != ''"> and uuid = #{uuid}</if>
-            <if test="version != null  and version != ''"> and version = #{version}</if>
-            <if test="title != null  and title != ''"> and title = #{title}</if>
-            <if test="userId != null "> and user_id = #{userId}</if>
-            <if test="coverImage != null  and coverImage != ''"> and cover_image = #{coverImage}</if>
-            <if test="readType != null  and readType != ''"> and read_type = #{readType}</if>
-            <if test="editorType != null  and editorType != ''"> and editor_type = #{editorType}</if>
-            <if test="qrcodePath != null  and qrcodePath != ''"> and qrcode_path = #{qrcodePath}</if>
-            <if test="isMarkdown != null  and isMarkdown != ''"> and is_markdown = #{isMarkdown}</if>
-            <if test="content != null  and content != ''"> and content = #{content}</if>
-            <if test="contentMd != null  and contentMd != ''"> and content_md = #{contentMd}</if>
-            <if test="top != null "> and top = #{top}</if>
-            <if test="typeId != null  and typeId != ''"> and type_id = #{typeId}</if>
-            <if test="status != null  and status != ''"> and status = #{status}</if>
-            <if test="recommended != null  and recommended != ''"> and recommended = #{recommended}</if>
-            <if test="original != null  and original != ''"> and original = #{original}</if>
-            <if test="description != null  and description != ''"> and description = #{description}</if>
-            <if test="keywords != null  and keywords != ''"> and keywords = #{keywords}</if>
-            <if test="comment != null  and comment != ''"> and comment = #{comment}</if>
-            <if test="password != null  and password != ''"> and password = #{password}</if>
+            <if test="uuid != null  and uuid != ''">and uuid = #{uuid}</if>
+            <if test="version != null  and version != ''">and version = #{version}</if>
+            <if test="title != null  and title != ''">and title = #{title}</if>
+            <if test="userId != null ">and user_id = #{userId}</if>
+            <if test="coverImage != null  and coverImage != ''">and cover_image = #{coverImage}</if>
+            <if test="readType != null  and readType != ''">and read_type = #{readType}</if>
+            <if test="editorType != null  and editorType != ''">and editor_type = #{editorType}</if>
+            <if test="qrcodePath != null  and qrcodePath != ''">and qrcode_path = #{qrcodePath}</if>
+            <if test="isMarkdown != null  and isMarkdown != ''">and is_markdown = #{isMarkdown}</if>
+            <if test="content != null  and content != ''">and content = #{content}</if>
+            <if test="contentMd != null  and contentMd != ''">and content_md = #{contentMd}</if>
+            <if test="top != null ">and top = #{top}</if>
+            <if test="typeId != null  and typeId != ''">and type_id = #{typeId}</if>
+            <if test="status != null  and status != ''">and status = #{status}</if>
+            <if test="recommended != null  and recommended != ''">and recommended = #{recommended}</if>
+            <if test="original != null  and original != ''">and original = #{original}</if>
+            <if test="description != null  and description != ''">and description = #{description}</if>
+            <if test="keywords != null  and keywords != ''">and keywords = #{keywords}</if>
+            <if test="comment != null  and comment != ''">and comment = #{comment}</if>
+            <if test="password != null  and password != ''">and password = #{password}</if>
         </where>
     </select>
 
@@ -90,7 +119,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="password != null">password,</if>
             <if test="createTime != null">create_time,</if>
             <if test="updateTime != null">update_time,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="uuid != null">#{uuid},</if>
             <if test="version != null">#{version},</if>
@@ -114,7 +143,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="password != null">#{password},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="updateTime != null">#{updateTime},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateArticle" parameterType="Article">
@@ -147,7 +176,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteArticleById" parameterType="String">
-        delete from article where id = #{id}
+        delete from article where id=#{id}
     </delete>
 
     <delete id="deleteArticleByIds" parameterType="String">
