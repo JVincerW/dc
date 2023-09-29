@@ -6,78 +6,133 @@ import com.vincer.common.core.annotation.Excel;
 import com.vincer.common.core.web.domain.BaseEntity;
 
 /**
- * 文章对象 article
+ * 【请填写功能名称】对象 article
  *
  * @author vincer
- * @date 2023-09-20
+ * @date 2023-09-29
  */
 public class Article extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** id */
-    private Long id;
+    /** $column.columnComment */
+    private String id;
+
+    /** 版本id */
+    @Excel(name = "版本id")
+    private String uuid;
+
+    /** 版本 */
+    @Excel(name = "版本")
+    private String version;
+
+    /** 文章标题 */
+    @Excel(name = "文章标题")
+    private String title;
 
     /** 用户ID */
     @Excel(name = "用户ID")
     private Long userId;
 
-    /** 分类ID */
-    @Excel(name = "分类ID")
-    private Long sortId;
+    /** 文章封面图片 */
+    @Excel(name = "文章封面图片")
+    private String coverImage;
 
-    /** 标签ID */
-    @Excel(name = "标签ID")
-    private Long labelId;
+    /** 当前文章阅读类型 */
+    @Excel(name = "当前文章阅读类型")
+    private String readType;
 
-    /** 封面 */
-    @Excel(name = "封面")
-    private String articleCover;
+    /** 当前文章适用的编辑器类型 */
+    @Excel(name = "当前文章适用的编辑器类型")
+    private String editorType;
 
-    /** 博文标题 */
-    @Excel(name = "博文标题")
-    private String articleTitle;
+    /** 文章专属二维码地址 */
+    @Excel(name = "文章专属二维码地址")
+    private String qrcodePath;
 
-    /** 博文内容 */
-    @Excel(name = "博文内容")
-    private String articleContent;
+    /** $column.columnComment */
+    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    private String isMarkdown;
 
-    /** 浏览量 */
-    @Excel(name = "浏览量")
-    private Long viewCount;
+    /** 文章内容 */
+    @Excel(name = "文章内容")
+    private String content;
 
-    /** 点赞数 */
-    @Excel(name = "点赞数")
-    private Long likeCount;
+    /** markdown版的文章内容 */
+    @Excel(name = "markdown版的文章内容")
+    private String contentMd;
 
-    /** 是否可见[0:否，1:是] */
-    @Excel(name = "是否可见[0:否，1:是]")
-    private Integer viewStatus;
+    /** 是否置顶 */
+    @Excel(name = "是否置顶")
+    private Integer top;
 
-    /** 密码 */
-    @Excel(name = "密码")
+    /** 类型 */
+    @Excel(name = "类型")
+    private String typeId;
+
+    /** 状态 */
+    @Excel(name = "状态")
+    private String status;
+
+    /** 是否推荐 */
+    @Excel(name = "是否推荐")
+    private String recommended;
+
+    /** 是否原创 */
+    @Excel(name = "是否原创")
+    private String original;
+
+    /** 文章简介，最多200字 */
+    @Excel(name = "文章简介，最多200字")
+    private String description;
+
+    /** 文章关键字，优化搜索 */
+    @Excel(name = "文章关键字，优化搜索")
+    private String keywords;
+
+    /** 是否开启评论 */
+    @Excel(name = "是否开启评论")
+    private String comment;
+
+    /** 文章私密访问时的密钥 */
+    @Excel(name = "文章私密访问时的密钥")
     private String password;
 
-    /** 是否推荐[0:否，1:是] */
-    @Excel(name = "是否推荐[0:否，1:是]")
-    private Integer recommendStatus;
-
-    /** 是否启用评论[0:否，1:是] */
-    @Excel(name = "是否启用评论[0:否，1:是]")
-    private Integer commentStatus;
-
-    /** 是否启用[0:未删除，1:已删除] */
-    @Excel(name = "是否启用[0:未删除，1:已删除]")
-    private Integer deleted;
-
-    public void setId(Long id)
+    public void setId(String id)
     {
         this.id = id;
     }
 
-    public Long getId()
+    public String getId()
     {
         return id;
+    }
+    public void setUuid(String uuid)
+    {
+        this.uuid = uuid;
+    }
+
+    public String getUuid()
+    {
+        return uuid;
+    }
+    public void setVersion(String version)
+    {
+        this.version = version;
+    }
+
+    public String getVersion()
+    {
+        return version;
+    }
+    public void setTitle(String title)
+    {
+        this.title = title;
+    }
+
+    public String getTitle()
+    {
+        return title;
     }
     public void setUserId(Long userId)
     {
@@ -88,77 +143,140 @@ public class Article extends BaseEntity
     {
         return userId;
     }
-    public void setSortId(Long sortId)
+    public void setCoverImage(String coverImage)
     {
-        this.sortId = sortId;
+        this.coverImage = coverImage;
     }
 
-    public Long getSortId()
+    public String getCoverImage()
     {
-        return sortId;
+        return coverImage;
     }
-    public void setLabelId(Long labelId)
+    public void setReadType(String readType)
     {
-        this.labelId = labelId;
-    }
-
-    public Long getLabelId()
-    {
-        return labelId;
-    }
-    public void setArticleCover(String articleCover)
-    {
-        this.articleCover = articleCover;
+        this.readType = readType;
     }
 
-    public String getArticleCover()
+    public String getReadType()
     {
-        return articleCover;
+        return readType;
     }
-    public void setArticleTitle(String articleTitle)
+    public void setEditorType(String editorType)
     {
-        this.articleTitle = articleTitle;
-    }
-
-    public String getArticleTitle()
-    {
-        return articleTitle;
-    }
-    public void setArticleContent(String articleContent)
-    {
-        this.articleContent = articleContent;
+        this.editorType = editorType;
     }
 
-    public String getArticleContent()
+    public String getEditorType()
     {
-        return articleContent;
+        return editorType;
     }
-    public void setViewCount(Long viewCount)
+    public void setQrcodePath(String qrcodePath)
     {
-        this.viewCount = viewCount;
-    }
-
-    public Long getViewCount()
-    {
-        return viewCount;
-    }
-    public void setLikeCount(Long likeCount)
-    {
-        this.likeCount = likeCount;
+        this.qrcodePath = qrcodePath;
     }
 
-    public Long getLikeCount()
+    public String getQrcodePath()
     {
-        return likeCount;
+        return qrcodePath;
     }
-    public void setViewStatus(Integer viewStatus)
+    public void setIsMarkdown(String isMarkdown)
     {
-        this.viewStatus = viewStatus;
+        this.isMarkdown = isMarkdown;
     }
 
-    public Integer getViewStatus()
+    public String getIsMarkdown()
     {
-        return viewStatus;
+        return isMarkdown;
+    }
+    public void setContent(String content)
+    {
+        this.content = content;
+    }
+
+    public String getContent()
+    {
+        return content;
+    }
+    public void setContentMd(String contentMd)
+    {
+        this.contentMd = contentMd;
+    }
+
+    public String getContentMd()
+    {
+        return contentMd;
+    }
+    public void setTop(Integer top)
+    {
+        this.top = top;
+    }
+
+    public Integer getTop()
+    {
+        return top;
+    }
+    public void setTypeId(String typeId)
+    {
+        this.typeId = typeId;
+    }
+
+    public String getTypeId()
+    {
+        return typeId;
+    }
+    public void setStatus(String status)
+    {
+        this.status = status;
+    }
+
+    public String getStatus()
+    {
+        return status;
+    }
+    public void setRecommended(String recommended)
+    {
+        this.recommended = recommended;
+    }
+
+    public String getRecommended()
+    {
+        return recommended;
+    }
+    public void setOriginal(String original)
+    {
+        this.original = original;
+    }
+
+    public String getOriginal()
+    {
+        return original;
+    }
+    public void setDescription(String description)
+    {
+        this.description = description;
+    }
+
+    public String getDescription()
+    {
+        return description;
+    }
+    public void setKeywords(String keywords)
+    {
+        this.keywords = keywords;
+    }
+
+    public String getKeywords()
+    {
+        return keywords;
+    }
+    public void setComment(String comment)
+    {
+        this.comment = comment;
+    }
+
+    public String getComment()
+    {
+        return comment;
     }
     public void setPassword(String password)
     {
@@ -169,54 +287,33 @@ public class Article extends BaseEntity
     {
         return password;
     }
-    public void setRecommendStatus(Integer recommendStatus)
-    {
-        this.recommendStatus = recommendStatus;
-    }
-
-    public Integer getRecommendStatus()
-    {
-        return recommendStatus;
-    }
-    public void setCommentStatus(Integer commentStatus)
-    {
-        this.commentStatus = commentStatus;
-    }
-
-    public Integer getCommentStatus()
-    {
-        return commentStatus;
-    }
-    public void setDeleted(Integer deleted)
-    {
-        this.deleted = deleted;
-    }
-
-    public Integer getDeleted()
-    {
-        return deleted;
-    }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-                .append("id", getId())
-                .append("userId", getUserId())
-                .append("sortId", getSortId())
-                .append("labelId", getLabelId())
-                .append("articleCover", getArticleCover())
-                .append("articleTitle", getArticleTitle())
-                .append("articleContent", getArticleContent())
-                .append("viewCount", getViewCount())
-                .append("likeCount", getLikeCount())
-                .append("viewStatus", getViewStatus())
-                .append("password", getPassword())
-                .append("recommendStatus", getRecommendStatus())
-                .append("commentStatus", getCommentStatus())
-                .append("createTime", getCreateTime())
-                .append("updateTime", getUpdateTime())
-                .append("updateBy", getUpdateBy())
-                .append("deleted", getDeleted())
-                .toString();
+            .append("id", getId())
+            .append("uuid", getUuid())
+            .append("version", getVersion())
+            .append("title", getTitle())
+            .append("userId", getUserId())
+            .append("coverImage", getCoverImage())
+            .append("readType", getReadType())
+            .append("editorType", getEditorType())
+            .append("qrcodePath", getQrcodePath())
+            .append("isMarkdown", getIsMarkdown())
+            .append("content", getContent())
+            .append("contentMd", getContentMd())
+            .append("top", getTop())
+            .append("typeId", getTypeId())
+            .append("status", getStatus())
+            .append("recommended", getRecommended())
+            .append("original", getOriginal())
+            .append("description", getDescription())
+            .append("keywords", getKeywords())
+            .append("comment", getComment())
+            .append("password", getPassword())
+            .append("createTime", getCreateTime())
+            .append("updateTime", getUpdateTime())
+            .toString();
     }
 }

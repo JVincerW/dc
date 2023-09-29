@@ -9,10 +9,10 @@ import com.vincer.system.domain.Article;
 import com.vincer.system.service.IArticleService;
 
 /**
- * 文章Service业务层处理
+ * 【请填写功能名称】Service业务层处理
  *
  * @author vincer
- * @date 2023-09-20
+ * @date 2023-09-29
  */
 @Service
 public class ArticleServiceImpl implements IArticleService
@@ -21,22 +21,22 @@ public class ArticleServiceImpl implements IArticleService
     private ArticleMapper articleMapper;
 
     /**
-     * 查询文章
+     * 查询【请填写功能名称】
      *
-     * @param id 文章主键
-     * @return 文章
+     * @param id 【请填写功能名称】主键
+     * @return 【请填写功能名称】
      */
     @Override
-    public Article selectArticleById(Long id)
+    public Article selectArticleById(String id)
     {
         return articleMapper.selectArticleById(id);
     }
 
     /**
-     * 查询文章列表
+     * 查询【请填写功能名称】列表
      *
-     * @param article 文章
-     * @return 文章
+     * @param article 【请填写功能名称】
+     * @return 【请填写功能名称】
      */
     @Override
     public List<Article> selectArticleList(Article article)
@@ -45,9 +45,9 @@ public class ArticleServiceImpl implements IArticleService
     }
 
     /**
-     * 新增文章
+     * 新增【请填写功能名称】
      *
-     * @param article 文章
+     * @param article 【请填写功能名称】
      * @return 结果
      */
     @Override
@@ -58,9 +58,9 @@ public class ArticleServiceImpl implements IArticleService
     }
 
     /**
-     * 修改文章
+     * 修改【请填写功能名称】
      *
-     * @param article 文章
+     * @param article 【请填写功能名称】
      * @return 结果
      */
     @Override
@@ -71,25 +71,25 @@ public class ArticleServiceImpl implements IArticleService
     }
 
     /**
-     * 批量删除文章
+     * 批量删除【请填写功能名称】
      *
-     * @param ids 需要删除的文章主键
+     * @param ids 需要删除的【请填写功能名称】主键
      * @return 结果
      */
     @Override
-    public int deleteArticleByIds(Long[] ids)
+    public int deleteArticleByIds(String[] ids)
     {
         return articleMapper.deleteArticleByIds(ids);
     }
 
     /**
-     * 删除文章信息
+     * 删除【请填写功能名称】信息
      *
-     * @param id 文章主键
+     * @param id 【请填写功能名称】主键
      * @return 结果
      */
     @Override
-    public int deleteArticleById(Long id)
+    public int deleteArticleById(String id)
     {
         return articleMapper.deleteArticleById(id);
     }

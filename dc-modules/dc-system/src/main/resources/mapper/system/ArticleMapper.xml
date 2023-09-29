@@ -1,53 +1,66 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.vincer.system.mapper.ArticleMapper">
 
     <resultMap type="Article" id="ArticleResult">
         <result property="id"    column="id"    />
+        <result property="uuid"    column="uuid"    />
+        <result property="version"    column="version"    />
+        <result property="title"    column="title"    />
         <result property="userId"    column="user_id"    />
-        <result property="sortId"    column="sort_id"    />
-        <result property="labelId"    column="label_id"    />
-        <result property="articleCover"    column="article_cover"    />
-        <result property="articleTitle"    column="article_title"    />
-        <result property="articleContent"    column="article_content"    />
-        <result property="viewCount"    column="view_count"    />
-        <result property="likeCount"    column="like_count"    />
-        <result property="viewStatus"    column="view_status"    />
+        <result property="coverImage"    column="cover_image"    />
+        <result property="readType"    column="read_type"    />
+        <result property="editorType"    column="editor_type"    />
+        <result property="qrcodePath"    column="qrcode_path"    />
+        <result property="isMarkdown"    column="is_markdown"    />
+        <result property="content"    column="content"    />
+        <result property="contentMd"    column="content_md"    />
+        <result property="top"    column="top"    />
+        <result property="typeId"    column="type_id"    />
+        <result property="status"    column="status"    />
+        <result property="recommended"    column="recommended"    />
+        <result property="original"    column="original"    />
+        <result property="description"    column="description"    />
+        <result property="keywords"    column="keywords"    />
+        <result property="comment"    column="comment"    />
         <result property="password"    column="password"    />
-        <result property="recommendStatus"    column="recommend_status"    />
-        <result property="commentStatus"    column="comment_status"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateTime"    column="update_time"    />
-        <result property="updateBy"    column="update_by"    />
-        <result property="deleted"    column="deleted"    />
     </resultMap>
 
     <sql id="selectArticleVo">
-        select id, user_id, sort_id, label_id, article_cover, article_title, article_content, view_count, like_count, view_status, password, recommend_status, comment_status, create_time, update_time, update_by, deleted from article
+        select id, uuid, version, title, user_id, cover_image, read_type, editor_type, qrcode_path, is_markdown, content, content_md, top, type_id, status, recommended, original, description, keywords, comment, password, create_time, update_time from article
     </sql>
 
     <select id="selectArticleList" parameterType="Article" resultMap="ArticleResult">
         <include refid="selectArticleVo"/>
         <where>
+            <if test="uuid != null  and uuid != ''"> and uuid = #{uuid}</if>
+            <if test="version != null  and version != ''"> and version = #{version}</if>
+            <if test="title != null  and title != ''"> and title = #{title}</if>
             <if test="userId != null "> and user_id = #{userId}</if>
-            <if test="sortId != null "> and sort_id = #{sortId}</if>
-            <if test="labelId != null "> and label_id = #{labelId}</if>
-            <if test="articleCover != null  and articleCover != ''"> and article_cover = #{articleCover}</if>
-            <if test="articleTitle != null  and articleTitle != ''"> and article_title = #{articleTitle}</if>
-            <if test="articleContent != null  and articleContent != ''"> and article_content = #{articleContent}</if>
-            <if test="viewCount != null "> and view_count = #{viewCount}</if>
-            <if test="likeCount != null "> and like_count = #{likeCount}</if>
-            <if test="viewStatus != null "> and view_status = #{viewStatus}</if>
+            <if test="coverImage != null  and coverImage != ''"> and cover_image = #{coverImage}</if>
+            <if test="readType != null  and readType != ''"> and read_type = #{readType}</if>
+            <if test="editorType != null  and editorType != ''"> and editor_type = #{editorType}</if>
+            <if test="qrcodePath != null  and qrcodePath != ''"> and qrcode_path = #{qrcodePath}</if>
+            <if test="isMarkdown != null  and isMarkdown != ''"> and is_markdown = #{isMarkdown}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="contentMd != null  and contentMd != ''"> and content_md = #{contentMd}</if>
+            <if test="top != null "> and top = #{top}</if>
+            <if test="typeId != null  and typeId != ''"> and type_id = #{typeId}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="recommended != null  and recommended != ''"> and recommended = #{recommended}</if>
+            <if test="original != null  and original != ''"> and original = #{original}</if>
+            <if test="description != null  and description != ''"> and description = #{description}</if>
+            <if test="keywords != null  and keywords != ''"> and keywords = #{keywords}</if>
+            <if test="comment != null  and comment != ''"> and comment = #{comment}</if>
             <if test="password != null  and password != ''"> and password = #{password}</if>
-            <if test="recommendStatus != null "> and recommend_status = #{recommendStatus}</if>
-            <if test="commentStatus != null "> and comment_status = #{commentStatus}</if>
-            <if test="deleted != null "> and deleted = #{deleted}</if>
         </where>
     </select>
 
-    <select id="selectArticleById" parameterType="Long" resultMap="ArticleResult">
+    <select id="selectArticleById" parameterType="String" resultMap="ArticleResult">
         <include refid="selectArticleVo"/>
         where id = #{id}
     </select>
@@ -55,67 +68,85 @@
     <insert id="insertArticle" parameterType="Article" useGeneratedKeys="true" keyProperty="id">
         insert into article
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uuid != null">uuid,</if>
+            <if test="version != null">version,</if>
+            <if test="title != null">title,</if>
             <if test="userId != null">user_id,</if>
-            <if test="sortId != null">sort_id,</if>
-            <if test="labelId != null">label_id,</if>
-            <if test="articleCover != null">article_cover,</if>
-            <if test="articleTitle != null and articleTitle != ''">article_title,</if>
-            <if test="articleContent != null and articleContent != ''">article_content,</if>
-            <if test="viewCount != null">view_count,</if>
-            <if test="likeCount != null">like_count,</if>
-            <if test="viewStatus != null">view_status,</if>
+            <if test="coverImage != null">cover_image,</if>
+            <if test="readType != null">read_type,</if>
+            <if test="editorType != null">editor_type,</if>
+            <if test="qrcodePath != null">qrcode_path,</if>
+            <if test="isMarkdown != null">is_markdown,</if>
+            <if test="content != null">content,</if>
+            <if test="contentMd != null">content_md,</if>
+            <if test="top != null">top,</if>
+            <if test="typeId != null and typeId != ''">type_id,</if>
+            <if test="status != null">status,</if>
+            <if test="recommended != null">recommended,</if>
+            <if test="original != null">original,</if>
+            <if test="description != null">description,</if>
+            <if test="keywords != null">keywords,</if>
+            <if test="comment != null">comment,</if>
             <if test="password != null">password,</if>
-            <if test="recommendStatus != null">recommend_status,</if>
-            <if test="commentStatus != null">comment_status,</if>
             <if test="createTime != null">create_time,</if>
             <if test="updateTime != null">update_time,</if>
-            <if test="updateBy != null">update_by,</if>
-            <if test="deleted != null">deleted,</if>
-        </trim>
+         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="uuid != null">#{uuid},</if>
+            <if test="version != null">#{version},</if>
+            <if test="title != null">#{title},</if>
             <if test="userId != null">#{userId},</if>
-            <if test="sortId != null">#{sortId},</if>
-            <if test="labelId != null">#{labelId},</if>
-            <if test="articleCover != null">#{articleCover},</if>
-            <if test="articleTitle != null and articleTitle != ''">#{articleTitle},</if>
-            <if test="articleContent != null and articleContent != ''">#{articleContent},</if>
-            <if test="viewCount != null">#{viewCount},</if>
-            <if test="likeCount != null">#{likeCount},</if>
-            <if test="viewStatus != null">#{viewStatus},</if>
+            <if test="coverImage != null">#{coverImage},</if>
+            <if test="readType != null">#{readType},</if>
+            <if test="editorType != null">#{editorType},</if>
+            <if test="qrcodePath != null">#{qrcodePath},</if>
+            <if test="isMarkdown != null">#{isMarkdown},</if>
+            <if test="content != null">#{content},</if>
+            <if test="contentMd != null">#{contentMd},</if>
+            <if test="top != null">#{top},</if>
+            <if test="typeId != null and typeId != ''">#{typeId},</if>
+            <if test="status != null">#{status},</if>
+            <if test="recommended != null">#{recommended},</if>
+            <if test="original != null">#{original},</if>
+            <if test="description != null">#{description},</if>
+            <if test="keywords != null">#{keywords},</if>
+            <if test="comment != null">#{comment},</if>
             <if test="password != null">#{password},</if>
-            <if test="recommendStatus != null">#{recommendStatus},</if>
-            <if test="commentStatus != null">#{commentStatus},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="updateTime != null">#{updateTime},</if>
-            <if test="updateBy != null">#{updateBy},</if>
-            <if test="deleted != null">#{deleted},</if>
-        </trim>
+         </trim>
     </insert>
 
     <update id="updateArticle" parameterType="Article">
         update article
         <trim prefix="SET" suffixOverrides=",">
+            <if test="uuid != null">uuid = #{uuid},</if>
+            <if test="version != null">version = #{version},</if>
+            <if test="title != null">title = #{title},</if>
             <if test="userId != null">user_id = #{userId},</if>
-            <if test="sortId != null">sort_id = #{sortId},</if>
-            <if test="labelId != null">label_id = #{labelId},</if>
-            <if test="articleCover != null">article_cover = #{articleCover},</if>
-            <if test="articleTitle != null and articleTitle != ''">article_title = #{articleTitle},</if>
-            <if test="articleContent != null and articleContent != ''">article_content = #{articleContent},</if>
-            <if test="viewCount != null">view_count = #{viewCount},</if>
-            <if test="likeCount != null">like_count = #{likeCount},</if>
-            <if test="viewStatus != null">view_status = #{viewStatus},</if>
+            <if test="coverImage != null">cover_image = #{coverImage},</if>
+            <if test="readType != null">read_type = #{readType},</if>
+            <if test="editorType != null">editor_type = #{editorType},</if>
+            <if test="qrcodePath != null">qrcode_path = #{qrcodePath},</if>
+            <if test="isMarkdown != null">is_markdown = #{isMarkdown},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="contentMd != null">content_md = #{contentMd},</if>
+            <if test="top != null">top = #{top},</if>
+            <if test="typeId != null and typeId != ''">type_id = #{typeId},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="recommended != null">recommended = #{recommended},</if>
+            <if test="original != null">original = #{original},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="keywords != null">keywords = #{keywords},</if>
+            <if test="comment != null">comment = #{comment},</if>
             <if test="password != null">password = #{password},</if>
-            <if test="recommendStatus != null">recommend_status = #{recommendStatus},</if>
-            <if test="commentStatus != null">comment_status = #{commentStatus},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
-            <if test="updateBy != null">update_by = #{updateBy},</if>
-            <if test="deleted != null">deleted = #{deleted},</if>
         </trim>
         where id = #{id}
     </update>
 
-    <delete id="deleteArticleById" parameterType="Long">
+    <delete id="deleteArticleById" parameterType="String">
         delete from article where id = #{id}
     </delete>
 
