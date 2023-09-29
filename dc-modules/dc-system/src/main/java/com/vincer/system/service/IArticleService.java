@@ -4,57 +4,57 @@ import java.util.List;
 import com.vincer.system.domain.Article;
 
 /**
- * 【请填写功能名称】Service接口
+ * 博客文章Service接口
  *
  * @author vincer
- * @date 2023-09-29
+ * @date 2023-09-30
  */
 public interface IArticleService
 {
     /**
-     * 查询【请填写功能名称】
+     * 查询博客文章
      *
-     * @param id 【请填写功能名称】主键
-     * @return 【请填写功能名称】
+     * @param id 博客文章主键
+     * @return 博客文章
      */
     Article selectArticleById(String id);
 
     /**
-     * 查询【请填写功能名称】列表
+     * 查询博客文章列表
      *
-     * @param article 【请填写功能名称】
-     * @return 【请填写功能名称】集合
+     * @param article 博客文章
+     * @return 博客文章集合
      */
     List<Article> selectArticleList(Article article);
 
     /**
-     * 新增【请填写功能名称】
+     * 新增博客文章
      *
-     * @param article 【请填写功能名称】
+     * @param article 博客文章
      * @return 结果
      */
     int insertArticle(Article article);
 
     /**
-     * 修改【请填写功能名称】
+     * 修改博客文章
      *
-     * @param article 【请填写功能名称】
+     * @param article 博客文章
      * @return 结果
      */
     int updateArticle(Article article);
 
     /**
-     * 批量删除【请填写功能名称】
+     * 批量删除博客文章
      *
-     * @param ids 需要删除的【请填写功能名称】主键集合
+     * @param ids 需要删除的博客文章主键集合
      * @return 结果
      */
     int deleteArticleByIds(String[] ids);
 
     /**
-     * 删除【请填写功能名称】信息
+     * 删除博客文章信息
      *
-     * @param id 【请填写功能名称】主键
+     * @param id 博客文章主键
      * @return 结果
      */
     int deleteArticleById(String id);

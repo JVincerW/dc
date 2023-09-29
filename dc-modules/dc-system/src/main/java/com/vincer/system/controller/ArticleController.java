@@ -23,10 +23,10 @@ import com.vincer.common.core.utils.poi.ExcelUtil;
 import com.vincer.common.core.web.page.TableDataInfo;
 
 /**
- * 【文章】Controller
+ * 博客文章Controller
  *
  * @author vincer
- * @date 2023-09-29
+ * @date 2023-09-30
  */
 @RestController
 @RequestMapping("/article")
@@ -36,7 +36,7 @@ public class ArticleController extends BaseController
     private IArticleService articleService;
 
     /**
-     * 查询【文章】列表
+     * 查询博客文章列表
      */
     @RequiresPermissions("system:article:list")
     @GetMapping("/list")
@@ -48,20 +48,20 @@ public class ArticleController extends BaseController
     }
 
     /**
-     * 导出【文章】列表
+     * 导出博客文章列表
      */
     @RequiresPermissions("system:article:export")
-    @Log(title = "【文章】", businessType = BusinessType.EXPORT)
+    @Log(title = "博客文章", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Article article)
     {
         List<Article> list = articleService.selectArticleList(article);
         ExcelUtil<Article> util = new ExcelUtil<Article>(Article.class);
-        util.exportExcel(response, list, "【文章】数据");
+        util.exportExcel(response, list, "博客文章数据");
     }
 
     /**
-     * 获取【文章】详细信息
+     * 获取博客文章详细信息
      */
     @RequiresPermissions("system:article:query")
     @GetMapping(value = "/{id}")
@@ -71,10 +71,10 @@ public class ArticleController extends BaseController
     }
 
     /**
-     * 新增【文章】
+     * 新增博客文章
      */
     @RequiresPermissions("system:article:add")
-    @Log(title = "【文章】", businessType = BusinessType.INSERT)
+    @Log(title = "博客文章", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody Article article)
     {
@@ -82,10 +82,10 @@ public class ArticleController extends BaseController
     }
 
     /**
-     * 修改【文章】
+     * 修改博客文章
      */
     @RequiresPermissions("system:article:edit")
-    @Log(title = "【文章】", businessType = BusinessType.UPDATE)
+    @Log(title = "博客文章", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody Article article)
     {
@@ -93,10 +93,10 @@ public class ArticleController extends BaseController
     }
 
     /**
-     * 删除【文章】
+     * 删除博客文章
      */
     @RequiresPermissions("system:article:remove")
-    @Log(title = "【文章】", businessType = BusinessType.DELETE)
+    @Log(title = "博客文章", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable String[] ids)
     {

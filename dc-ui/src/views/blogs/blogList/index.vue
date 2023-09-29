@@ -1,12 +1,11 @@
 <template>
 	<div class='app-container'>
 		<el-form v-show='showSearch' ref='queryRef' :inline='true' :model='queryParams' label-width='68px'>
-			
-			<el-form-item label='文章标题' prop='title'>
+			<el-form-item label='标题' prop='title'>
 				<el-input
 						v-model='queryParams.title'
 						clearable
-						placeholder='请输入文章标题'
+						placeholder='请输入标题'
 						@keyup.enter='handleQuery'
 				/>
 			</el-form-item>
@@ -15,15 +14,6 @@
 						v-model='queryParams.userId'
 						clearable
 						placeholder='请输入用户ID'
-						@keyup.enter='handleQuery'
-				/>
-			</el-form-item>
-			
-			<el-form-item label='关键字' prop='keywords'>
-				<el-input
-						v-model='queryParams.keywords'
-						clearable
-						placeholder='请输入文章关键字，优化搜索'
 						@keyup.enter='handleQuery'
 				/>
 			</el-form-item>
@@ -36,42 +26,42 @@
 		<el-row :gutter='10' class='mb8'>
 			<el-col :span='1.5'>
 				<el-button
+						v-hasPermi="['system:article:add']"
 						icon='Plus'
 						plain
 						type='primary'
-						vPermi="['system:article:add']"
 						@click='handleAdd'
 				>新增
 				</el-button>
 			</el-col>
 			<el-col :span='1.5'>
 				<el-button
+						v-hasPermi="['system:article:edit']"
 						:disabled='single'
 						icon='Edit'
 						plain
 						type='success'
-						vPermi="['system:article:edit']"
 						@click='handleUpdate'
 				>修改
 				</el-button>
 			</el-col>
 			<el-col :span='1.5'>
 				<el-button
+						v-hasPermi="['system:article:remove']"
 						:disabled='multiple'
 						icon='Delete'
 						plain
 						type='danger'
-						vPermi="['system:article:remove']"
 						@click='handleDelete'
 				>删除
 				</el-button>
 			</el-col>
 			<el-col :span='1.5'>
 				<el-button
+						v-hasPermi="['system:article:export']"
 						icon='Download'
 						plain
 						type='warning'
-						vPermi="['system:article:export']"
 						@click='handleExport'
 				>导出
 				</el-button>
@@ -81,26 +71,31 @@
 		
 		<el-table v-loading='loading' :data='articleList' @selection-change='handleSelectionChange'>
 			<el-table-column align='center' type='selection' width='55' />
-			<el-table-column align='center' label='文章id' prop='id' />
-			<el-table-column align='center' label='文章标题' prop='title' />
+			<el-table-column align='center' label='文档id' prop='id' />
+			<el-table-column align='center' label='标题' prop='title' />
 			<el-table-column align='center' label='用户ID' prop='userId' />
-			<el-table-column align='center' label='文章封面图片' prop='coverImage' width='100'>
+			<el-table-column align='center' label='点赞数' prop='pollCount' />
+			<el-table-column align='center' label='封面图' prop='coverImage' width='100'>
 				<template #default='scope'>
 					<image-preview :height='50' :src='scope.row.coverImage' :width='50' />
 				</template>
 			</el-table-column>
+			<el-table-column align='center' label='评论数' prop='commentCount' />
+			<el-table-column align='center' label='阅读类型' prop='readType' />
+			<el-table-column align='center' label='编辑类型' prop='editorType' />
 			<el-table-column align='center' label='是否置顶' prop='top' />
-			<el-table-column align='center' label='类型' prop='typeId' />
 			<el-table-column align='center' label='状态' prop='status' />
 			<el-table-column align='center' label='是否推荐' prop='recommended' />
-			<el-table-column align='center' label='是否原创' prop='original' />
-			<el-table-column align='center' label='文章关键字，优化搜索' prop='keywords' />
 			<el-table-column align='center' label='是否开启评论' prop='comment' />
-			<el-table-column align='center' label='文章私密访问时的密钥' prop='password' />
+			<el-table-column align='center' label='更新时间' prop='updateAt' width='180'>
+				<template #default='scope'>
+					<span>{{parseTime(scope.row.updateAt, '{y}-{m}-{d}')}}</span>
+				</template>
+			</el-table-column>
 			<el-table-column align='center' class-name='small-padding fixed-width' label='操作'>
 				<template #default='scope'>
-					<el-button icon='Edit' link type='primary' vPermi="['system:article:edit']" @click='handleUpdate(scope.row)'>修改</el-button>
-					<el-button icon='Delete' link type='primary' vPermi="['system:article:remove']" @click='handleDelete(scope.row)'>删除</el-button>
+					<el-button v-hasPermi="['system:article:edit']" icon='Edit' link type='primary' @click='handleUpdate(scope.row)'>修改</el-button>
+					<el-button v-hasPermi="['system:article:remove']" icon='Delete' link type='primary' @click='handleDelete(scope.row)'>删除</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -113,43 +108,43 @@
 				@pagination='getList'
 		/>
 		
-		<!-- 添加或修改【文章】对话框 -->
-		<el-dialog v-model='open' :title='title' append-to-body>
+		<!-- 添加或修改博客文章对话框 -->
+		<el-dialog v-model='open' :title='title' append-to-body width='500px'>
 			<el-form ref='articleRef' :model='form' :rules='rules' label-width='80px'>
-				<el-form-item label='版本id' prop='uuid'>
-					<el-input v-model='form.uuid' placeholder='请输入版本id' />
+				<el-form-item label='博客id' prop='uuid'>
+					<el-input v-model='form.uuid' placeholder='请输入博客id' />
 				</el-form-item>
-				<el-form-item label='版本' prop='version'>
-					<el-input v-model='form.version' placeholder='请输入版本' />
+				<el-form-item label='版本号' prop='version'>
+					<el-input v-model='form.version' placeholder='请输入版本号' />
 				</el-form-item>
-				<el-form-item label='文章标题' prop='title'>
-					<el-input v-model='form.title' placeholder='请输入文章标题' />
-				</el-form-item>
-				<el-form-item label='用户ID' prop='userId'>
-					<el-input v-model='form.userId' placeholder='请输入用户ID' />
-				</el-form-item>
-				<el-form-item label='封面图片' prop='coverImage'>
-					<image-upload v-model='form.coverImage' />
-				</el-form-item>
-				<el-form-item label='文章类别' prop='typeId'>
-					<el-input v-model='form.typeId' placeholder='请输入文章类型id' />
-				</el-form-item>
-				<el-form-item label='二维码地址' prop='qrcodePath'>
-					<el-input v-model='form.qrcodePath' placeholder='请输入文章专属二维码地址' />
+				<el-form-item label='标题' prop='title'>
+					<el-input v-model='form.title' placeholder='请输入标题' />
 				</el-form-item>
 				<el-form-item label='文章内容'>
 					<editor v-model='form.content' :min-height='192' />
 				</el-form-item>
-				<el-form-item label='是否置顶' prop='top'>
-					<el-input v-model='form.top' placeholder='请输入是否置顶' />
+				<el-form-item label='用户ID' prop='userId'>
+					<el-input v-model='form.userId' placeholder='请输入用户ID' />
+				</el-form-item>
+				<el-form-item label='点赞数' prop='pollCount'>
+					<el-input v-model='form.pollCount' placeholder='请输入点赞数' />
+				</el-form-item>
+				<el-form-item label='封面图' prop='coverImage'>
+					<image-upload v-model='form.coverImage' />
+				</el-form-item>
+				<el-form-item label='评论数' prop='commentCount'>
+					<el-input v-model='form.commentCount' placeholder='请输入评论数' />
+				</el-form-item>
+				<el-form-item label='二维码' prop='qrcodePath'>
+					<el-input v-model='form.qrcodePath' placeholder='请输入二维码' />
 				</el-form-item>
 				<el-form-item label='文章简介' prop='description'>
-					<el-input v-model='form.description' placeholder='请输入文章简介，最多200字' />
+					<el-input v-model='form.description' placeholder='请输入文章简介' />
 				</el-form-item>
 				<el-form-item label='关键字' prop='keywords'>
-					<el-input v-model='form.keywords' placeholder='请输入文章关键字，优化搜索' />
+					<el-input v-model='form.keywords' placeholder='请输入关键字' />
 				</el-form-item>
-				<el-form-item label='文章密钥' prop='password'>
+				<el-form-item label='文章私密访问时的密钥' prop='password'>
 					<el-input v-model='form.password' placeholder='请输入文章私密访问时的密钥' />
 				</el-form-item>
 			</el-form>
@@ -164,9 +159,7 @@
 </template>
 
 <script name='Article' setup>
-import { addArticle, delArticle, listArticle, updateArticle } from '@/api/system/article';
-import { getArticle } from '../../../api/system/article';
-import store from '../../../store';
+import { addArticle, delArticle, getArticle, listArticle, updateArticle } from '@/api/system/article';
 
 const { proxy } = getCurrentInstance();
 
@@ -187,18 +180,14 @@ const data = reactive({
 		pageSize: 10,
 		title: null,
 		userId: null,
-		keywords: null,
+		status: null,
 	},
-	rules: {
-		typeId: [
-			{ required: true, message: '类型不能为空', trigger: 'blur' },
-		],
-	},
+	rules: {},
 });
 
 const { queryParams, form, rules } = toRefs(data);
 
-/** 查询【文章】列表 */
+/** 查询博客文章列表 */
 function getList() {
 	loading.value = true;
 	listArticle(queryParams.value).then(response => {
@@ -216,7 +205,30 @@ function cancel() {
 
 // 表单重置
 function reset() {
-	form.value = {};
+	form.value = {
+		id: null,
+		uuid: null,
+		version: null,
+		title: null,
+		content: null,
+		userId: null,
+		pollCount: null,
+		coverImage: null,
+		commentCount: null,
+		readType: null,
+		editorType: null,
+		qrcodePath: null,
+		top: null,
+		status: null,
+		recommended: null,
+		original: null,
+		description: null,
+		keywords: null,
+		comment: null,
+		password: null,
+		createAt: null,
+		updateAt: null,
+	};
 	proxy.resetForm('articleRef');
 }
 
@@ -235,7 +247,7 @@ function resetQuery() {
 // 多选框选中数据
 function handleSelectionChange(selection) {
 	ids.value = selection.map(item => item.id);
-	single.value = selection.length !== 1;
+	single.value = selection.length != 1;
 	multiple.value = !selection.length;
 }
 
@@ -243,19 +255,18 @@ function handleSelectionChange(selection) {
 function handleAdd() {
 	reset();
 	open.value = true;
-	title.value = '添加【文章】';
+	title.value = '添加博客文章';
 }
 
 /** 修改按钮操作 */
 function handleUpdate(row) {
-	
+	reset();
 	const _id = row.id || ids.value;
-	
 	getArticle(_id).then(response => {
-		store.state.value.curBlog = response.data;
-		proxy.$router.push({ path: '/blogs/blogEditor' });
+		form.value = response.data;
+		open.value = true;
+		title.value = '修改博客文章';
 	});
-	
 }
 
 /** 提交按钮 */
@@ -282,7 +293,7 @@ function submitForm() {
 /** 删除按钮操作 */
 function handleDelete(row) {
 	const _ids = row.id || ids.value;
-	proxy.$modal.confirm('是否确认删除【文章】编号为"' + _ids + '"的数据项？').then(function() {
+	proxy.$modal.confirm('是否确认删除博客文章编号为"' + _ids + '"的数据项？').then(function() {
 		return delArticle(_ids);
 	}).then(() => {
 		getList();

@@ -1,7 +1,6 @@
 package com.vincer.system.service.impl;
 
 import java.util.List;
-import com.vincer.common.core.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.vincer.system.mapper.ArticleMapper;
@@ -9,10 +8,10 @@ import com.vincer.system.domain.Article;
 import com.vincer.system.service.IArticleService;
 
 /**
- * 【文章】Service业务层处理
+ * 博客文章Service业务层处理
  *
  * @author vincer
- * @date 2023-09-29
+ * @date 2023-09-30
  */
 @Service
 public class ArticleServiceImpl implements IArticleService
@@ -21,10 +20,10 @@ public class ArticleServiceImpl implements IArticleService
     private ArticleMapper articleMapper;
 
     /**
-     * 查询【文章】
+     * 查询博客文章
      *
-     * @param id 【文章】主键
-     * @return 【文章】
+     * @param id 博客文章主键
+     * @return 博客文章
      */
     @Override
     public Article selectArticleById(String id)
@@ -33,10 +32,10 @@ public class ArticleServiceImpl implements IArticleService
     }
 
     /**
-     * 查询【文章】列表
+     * 查询博客文章列表
      *
-     * @param article 【文章】
-     * @return 【文章】
+     * @param article 博客文章
+     * @return 博客文章
      */
     @Override
     public List<Article> selectArticleList(Article article)
@@ -45,35 +44,33 @@ public class ArticleServiceImpl implements IArticleService
     }
 
     /**
-     * 新增【文章】
+     * 新增博客文章
      *
-     * @param article 【文章】
+     * @param article 博客文章
      * @return 结果
      */
     @Override
     public int insertArticle(Article article)
     {
-        article.setCreateTime(DateUtils.getNowDate());
         return articleMapper.insertArticle(article);
     }
 
     /**
-     * 修改【文章】
+     * 修改博客文章
      *
-     * @param article 【文章】
+     * @param article 博客文章
      * @return 结果
      */
     @Override
     public int updateArticle(Article article)
     {
-        article.setUpdateTime(DateUtils.getNowDate());
         return articleMapper.updateArticle(article);
     }
 
     /**
-     * 批量删除【文章】
+     * 批量删除博客文章
      *
-     * @param ids 需要删除的【文章】主键
+     * @param ids 需要删除的博客文章主键
      * @return 结果
      */
     @Override
@@ -83,9 +80,9 @@ public class ArticleServiceImpl implements IArticleService
     }
 
     /**
-     * 删除【文章】信息
+     * 删除博客文章信息
      *
-     * @param id 【文章】主键
+     * @param id 博客文章主键
      * @return 结果
      */
     @Override
