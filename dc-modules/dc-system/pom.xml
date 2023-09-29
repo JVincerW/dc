@@ -83,6 +83,10 @@
             <groupId>com.vincer</groupId>
             <artifactId>dc-common-swagger</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
 
     </dependencies>
 
