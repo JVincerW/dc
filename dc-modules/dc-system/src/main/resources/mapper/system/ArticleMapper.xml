@@ -175,15 +175,15 @@
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
         </trim>
-        where a.id = #{id}
+        where id = #{id}
     </update>
 
     <delete id="deleteArticleById" parameterType="String">
-        delete from article where a.id=#{id}
+        delete from article where id=#{id}
     </delete>
 
     <delete id="deleteArticleByIds" parameterType="String">
-        delete from article where a.id in
+        delete from article where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
