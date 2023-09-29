@@ -38,42 +38,42 @@
 		<el-row :gutter='10' class='mb8'>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['tool:gen:code']"
 						icon='Download'
 						plain
 						type='primary'
+						vPermi="['tool:gen:code']"
 						@click='handleGenTable'
 				>生成
 				</el-button>
 			</el-col>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['tool:gen:import']"
 						icon='Upload'
 						plain
 						type='info'
+						vPermi="['tool:gen:import']"
 						@click='openImportTable'
 				>导入
 				</el-button>
 			</el-col>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['tool:gen:edit']"
 						:disabled='single'
 						icon='Edit'
 						plain
 						type='success'
+						vPermi="['tool:gen:edit']"
 						@click='handleEditTable'
 				>修改
 				</el-button>
 			</el-col>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['tool:gen:remove']"
 						:disabled='multiple'
 						icon='Delete'
 						plain
 						type='danger'
+						vPermi="['tool:gen:remove']"
 						@click='handleDelete'
 				>删除
 				</el-button>
@@ -85,7 +85,7 @@
 			<el-table-column align='center' type='selection' width='55'></el-table-column>
 			<el-table-column align='center' label='序号' type='index' width='50'>
 				<template #default='scope'>
-					<span>{{ ( queryParams.pageNum - 1 ) * queryParams.pageSize + scope.$index + 1 }}</span>
+					<span>{{( queryParams.pageNum - 1 ) * queryParams.pageSize + scope.$index + 1}}</span>
 				</template>
 			</el-table-column>
 			<el-table-column
@@ -111,19 +111,19 @@
 			<el-table-column align='center' class-name='small-padding fixed-width' label='操作' width='330'>
 				<template #default='scope'>
 					<el-tooltip content='预览' placement='top'>
-						<el-button v-hasPermi="['tool:gen:preview']" icon='View' link type='primary' @click='handlePreview(scope.row)'></el-button>
+						<el-button icon='View' link type='primary' vPermi="['tool:gen:preview']" @click='handlePreview(scope.row)'></el-button>
 					</el-tooltip>
 					<el-tooltip content='编辑' placement='top'>
-						<el-button v-hasPermi="['tool:gen:edit']" icon='Edit' link type='primary' @click='handleEditTable(scope.row)'></el-button>
+						<el-button icon='Edit' link type='primary' vPermi="['tool:gen:edit']" @click='handleEditTable(scope.row)'></el-button>
 					</el-tooltip>
 					<el-tooltip content='删除' placement='top'>
-						<el-button v-hasPermi="['tool:gen:remove']" icon='Delete' link type='primary' @click='handleDelete(scope.row)'></el-button>
+						<el-button icon='Delete' link type='primary' vPermi="['tool:gen:remove']" @click='handleDelete(scope.row)'></el-button>
 					</el-tooltip>
 					<el-tooltip content='同步' placement='top'>
-						<el-button v-hasPermi="['tool:gen:edit']" icon='Refresh' link type='primary' @click='handleSynchDb(scope.row)'></el-button>
+						<el-button icon='Refresh' link type='primary' vPermi="['tool:gen:edit']" @click='handleSynchDb(scope.row)'></el-button>
 					</el-tooltip>
 					<el-tooltip content='生成代码' placement='top'>
-						<el-button v-hasPermi="['tool:gen:code']" icon='Download' link type='primary' @click='handleGenTable(scope.row)'></el-button>
+						<el-button icon='Download' link type='primary' vPermi="['tool:gen:code']" @click='handleGenTable(scope.row)'></el-button>
 					</el-tooltip>
 				</template>
 			</el-table-column>
@@ -145,7 +145,7 @@
 						:name="key.substring(key.lastIndexOf('/')+1,key.indexOf('.vm'))"
 				>
 					<el-link v-copyText='value' v-copyText:callback='copyTextSuccess' :underline='false' icon='DocumentCopy' style='float:right'>&nbsp;复制</el-link>
-					<pre>{{ value }}</pre>
+					<pre>{{value}}</pre>
 				</el-tab-pane>
 			</el-tabs>
 		</el-dialog>
@@ -159,19 +159,19 @@ import router from '@/router';
 import importTable from './importTable';
 import { useRoute } from 'vue-router';
 
-const route     = useRoute();
+const route = useRoute();
 const { proxy } = getCurrentInstance();
 
-const tableList  = ref([]);
-const loading    = ref(true);
+const tableList = ref([]);
+const loading = ref(true);
 const showSearch = ref(true);
-const ids        = ref([]);
-const single     = ref(true);
-const multiple   = ref(true);
-const total      = ref(0);
+const ids = ref([]);
+const single = ref(true);
+const multiple = ref(true);
+const total = ref(0);
 const tableNames = ref([]);
-const dateRange  = ref([]);
-const uniqueId   = ref('');
+const dateRange = ref([]);
+const uniqueId = ref('');
 
 const data = reactive({
 	queryParams: {
@@ -193,9 +193,9 @@ const { queryParams, preview } = toRefs(data);
 onActivated(() => {
 	const time = route.query.t;
 	if( time != null && time !== uniqueId.value ) {
-		uniqueId.value            = time;
+		uniqueId.value = time;
 		queryParams.value.pageNum = Number(route.query.pageNum);
-		dateRange.value           = [];
+		dateRange.value = [];
 		proxy.resetForm('queryForm');
 		getList();
 	}
@@ -206,8 +206,8 @@ function getList() {
 	loading.value = true;
 	listTable(proxy.addDateRange(queryParams.value, dateRange.value)).then(response => {
 		tableList.value = response.rows;
-		total.value     = response.total;
-		loading.value   = false;
+		total.value = response.total;
+		loading.value = false;
 	});
 }
 
@@ -258,8 +258,8 @@ function resetQuery() {
 /** 预览按钮 */
 function handlePreview(row) {
 	previewTable(row.tableId).then(response => {
-		preview.value.data       = response.data;
-		preview.value.open       = true;
+		preview.value.data = response.data;
+		preview.value.open = true;
 		preview.value.activeName = 'domain.java';
 	});
 }
@@ -271,10 +271,10 @@ function copyTextSuccess() {
 
 // 多选框选中数据
 function handleSelectionChange(selection) {
-	ids.value        = selection.map(item => item.tableId);
+	ids.value = selection.map(item => item.tableId);
 	tableNames.value = selection.map(item => item.tableName);
-	single.value     = selection.length !== 1;
-	multiple.value   = !selection.length;
+	single.value = selection.length !== 1;
+	multiple.value = !selection.length;
 }
 
 /** 修改按钮操作 */

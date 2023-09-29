@@ -31,7 +31,7 @@
 		>
 			<el-table-column align='center' label='序号' type='index' width='50'>
 				<template #default='scope'>
-					<span>{{ ( pageNum - 1 ) * pageSize + scope.$index + 1 }}</span>
+					<span>{{( pageNum - 1 ) * pageSize + scope.$index + 1}}</span>
 				</template>
 			</el-table-column>
 			<el-table-column :show-overflow-tooltip='true' align='center' label='会话编号' prop='tokenId' />
@@ -39,12 +39,12 @@
 			<el-table-column :show-overflow-tooltip='true' align='center' label='主机' prop='ipaddr' />
 			<el-table-column align='center' label='登录时间' prop='loginTime' width='180'>
 				<template #default='scope'>
-					<span>{{ parseTime(scope.row.loginTime) }}</span>
+					<span>{{parseTime(scope.row.loginTime)}}</span>
 				</template>
 			</el-table-column>
 			<el-table-column align='center' class-name='small-padding fixed-width' label='操作'>
 				<template #default='scope'>
-					<el-button v-hasPermi="['monitor:online:forceLogout']" icon='Delete' link type='primary' @click='handleForceLogout(scope.row)'>强退</el-button>
+					<el-button icon='Delete' link type='primary' vPermi="['monitor:online:forceLogout']" @click='handleForceLogout(scope.row)'>强退</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -59,10 +59,10 @@ import { forceLogout, list as initData } from '@/api/monitor/online';
 const { proxy } = getCurrentInstance();
 
 const onlineList = ref([]);
-const loading    = ref(true);
-const total      = ref(0);
-const pageNum    = ref(1);
-const pageSize   = ref(10);
+const loading = ref(true);
+const total = ref(0);
+const pageNum = ref(1);
+const pageSize = ref(10);
 
 const queryParams = ref({
 	ipaddr: undefined,
@@ -74,8 +74,8 @@ function getList() {
 	loading.value = true;
 	initData(queryParams.value).then(response => {
 		onlineList.value = response.rows;
-		total.value      = response.total;
-		loading.value    = false;
+		total.value = response.total;
+		loading.value = false;
 	});
 }
 

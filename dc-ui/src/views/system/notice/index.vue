@@ -38,32 +38,32 @@
 		<el-row :gutter='10' class='mb8'>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:notice:add']"
 						icon='Plus'
 						plain
 						type='primary'
+						vPermi="['system:notice:add']"
 						@click='handleAdd'
 				>新增
 				</el-button>
 			</el-col>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:notice:edit']"
 						:disabled='single'
 						icon='Edit'
 						plain
 						type='success'
+						vPermi="['system:notice:edit']"
 						@click='handleUpdate'
 				>修改
 				</el-button>
 			</el-col>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:notice:remove']"
 						:disabled='multiple'
 						icon='Delete'
 						plain
 						type='danger'
+						vPermi="['system:notice:remove']"
 						@click='handleDelete'
 				>删除
 				</el-button>
@@ -93,13 +93,13 @@
 			<el-table-column align='center' label='创建者' prop='createBy' width='100' />
 			<el-table-column align='center' label='创建时间' prop='createTime' width='100'>
 				<template #default='scope'>
-					<span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
+					<span>{{parseTime(scope.row.createTime, '{y}-{m}-{d}')}}</span>
 				</template>
 			</el-table-column>
 			<el-table-column align='center' class-name='small-padding fixed-width' label='操作'>
 				<template #default='scope'>
-					<el-button v-hasPermi="['system:notice:edit']" icon='Edit' link type='primary' @click='handleUpdate(scope.row)'>修改</el-button>
-					<el-button v-hasPermi="['system:notice:remove']" icon='Delete' link type='primary' @click='handleDelete(scope.row)'>删除</el-button>
+					<el-button icon='Edit' link type='primary' vPermi="['system:notice:edit']" @click='handleUpdate(scope.row)'>修改</el-button>
+					<el-button icon='Delete' link type='primary' vPermi="['system:notice:remove']" @click='handleDelete(scope.row)'>删除</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -140,7 +140,7 @@
 										v-for='dict in sys_notice_status'
 										:key='dict.value'
 										:label='dict.value'
-								>{{ dict.label }}
+								>{{dict.label}}
 								</el-radio>
 							</el-radio-group>
 						</el-form-item>
@@ -165,18 +165,18 @@
 <script name='Notice' setup>
 import { addNotice, delNotice, getNotice, listNotice, updateNotice } from '@/api/system/notice';
 
-const { proxy }                              = getCurrentInstance();
+const { proxy } = getCurrentInstance();
 const { sys_notice_status, sys_notice_type } = proxy.useDict('sys_notice_status', 'sys_notice_type');
 
 const noticeList = ref([]);
-const open       = ref(false);
-const loading    = ref(true);
+const open = ref(false);
+const loading = ref(true);
 const showSearch = ref(true);
-const ids        = ref([]);
-const single     = ref(true);
-const multiple   = ref(true);
-const total      = ref(0);
-const title      = ref('');
+const ids = ref([]);
+const single = ref(true);
+const multiple = ref(true);
+const total = ref(0);
+const title = ref('');
 
 const data = reactive({
 	form: {},
@@ -200,8 +200,8 @@ function getList() {
 	loading.value = true;
 	listNotice(queryParams.value).then(response => {
 		noticeList.value = response.rows;
-		total.value      = response.total;
-		loading.value    = false;
+		total.value = response.total;
+		loading.value = false;
 	});
 }
 
@@ -237,15 +237,15 @@ function resetQuery() {
 
 /** 多选框选中数据 */
 function handleSelectionChange(selection) {
-	ids.value      = selection.map(item => item.noticeId);
-	single.value   = selection.length !== 1;
+	ids.value = selection.map(item => item.noticeId);
+	single.value = selection.length !== 1;
 	multiple.value = !selection.length;
 }
 
 /** 新增按钮操作 */
 function handleAdd() {
 	reset();
-	open.value  = true;
+	open.value = true;
 	title.value = '添加公告';
 }
 
@@ -254,8 +254,8 @@ function handleUpdate(row) {
 	reset();
 	const noticeId = row.noticeId || ids.value;
 	getNotice(noticeId).then(response => {
-		form.value  = response.data;
-		open.value  = true;
+		form.value = response.data;
+		open.value = true;
 		title.value = '修改公告';
 	});
 }

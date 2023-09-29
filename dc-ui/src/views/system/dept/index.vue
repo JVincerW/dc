@@ -29,10 +29,10 @@
 		<el-row :gutter='10' class='mb8'>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:dept:add']"
 						icon='Plus'
 						plain
 						type='primary'
+						vPermi="['system:dept:add']"
 						@click='handleAdd'
 				>新增
 				</el-button>
@@ -66,14 +66,14 @@
 			</el-table-column>
 			<el-table-column align='center' label='创建时间' prop='createTime' width='200'>
 				<template #default='scope'>
-					<span>{{ parseTime(scope.row.createTime) }}</span>
+					<span>{{parseTime(scope.row.createTime)}}</span>
 				</template>
 			</el-table-column>
 			<el-table-column align='center' class-name='small-padding fixed-width' label='操作'>
 				<template #default='scope'>
-					<el-button v-hasPermi="['system:dept:edit']" icon='Edit' link type='primary' @click='handleUpdate(scope.row)'>修改</el-button>
-					<el-button v-hasPermi="['system:dept:add']" icon='Plus' link type='primary' @click='handleAdd(scope.row)'>新增</el-button>
-					<el-button v-if='scope.row.parentId != 0' v-hasPermi="['system:dept:remove']" icon='Delete' link type='primary' @click='handleDelete(scope.row)'>删除</el-button>
+					<el-button icon='Edit' link type='primary' vPermi="['system:dept:edit']" @click='handleUpdate(scope.row)'>修改</el-button>
+					<el-button icon='Plus' link type='primary' vPermi="['system:dept:add']" @click='handleAdd(scope.row)'>新增</el-button>
+					<el-button v-if='scope.row.parentId != 0' icon='Delete' link type='primary' vPermi="['system:dept:remove']" @click='handleDelete(scope.row)'>删除</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -126,7 +126,7 @@
 										v-for='dict in sys_normal_disable'
 										:key='dict.value'
 										:label='dict.value'
-								>{{ dict.label }}
+								>{{dict.label}}
 								</el-radio>
 							</el-radio-group>
 						</el-form-item>
@@ -146,16 +146,16 @@
 <script name='Dept' setup>
 import { addDept, delDept, getDept, listDept, listDeptExcludeChild, updateDept } from '@/api/system/dept';
 
-const { proxy }              = getCurrentInstance();
+const { proxy } = getCurrentInstance();
 const { sys_normal_disable } = proxy.useDict('sys_normal_disable');
 
-const deptList     = ref([]);
-const open         = ref(false);
-const loading      = ref(true);
-const showSearch   = ref(true);
-const title        = ref('');
-const deptOptions  = ref([]);
-const isExpandAll  = ref(true);
+const deptList = ref([]);
+const open = ref(false);
+const loading = ref(true);
+const showSearch = ref(true);
+const title = ref('');
+const deptOptions = ref([]);
+const isExpandAll = ref(true);
 const refreshTable = ref(true);
 
 const data = reactive({
@@ -180,7 +180,7 @@ function getList() {
 	loading.value = true;
 	listDept(queryParams.value).then(response => {
 		deptList.value = proxy.handleTree(response.data, 'deptId');
-		loading.value  = false;
+		loading.value = false;
 	});
 }
 
@@ -225,14 +225,14 @@ function handleAdd(row) {
 	if( row !== undefined ) {
 		form.value.parentId = row.deptId;
 	}
-	open.value  = true;
+	open.value = true;
 	title.value = '添加部门';
 }
 
 /** 展开/折叠操作 */
 function toggleExpandAll() {
 	refreshTable.value = false;
-	isExpandAll.value  = !isExpandAll.value;
+	isExpandAll.value = !isExpandAll.value;
 	nextTick(() => {
 		refreshTable.value = true;
 	});
@@ -245,8 +245,8 @@ function handleUpdate(row) {
 		deptOptions.value = proxy.handleTree(response.data, 'deptId');
 	});
 	getDept(row.deptId).then(response => {
-		form.value  = response.data;
-		open.value  = true;
+		form.value = response.data;
+		open.value = true;
 		title.value = '修改部门';
 	});
 }

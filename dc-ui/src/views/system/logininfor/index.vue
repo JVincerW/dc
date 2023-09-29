@@ -54,42 +54,42 @@
 		<el-row :gutter='10' class='mb8'>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:logininfor:remove']"
 						:disabled='multiple'
 						icon='Delete'
 						plain
 						type='danger'
+						vPermi="['system:logininfor:remove']"
 						@click='handleDelete'
 				>删除
 				</el-button>
 			</el-col>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:logininfor:remove']"
 						icon='Delete'
 						plain
 						type='danger'
+						vPermi="['system:logininfor:remove']"
 						@click='handleClean'
 				>清空
 				</el-button>
 			</el-col>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:logininfor:unlock']"
 						:disabled='single'
 						icon='Unlock'
 						plain
 						type='primary'
+						vPermi="['system:logininfor:unlock']"
 						@click='handleUnlock'
 				>解锁
 				</el-button>
 			</el-col>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:logininfor:export']"
 						icon='Download'
 						plain
 						type='warning'
+						vPermi="['system:logininfor:export']"
 						@click='handleExport'
 				>导出
 				</el-button>
@@ -109,7 +109,7 @@
 			<el-table-column :show-overflow-tooltip='true' align='center' label='描述' prop='msg' />
 			<el-table-column :sort-orders="['descending', 'ascending']" align='center' label='访问时间' prop='accessTime' sortable='custom' width='180'>
 				<template #default='scope'>
-					<span>{{ parseTime(scope.row.accessTime) }}</span>
+					<span>{{parseTime(scope.row.accessTime)}}</span>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -127,19 +127,19 @@
 <script name='Logininfor' setup>
 import { cleanLogininfor, delLogininfor, list, unlockLogininfor } from '@/api/system/logininfor';
 
-const { proxy }             = getCurrentInstance();
+const { proxy } = getCurrentInstance();
 const { sys_common_status } = proxy.useDict('sys_common_status');
 
 const logininforList = ref([]);
-const loading        = ref(true);
-const showSearch     = ref(true);
-const ids            = ref([]);
-const single         = ref(true);
-const multiple       = ref(true);
-const selectName     = ref('');
-const total          = ref(0);
-const dateRange      = ref([]);
-const defaultSort    = ref({ prop: 'accessTime', order: 'descending' });
+const loading = ref(true);
+const showSearch = ref(true);
+const ids = ref([]);
+const single = ref(true);
+const multiple = ref(true);
+const selectName = ref('');
+const total = ref(0);
+const dateRange = ref([]);
+const defaultSort = ref({ prop: 'accessTime', order: 'descending' });
 
 // 查询参数
 const queryParams = ref({
@@ -157,8 +157,8 @@ function getList() {
 	loading.value = true;
 	list(proxy.addDateRange(queryParams.value, dateRange.value)).then(response => {
 		logininforList.value = response.rows;
-		total.value          = response.total;
-		loading.value        = false;
+		total.value = response.total;
+		loading.value = false;
 	});
 }
 
@@ -178,16 +178,16 @@ function resetQuery() {
 
 /** 多选框选中数据 */
 function handleSelectionChange(selection) {
-	ids.value        = selection.map(item => item.infoId);
-	multiple.value   = !selection.length;
-	single.value     = selection.length !== 1;
+	ids.value = selection.map(item => item.infoId);
+	multiple.value = !selection.length;
+	single.value = selection.length !== 1;
 	selectName.value = selection.map(item => item.userName);
 }
 
 /** 排序触发事件 */
 function handleSortChange(column, prop, order) {
 	queryParams.value.orderByColumn = column.prop;
-	queryParams.value.isAsc         = column.order;
+	queryParams.value.isAsc = column.order;
 	getList();
 }
 

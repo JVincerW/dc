@@ -69,31 +69,31 @@
 		<el-row :gutter='10' class='mb8'>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:operlog:remove']"
 						:disabled='multiple'
 						icon='Delete'
 						plain
 						type='danger'
+						vPermi="['system:operlog:remove']"
 						@click='handleDelete'
 				>删除
 				</el-button>
 			</el-col>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:operlog:remove']"
 						icon='Delete'
 						plain
 						type='danger'
+						vPermi="['system:operlog:remove']"
 						@click='handleClean'
 				>清空
 				</el-button>
 			</el-col>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:operlog:export']"
 						icon='Download'
 						plain
 						type='warning'
+						vPermi="['system:operlog:export']"
 						@click='handleExport'
 				>导出
 				</el-button>
@@ -120,17 +120,17 @@
 			</el-table-column>
 			<el-table-column :sort-orders="['descending', 'ascending']" align='center' label='操作日期' prop='operTime' sortable='custom' width='180'>
 				<template #default='scope'>
-					<span>{{ parseTime(scope.row.operTime) }}</span>
+					<span>{{parseTime(scope.row.operTime)}}</span>
 				</template>
 			</el-table-column>
 			<el-table-column :show-overflow-tooltip='true' :sort-orders="['descending', 'ascending']" align='center' label='消耗时间' prop='costTime' sortable='custom' width='110'>
 				<template #default='scope'>
-					<span>{{ scope.row.costTime }}毫秒</span>
+					<span>{{scope.row.costTime}}毫秒</span>
 				</template>
 			</el-table-column>
 			<el-table-column align='center' class-name='small-padding fixed-width' label='操作'>
 				<template #default='scope'>
-					<el-button v-hasPermi="['system:operlog:query']" icon='View' link type='primary' @click='handleView(scope.row, scope.index)'>详细</el-button>
+					<el-button icon='View' link type='primary' vPermi="['system:operlog:query']" @click='handleView(scope.row, scope.index)'>详细</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -148,24 +148,24 @@
 			<el-form :model='form' label-width='100px'>
 				<el-row>
 					<el-col :span='12'>
-						<el-form-item label='操作模块：'>{{ form.title }} / {{ typeFormat(form) }}</el-form-item>
+						<el-form-item label='操作模块：'>{{form.title}} / {{typeFormat(form)}}</el-form-item>
 						<el-form-item
 								label='登录信息：'
-						>{{ form.operName }} / {{ form.operIp }}
+						>{{form.operName}} / {{form.operIp}}
 						</el-form-item>
 					</el-col>
 					<el-col :span='12'>
-						<el-form-item label='请求地址：'>{{ form.operUrl }}</el-form-item>
-						<el-form-item label='请求方式：'>{{ form.requestMethod }}</el-form-item>
+						<el-form-item label='请求地址：'>{{form.operUrl}}</el-form-item>
+						<el-form-item label='请求方式：'>{{form.requestMethod}}</el-form-item>
 					</el-col>
 					<el-col :span='24'>
-						<el-form-item label='操作方法：'>{{ form.method }}</el-form-item>
+						<el-form-item label='操作方法：'>{{form.method}}</el-form-item>
 					</el-col>
 					<el-col :span='24'>
-						<el-form-item label='请求参数：'>{{ form.operParam }}</el-form-item>
+						<el-form-item label='请求参数：'>{{form.operParam}}</el-form-item>
 					</el-col>
 					<el-col :span='24'>
-						<el-form-item label='返回参数：'>{{ form.jsonResult }}</el-form-item>
+						<el-form-item label='返回参数：'>{{form.jsonResult}}</el-form-item>
 					</el-col>
 					<el-col :span='6'>
 						<el-form-item label='操作状态：'>
@@ -174,13 +174,13 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span='8'>
-						<el-form-item label='消耗时间：'>{{ form.costTime }}毫秒</el-form-item>
+						<el-form-item label='消耗时间：'>{{form.costTime}}毫秒</el-form-item>
 					</el-col>
 					<el-col :span='10'>
-						<el-form-item label='操作时间：'>{{ parseTime(form.operTime) }}</el-form-item>
+						<el-form-item label='操作时间：'>{{parseTime(form.operTime)}}</el-form-item>
 					</el-col>
 					<el-col :span='24'>
-						<el-form-item v-if='form.status === 1' label='异常信息：'>{{ form.errorMsg }}</el-form-item>
+						<el-form-item v-if='form.status === 1' label='异常信息：'>{{form.errorMsg}}</el-form-item>
 					</el-col>
 				</el-row>
 			</el-form>
@@ -196,19 +196,19 @@
 <script name='Operlog' setup>
 import { cleanOperlog, delOperlog, list } from '@/api/system/operlog';
 
-const { proxy }                            = getCurrentInstance();
+const { proxy } = getCurrentInstance();
 const { sys_oper_type, sys_common_status } = proxy.useDict('sys_oper_type', 'sys_common_status');
 
 const operlogList = ref([]);
-const open        = ref(false);
-const loading     = ref(true);
-const showSearch  = ref(true);
-const ids         = ref([]);
-const single      = ref(true);
-const multiple    = ref(true);
-const total       = ref(0);
-const title       = ref('');
-const dateRange   = ref([]);
+const open = ref(false);
+const loading = ref(true);
+const showSearch = ref(true);
+const ids = ref([]);
+const single = ref(true);
+const multiple = ref(true);
+const total = ref(0);
+const title = ref('');
+const dateRange = ref([]);
 const defaultSort = ref({ prop: 'operTime', order: 'descending' });
 
 const data = reactive({
@@ -230,8 +230,8 @@ function getList() {
 	loading.value = true;
 	list(proxy.addDateRange(queryParams.value, dateRange.value)).then(response => {
 		operlogList.value = response.rows;
-		total.value       = response.total;
-		loading.value     = false;
+		total.value = response.total;
+		loading.value = false;
 	});
 }
 
@@ -256,14 +256,14 @@ function resetQuery() {
 
 /** 多选框选中数据 */
 function handleSelectionChange(selection) {
-	ids.value      = selection.map(item => item.operId);
+	ids.value = selection.map(item => item.operId);
 	multiple.value = !selection.length;
 }
 
 /** 排序触发事件 */
 function handleSortChange(column, prop, order) {
 	queryParams.value.orderByColumn = column.prop;
-	queryParams.value.isAsc         = column.order;
+	queryParams.value.isAsc = column.order;
 	getList();
 }
 

@@ -36,42 +36,42 @@
 		<el-row :gutter='10' class='mb8'>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:article:add']"
 						icon='Plus'
 						plain
 						type='primary'
+						vPermi="['system:article:add']"
 						@click='handleAdd'
 				>新增
 				</el-button>
 			</el-col>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:article:edit']"
 						:disabled='single'
 						icon='Edit'
 						plain
 						type='success'
+						vPermi="['system:article:edit']"
 						@click='handleUpdate'
 				>修改
 				</el-button>
 			</el-col>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:article:remove']"
 						:disabled='multiple'
 						icon='Delete'
 						plain
 						type='danger'
+						vPermi="['system:article:remove']"
 						@click='handleDelete'
 				>删除
 				</el-button>
 			</el-col>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:article:export']"
 						icon='Download'
 						plain
 						type='warning'
+						vPermi="['system:article:export']"
 						@click='handleExport'
 				>导出
 				</el-button>
@@ -99,8 +99,8 @@
 			<el-table-column align='center' label='文章私密访问时的密钥' prop='password' />
 			<el-table-column align='center' class-name='small-padding fixed-width' label='操作'>
 				<template #default='scope'>
-					<el-button v-hasPermi="['system:article:edit']" icon='Edit' link type='primary' @click='handleUpdate(scope.row)'>修改</el-button>
-					<el-button v-hasPermi="['system:article:remove']" icon='Delete' link type='primary' @click='handleDelete(scope.row)'>删除</el-button>
+					<el-button icon='Edit' link type='primary' vPermi="['system:article:edit']" @click='handleUpdate(scope.row)'>修改</el-button>
+					<el-button icon='Delete' link type='primary' vPermi="['system:article:remove']" @click='handleDelete(scope.row)'>删除</el-button>
 				</template>
 			</el-table-column>
 		</el-table>

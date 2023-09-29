@@ -59,31 +59,31 @@
 		<el-row :gutter='10' class='mb8'>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['monitor:job:remove']"
 						:disabled='multiple'
 						icon='Delete'
 						plain
 						type='danger'
+						vPermi="['monitor:job:remove']"
 						@click='handleDelete'
 				>删除
 				</el-button>
 			</el-col>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['monitor:job:remove']"
 						icon='Delete'
 						plain
 						type='danger'
+						vPermi="['monitor:job:remove']"
 						@click='handleClean'
 				>清空
 				</el-button>
 			</el-col>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['monitor:job:export']"
 						icon='Download'
 						plain
 						type='warning'
+						vPermi="['monitor:job:export']"
 						@click='handleExport'
 				>导出
 				</el-button>
@@ -118,12 +118,12 @@
 			</el-table-column>
 			<el-table-column align='center' label='执行时间' prop='createTime' width='180'>
 				<template #default='scope'>
-					<span>{{ parseTime(scope.row.createTime) }}</span>
+					<span>{{parseTime(scope.row.createTime)}}</span>
 				</template>
 			</el-table-column>
 			<el-table-column align='center' class-name='small-padding fixed-width' label='操作'>
 				<template #default='scope'>
-					<el-button v-hasPermi="['monitor:job:query']" icon='View' link type='primary' @click='handleView(scope.row)'>详细</el-button>
+					<el-button icon='View' link type='primary' vPermi="['monitor:job:query']" @click='handleView(scope.row)'>详细</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -141,18 +141,18 @@
 			<el-form :model='form' label-width='100px'>
 				<el-row>
 					<el-col :span='12'>
-						<el-form-item label='日志序号：'>{{ form.jobLogId }}</el-form-item>
-						<el-form-item label='任务名称：'>{{ form.jobName }}</el-form-item>
+						<el-form-item label='日志序号：'>{{form.jobLogId}}</el-form-item>
+						<el-form-item label='任务名称：'>{{form.jobName}}</el-form-item>
 					</el-col>
 					<el-col :span='12'>
-						<el-form-item label='任务分组：'>{{ form.jobGroup }}</el-form-item>
-						<el-form-item label='执行时间：'>{{ form.createTime }}</el-form-item>
+						<el-form-item label='任务分组：'>{{form.jobGroup}}</el-form-item>
+						<el-form-item label='执行时间：'>{{form.createTime}}</el-form-item>
 					</el-col>
 					<el-col :span='24'>
-						<el-form-item label='调用方法：'>{{ form.invokeTarget }}</el-form-item>
+						<el-form-item label='调用方法：'>{{form.invokeTarget}}</el-form-item>
 					</el-col>
 					<el-col :span='24'>
-						<el-form-item label='日志信息：'>{{ form.jobMessage }}</el-form-item>
+						<el-form-item label='日志信息：'>{{form.jobMessage}}</el-form-item>
 					</el-col>
 					<el-col :span='24'>
 						<el-form-item label='执行状态：'>
@@ -161,7 +161,7 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span='24'>
-						<el-form-item v-if='form.status == 1' label='异常信息：'>{{ form.exceptionInfo }}</el-form-item>
+						<el-form-item v-if='form.status == 1' label='异常信息：'>{{form.exceptionInfo}}</el-form-item>
 					</el-col>
 				</el-row>
 			</el-form>
@@ -179,18 +179,18 @@ import { getJob } from '@/api/monitor/job';
 import { cleanJobLog, delJobLog, listJobLog } from '@/api/monitor/jobLog';
 import { useRoute } from 'vue-router';
 
-const { proxy }                            = getCurrentInstance();
+const { proxy } = getCurrentInstance();
 const { sys_common_status, sys_job_group } = proxy.useDict('sys_common_status', 'sys_job_group');
 
 const jobLogList = ref([]);
-const open       = ref(false);
-const loading    = ref(true);
+const open = ref(false);
+const loading = ref(true);
 const showSearch = ref(true);
-const ids        = ref([]);
-const multiple   = ref(true);
-const total      = ref(0);
-const dateRange  = ref([]);
-const route      = useRoute();
+const ids = ref([]);
+const multiple = ref(true);
+const total = ref(0);
+const dateRange = ref([]);
+const route = useRoute();
 
 const data = reactive({
 	form: {},
@@ -210,8 +210,8 @@ function getList() {
 	loading.value = true;
 	listJobLog(proxy.addDateRange(queryParams.value, dateRange.value)).then(response => {
 		jobLogList.value = response.rows;
-		total.value      = response.total;
-		loading.value    = false;
+		total.value = response.total;
+		loading.value = false;
 	});
 }
 
@@ -236,7 +236,7 @@ function resetQuery() {
 
 // 多选框选中数据
 function handleSelectionChange(selection) {
-	ids.value      = selection.map(item => item.jobLogId);
+	ids.value = selection.map(item => item.jobLogId);
 	multiple.value = !selection.length;
 }
 
@@ -277,7 +277,7 @@ function handleExport() {
 	const jobId = route.params && route.params.jobId;
 	if( jobId !== undefined && jobId !== 0 ) {
 		getJob(jobId).then(response => {
-			queryParams.value.jobName  = response.data.jobName;
+			queryParams.value.jobName = response.data.jobName;
 			queryParams.value.jobGroup = response.data.jobGroup;
 			getList();
 		});

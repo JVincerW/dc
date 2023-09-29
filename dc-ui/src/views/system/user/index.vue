@@ -81,52 +81,52 @@
 				<el-row :gutter='10' class='mb8'>
 					<el-col :span='1.5'>
 						<el-button
-								v-hasPermi="['system:user:add']"
 								icon='Plus'
 								plain
 								type='primary'
+								vPermi="['system:user:add']"
 								@click='handleAdd'
 						>新增
 						</el-button>
 					</el-col>
 					<el-col :span='1.5'>
 						<el-button
-								v-hasPermi="['system:user:edit']"
 								:disabled='single'
 								icon='Edit'
 								plain
 								type='success'
+								vPermi="['system:user:edit']"
 								@click='handleUpdate'
 						>修改
 						</el-button>
 					</el-col>
 					<el-col :span='1.5'>
 						<el-button
-								v-hasPermi="['system:user:remove']"
 								:disabled='multiple'
 								icon='Delete'
 								plain
 								type='danger'
+								vPermi="['system:user:remove']"
 								@click='handleDelete'
 						>删除
 						</el-button>
 					</el-col>
 					<el-col :span='1.5'>
 						<el-button
-								v-hasPermi="['system:user:import']"
 								icon='Upload'
 								plain
 								type='info'
+								vPermi="['system:user:import']"
 								@click='handleImport'
 						>导入
 						</el-button>
 					</el-col>
 					<el-col :span='1.5'>
 						<el-button
-								v-hasPermi="['system:user:export']"
 								icon='Download'
 								plain
 								type='warning'
+								vPermi="['system:user:export']"
 								@click='handleExport'
 						>导出
 						</el-button>
@@ -153,22 +153,22 @@
 					</el-table-column>
 					<el-table-column v-if='columns[6].visible' align='center' label='创建时间' prop='createTime' width='160'>
 						<template #default='scope'>
-							<span>{{ parseTime(scope.row.createTime) }}</span>
+							<span>{{parseTime(scope.row.createTime)}}</span>
 						</template>
 					</el-table-column>
 					<el-table-column align='center' class-name='small-padding fixed-width' label='操作' width='150'>
 						<template #default='scope'>
 							<el-tooltip v-if='scope.row.userId !== 1' content='修改' placement='top'>
-								<el-button v-hasPermi="['system:user:edit']" icon='Edit' link type='primary' @click='handleUpdate(scope.row)'></el-button>
+								<el-button icon='Edit' link type='primary' vPermi="['system:user:edit']" @click='handleUpdate(scope.row)'></el-button>
 							</el-tooltip>
 							<el-tooltip v-if='scope.row.userId !== 1' content='删除' placement='top'>
-								<el-button v-hasPermi="['system:user:remove']" icon='Delete' link type='primary' @click='handleDelete(scope.row)'></el-button>
+								<el-button icon='Delete' link type='primary' vPermi="['system:user:remove']" @click='handleDelete(scope.row)'></el-button>
 							</el-tooltip>
 							<el-tooltip v-if='scope.row.userId !== 1' content='重置密码' placement='top'>
-								<el-button v-hasPermi="['system:user:resetPwd']" icon='Key' link type='primary' @click='handleResetPwd(scope.row)'></el-button>
+								<el-button icon='Key' link type='primary' vPermi="['system:user:resetPwd']" @click='handleResetPwd(scope.row)'></el-button>
 							</el-tooltip>
 							<el-tooltip v-if='scope.row.userId !== 1' content='分配角色' placement='top'>
-								<el-button v-hasPermi="['system:user:edit']" icon='CircleCheck' link type='primary' @click='handleAuthRole(scope.row)'></el-button>
+								<el-button icon='CircleCheck' link type='primary' vPermi="['system:user:edit']" @click='handleAuthRole(scope.row)'></el-button>
 							</el-tooltip>
 						</template>
 					</el-table-column>
@@ -249,7 +249,7 @@
 										v-for='dict in sys_normal_disable'
 										:key='dict.value'
 										:label='dict.value'
-								>{{ dict.label }}
+								>{{dict.label}}
 								</el-radio>
 							</el-radio-group>
 						</el-form-item>
@@ -343,27 +343,27 @@ import { getToken } from '@/utils/auth';
 import { addUser, changeUserStatus, delUser, deptTreeSelect, getUser, listUser, resetUserPwd, updateUser } from '@/api/system/user';
 import { useRouter } from 'vue-router';
 
-const router                               = useRouter();
-const { proxy }                            = getCurrentInstance();
+const router = useRouter();
+const { proxy } = getCurrentInstance();
 const { sys_normal_disable, sys_user_sex } = proxy.useDict('sys_normal_disable', 'sys_user_sex');
 
-const userList     = ref([]);
-const open         = ref(false);
-const loading      = ref(true);
-const showSearch   = ref(true);
-const ids          = ref([]);
-const single       = ref(true);
-const multiple     = ref(true);
-const total        = ref(0);
-const title        = ref('');
-const dateRange    = ref([]);
-const deptName     = ref('');
-const deptOptions  = ref(undefined);
+const userList = ref([]);
+const open = ref(false);
+const loading = ref(true);
+const showSearch = ref(true);
+const ids = ref([]);
+const single = ref(true);
+const multiple = ref(true);
+const total = ref(0);
+const title = ref('');
+const dateRange = ref([]);
+const deptName = ref('');
+const deptOptions = ref(undefined);
 const initPassword = ref(undefined);
-const postOptions  = ref([]);
-const roleOptions  = ref([]);
+const postOptions = ref([]);
+const roleOptions = ref([]);
 /*** 用户导入参数 */
-const upload       = reactive({
+const upload = reactive({
 	// 是否显示弹出层（用户导入）
 	open: false,
 	// 弹出层标题（用户导入）
@@ -378,7 +378,7 @@ const upload       = reactive({
 	url: import.meta.env.VITE_APP_BASE_API + '/system/user/importData',
 });
 // 列显隐信息
-const columns      = ref([
+const columns = ref([
 	{ key: 0, label: `用户编号`, visible: true },
 	{ key: 1, label: `用户名称`, visible: true },
 	{ key: 2, label: `用户昵称`, visible: true },
@@ -432,9 +432,9 @@ function getDeptTree() {
 function getList() {
 	loading.value = true;
 	listUser(proxy.addDateRange(queryParams.value, dateRange.value)).then(res => {
-		loading.value  = false;
+		loading.value = false;
 		userList.value = res.rows;
-		total.value    = res.total;
+		total.value = res.total;
 	});
 }
 
@@ -526,15 +526,15 @@ function handleResetPwd(row) {
 
 /** 选择条数  */
 function handleSelectionChange(selection) {
-	ids.value      = selection.map(item => item.userId);
-	single.value   = selection.length !== 1;
+	ids.value = selection.map(item => item.userId);
+	single.value = selection.length !== 1;
 	multiple.value = !selection.length;
 }
 
 /** 导入按钮操作 */
 function handleImport() {
 	upload.title = '用户导入';
-	upload.open  = true;
+	upload.open = true;
 }
 
 /** 下载模板操作 */
@@ -547,8 +547,8 @@ const handleFileUploadProgress = (event, file, fileList) => {
 	upload.isUploading = true;
 };
 /** 文件上传成功处理 */
-const handleFileSuccess        = (response, file, fileList) => {
-	upload.open        = false;
+const handleFileSuccess = (response, file, fileList) => {
+	upload.open = false;
 	upload.isUploading = false;
 	proxy.$refs['uploadRef'].handleRemove(file);
 	proxy.$alert('<div style=\'overflow: auto;overflow-x: hidden;max-height: 70vh;padding: 10px 20px 0;\'>' + response.msg + '</div>', '导入结果', { dangerouslyUseHTMLString: true });
@@ -589,10 +589,10 @@ function cancel() {
 function handleAdd() {
 	reset();
 	getUser().then(response => {
-		postOptions.value   = response.posts;
-		roleOptions.value   = response.roles;
-		open.value          = true;
-		title.value         = '添加用户';
+		postOptions.value = response.posts;
+		roleOptions.value = response.roles;
+		open.value = true;
+		title.value = '添加用户';
 		form.value.password = initPassword.value;
 	});
 }
@@ -602,14 +602,14 @@ function handleUpdate(row) {
 	reset();
 	const userId = row.userId || ids.value;
 	getUser(userId).then(response => {
-		form.value         = response.data;
-		postOptions.value  = response.posts;
-		roleOptions.value  = response.roles;
+		form.value = response.data;
+		postOptions.value = response.posts;
+		roleOptions.value = response.roles;
 		form.value.postIds = response.postIds;
 		form.value.roleIds = response.roleIds;
-		open.value         = true;
-		title.value        = '修改用户';
-		form.password      = '';
+		open.value = true;
+		title.value = '修改用户';
+		form.password = '';
 	});
 }
 

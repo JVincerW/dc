@@ -39,42 +39,42 @@
 		<el-row :gutter='10' class='mb8'>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:dict:add']"
 						icon='Plus'
 						plain
 						type='primary'
+						vPermi="['system:dict:add']"
 						@click='handleAdd'
 				>新增
 				</el-button>
 			</el-col>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:dict:edit']"
 						:disabled='single'
 						icon='Edit'
 						plain
 						type='success'
+						vPermi="['system:dict:edit']"
 						@click='handleUpdate'
 				>修改
 				</el-button>
 			</el-col>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:dict:remove']"
 						:disabled='multiple'
 						icon='Delete'
 						plain
 						type='danger'
+						vPermi="['system:dict:remove']"
 						@click='handleDelete'
 				>删除
 				</el-button>
 			</el-col>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:dict:export']"
 						icon='Download'
 						plain
 						type='warning'
+						vPermi="['system:dict:export']"
 						@click='handleExport'
 				>导出
 				</el-button>
@@ -115,8 +115,8 @@
 			</el-table-column>
 			<el-table-column align='center' class-name='small-padding fixed-width' label='操作' width='160'>
 				<template #default='scope'>
-					<el-button v-hasPermi="['system:dict:edit']" icon='Edit' link type='primary' @click='handleUpdate(scope.row)'>修改</el-button>
-					<el-button v-hasPermi="['system:dict:remove']" icon='Delete' link type='primary' @click='handleDelete(scope.row)'>删除</el-button>
+					<el-button icon='Edit' link type='primary' vPermi="['system:dict:edit']" @click='handleUpdate(scope.row)'>修改</el-button>
+					<el-button icon='Delete' link type='primary' vPermi="['system:dict:remove']" @click='handleDelete(scope.row)'>删除</el-button>
 				</template>
 			</el-table-column>
 		</el-table>

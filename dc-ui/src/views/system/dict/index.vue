@@ -53,52 +53,52 @@
 		<el-row :gutter='10' class='mb8'>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:dict:add']"
 						icon='Plus'
 						plain
 						type='primary'
+						vPermi="['system:dict:add']"
 						@click='handleAdd'
 				>新增
 				</el-button>
 			</el-col>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:dict:edit']"
 						:disabled='single'
 						icon='Edit'
 						plain
 						type='success'
+						vPermi="['system:dict:edit']"
 						@click='handleUpdate'
 				>修改
 				</el-button>
 			</el-col>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:dict:remove']"
 						:disabled='multiple'
 						icon='Delete'
 						plain
 						type='danger'
+						vPermi="['system:dict:remove']"
 						@click='handleDelete'
 				>删除
 				</el-button>
 			</el-col>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:dict:export']"
 						icon='Download'
 						plain
 						type='warning'
+						vPermi="['system:dict:export']"
 						@click='handleExport'
 				>导出
 				</el-button>
 			</el-col>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:dict:remove']"
 						icon='Refresh'
 						plain
 						type='danger'
+						vPermi="['system:dict:remove']"
 						@click='handleRefreshCache'
 				>刷新缓存
 				</el-button>
@@ -113,7 +113,7 @@
 			<el-table-column :show-overflow-tooltip='true' align='center' label='字典类型'>
 				<template #default='scope'>
 					<router-link :to="'/system/dict-data/index/' + scope.row.dictId" class='link-type'>
-						<span>{{ scope.row.dictType }}</span>
+						<span>{{scope.row.dictType}}</span>
 					</router-link>
 				</template>
 			</el-table-column>
@@ -125,13 +125,13 @@
 			<el-table-column :show-overflow-tooltip='true' align='center' label='备注' prop='remark' />
 			<el-table-column align='center' label='创建时间' prop='createTime' width='180'>
 				<template #default='scope'>
-					<span>{{ parseTime(scope.row.createTime) }}</span>
+					<span>{{parseTime(scope.row.createTime)}}</span>
 				</template>
 			</el-table-column>
 			<el-table-column align='center' class-name='small-padding fixed-width' label='操作' width='160'>
 				<template #default='scope'>
-					<el-button v-hasPermi="['system:dict:edit']" icon='Edit' link type='primary' @click='handleUpdate(scope.row)'>修改</el-button>
-					<el-button v-hasPermi="['system:dict:remove']" icon='Delete' link type='primary' @click='handleDelete(scope.row)'>删除</el-button>
+					<el-button icon='Edit' link type='primary' vPermi="['system:dict:edit']" @click='handleUpdate(scope.row)'>修改</el-button>
+					<el-button icon='Delete' link type='primary' vPermi="['system:dict:remove']" @click='handleDelete(scope.row)'>删除</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -159,7 +159,7 @@
 								v-for='dict in sys_normal_disable'
 								:key='dict.value'
 								:label='dict.value'
-						>{{ dict.label }}
+						>{{dict.label}}
 						</el-radio>
 					</el-radio-group>
 				</el-form-item>
@@ -181,19 +181,19 @@
 import useDictStore from '@/store/modules/dict';
 import { addType, delType, getType, listType, refreshCache, updateType } from '@/api/system/dict/type';
 
-const { proxy }              = getCurrentInstance();
+const { proxy } = getCurrentInstance();
 const { sys_normal_disable } = proxy.useDict('sys_normal_disable');
 
-const typeList   = ref([]);
-const open       = ref(false);
-const loading    = ref(true);
+const typeList = ref([]);
+const open = ref(false);
+const loading = ref(true);
 const showSearch = ref(true);
-const ids        = ref([]);
-const single     = ref(true);
-const multiple   = ref(true);
-const total      = ref(0);
-const title      = ref('');
-const dateRange  = ref([]);
+const ids = ref([]);
+const single = ref(true);
+const multiple = ref(true);
+const total = ref(0);
+const title = ref('');
+const dateRange = ref([]);
 
 const data = reactive({
 	form: {},
@@ -217,8 +217,8 @@ function getList() {
 	loading.value = true;
 	listType(proxy.addDateRange(queryParams.value, dateRange.value)).then(response => {
 		typeList.value = response.rows;
-		total.value    = response.total;
-		loading.value  = false;
+		total.value = response.total;
+		loading.value = false;
 	});
 }
 
@@ -256,14 +256,14 @@ function resetQuery() {
 /** 新增按钮操作 */
 function handleAdd() {
 	reset();
-	open.value  = true;
+	open.value = true;
 	title.value = '添加字典类型';
 }
 
 /** 多选框选中数据 */
 function handleSelectionChange(selection) {
-	ids.value      = selection.map(item => item.dictId);
-	single.value   = selection.length !== 1;
+	ids.value = selection.map(item => item.dictId);
+	single.value = selection.length !== 1;
 	multiple.value = !selection.length;
 }
 
@@ -272,8 +272,8 @@ function handleUpdate(row) {
 	reset();
 	const dictId = row.dictId || ids.value;
 	getType(dictId).then(response => {
-		form.value  = response.data;
-		open.value  = true;
+		form.value = response.data;
+		open.value = true;
 		title.value = '修改字典类型';
 	});
 }

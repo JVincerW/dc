@@ -48,52 +48,52 @@
 		<el-row :gutter='10' class='mb8'>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:config:add']"
 						icon='Plus'
 						plain
 						type='primary'
+						vPermi="['system:config:add']"
 						@click='handleAdd'
 				>新增
 				</el-button>
 			</el-col>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:config:edit']"
 						:disabled='single'
 						icon='Edit'
 						plain
 						type='success'
+						vPermi="['system:config:edit']"
 						@click='handleUpdate'
 				>修改
 				</el-button>
 			</el-col>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:config:remove']"
 						:disabled='multiple'
 						icon='Delete'
 						plain
 						type='danger'
+						vPermi="['system:config:remove']"
 						@click='handleDelete'
 				>删除
 				</el-button>
 			</el-col>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:config:export']"
 						icon='Download'
 						plain
 						type='warning'
+						vPermi="['system:config:export']"
 						@click='handleExport'
 				>导出
 				</el-button>
 			</el-col>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:config:remove']"
 						icon='Refresh'
 						plain
 						type='danger'
+						vPermi="['system:config:remove']"
 						@click='handleRefreshCache'
 				>刷新缓存
 				</el-button>
@@ -115,13 +115,13 @@
 			<el-table-column :show-overflow-tooltip='true' align='center' label='备注' prop='remark' />
 			<el-table-column align='center' label='创建时间' prop='createTime' width='180'>
 				<template #default='scope'>
-					<span>{{ parseTime(scope.row.createTime) }}</span>
+					<span>{{parseTime(scope.row.createTime)}}</span>
 				</template>
 			</el-table-column>
 			<el-table-column align='center' class-name='small-padding fixed-width' label='操作' width='150'>
 				<template #default='scope'>
-					<el-button v-hasPermi="['system:config:edit']" icon='Edit' link type='primary' @click='handleUpdate(scope.row)'>修改</el-button>
-					<el-button v-hasPermi="['system:config:remove']" icon='Delete' link type='primary' @click='handleDelete(scope.row)'>删除</el-button>
+					<el-button icon='Edit' link type='primary' vPermi="['system:config:edit']" @click='handleUpdate(scope.row)'>修改</el-button>
+					<el-button icon='Delete' link type='primary' vPermi="['system:config:remove']" @click='handleDelete(scope.row)'>删除</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -152,7 +152,7 @@
 								v-for='dict in sys_yes_no'
 								:key='dict.value'
 								:label='dict.value'
-						>{{ dict.label }}
+						>{{dict.label}}
 						</el-radio>
 					</el-radio-group>
 				</el-form-item>
@@ -173,19 +173,19 @@
 <script name='Config' setup>
 import { addConfig, delConfig, getConfig, listConfig, refreshCache, updateConfig } from '@/api/system/config';
 
-const { proxy }      = getCurrentInstance();
+const { proxy } = getCurrentInstance();
 const { sys_yes_no } = proxy.useDict('sys_yes_no');
 
 const configList = ref([]);
-const open       = ref(false);
-const loading    = ref(true);
+const open = ref(false);
+const loading = ref(true);
 const showSearch = ref(true);
-const ids        = ref([]);
-const single     = ref(true);
-const multiple   = ref(true);
-const total      = ref(0);
-const title      = ref('');
-const dateRange  = ref([]);
+const ids = ref([]);
+const single = ref(true);
+const multiple = ref(true);
+const total = ref(0);
+const title = ref('');
+const dateRange = ref([]);
 
 const data = reactive({
 	form: {},
@@ -210,8 +210,8 @@ function getList() {
 	loading.value = true;
 	listConfig(proxy.addDateRange(queryParams.value, dateRange.value)).then(response => {
 		configList.value = response.rows;
-		total.value      = response.total;
-		loading.value    = false;
+		total.value = response.total;
+		loading.value = false;
 	});
 }
 
@@ -249,15 +249,15 @@ function resetQuery() {
 
 /** 多选框选中数据 */
 function handleSelectionChange(selection) {
-	ids.value      = selection.map(item => item.configId);
-	single.value   = selection.length != 1;
+	ids.value = selection.map(item => item.configId);
+	single.value = selection.length != 1;
 	multiple.value = !selection.length;
 }
 
 /** 新增按钮操作 */
 function handleAdd() {
 	reset();
-	open.value  = true;
+	open.value = true;
 	title.value = '添加参数';
 }
 
@@ -266,8 +266,8 @@ function handleUpdate(row) {
 	reset();
 	const configId = row.configId || ids.value;
 	getConfig(configId).then(response => {
-		form.value  = response.data;
-		open.value  = true;
+		form.value = response.data;
+		open.value = true;
 		title.value = '修改参数';
 	});
 }

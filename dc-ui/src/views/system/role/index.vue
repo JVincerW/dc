@@ -52,49 +52,49 @@
 		<el-row :gutter='10' class='mb8'>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:role:add']"
 						icon='Plus'
 						plain
 						type='primary'
+						vPermi="['system:role:add']"
 						@click='handleAdd'
 				>新增
 				</el-button>
 			</el-col>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:role:edit']"
 						:disabled='single'
 						icon='Edit'
 						plain
 						type='success'
+						vPermi="['system:role:edit']"
 						@click='handleUpdate'
 				>修改
 				</el-button>
 			</el-col>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:role:remove']"
 						:disabled='multiple'
 						icon='Delete'
 						plain
 						type='danger'
+						vPermi="['system:role:remove']"
 						@click='handleDelete'
 				>删除
 				</el-button>
 			</el-col>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:role:export']"
 						icon='Download'
 						plain
 						type='warning'
+						vPermi="['system:role:export']"
 						@click='handleExport'
 				>导出
 				</el-button>
 			</el-col>
 			<right-toolbar v-model:showSearch='showSearch' @queryTable='getList'></right-toolbar>
 		</el-row>
-
+		
 		<!-- 表格数据 -->
 		<el-table v-loading='loading' :data='roleList' @selection-change='handleSelectionChange'>
 			<el-table-column align='center' type='selection' width='55' />
@@ -114,27 +114,27 @@
 			</el-table-column>
 			<el-table-column align='center' label='创建时间' prop='createTime'>
 				<template #default='scope'>
-					<span>{{ parseTime(scope.row.createTime) }}</span>
+					<span>{{parseTime(scope.row.createTime)}}</span>
 				</template>
 			</el-table-column>
 			<el-table-column align='center' class-name='small-padding fixed-width' label='操作'>
 				<template #default='scope'>
 					<el-tooltip v-if='scope.row.roleId !== 1' content='修改' placement='top'>
-						<el-button v-hasPermi="['system:role:edit']" icon='Edit' link type='primary' @click='handleUpdate(scope.row)'></el-button>
+						<el-button icon='Edit' link type='primary' vPermi="['system:role:edit']" @click='handleUpdate(scope.row)'></el-button>
 					</el-tooltip>
 					<el-tooltip v-if='scope.row.roleId !== 1' content='删除' placement='top'>
-						<el-button v-hasPermi="['system:role:remove']" icon='Delete' link type='primary' @click='handleDelete(scope.row)'></el-button>
+						<el-button icon='Delete' link type='primary' vPermi="['system:role:remove']" @click='handleDelete(scope.row)'></el-button>
 					</el-tooltip>
 					<el-tooltip v-if='scope.row.roleId !== 1' content='数据权限' placement='top'>
-						<el-button v-hasPermi="['system:role:edit']" icon='CircleCheck' link type='primary' @click='handleDataScope(scope.row)'></el-button>
+						<el-button icon='CircleCheck' link type='primary' vPermi="['system:role:edit']" @click='handleDataScope(scope.row)'></el-button>
 					</el-tooltip>
 					<el-tooltip v-if='scope.row.roleId !== 1' content='分配用户' placement='top'>
-						<el-button v-hasPermi="['system:role:edit']" icon='User' link type='primary' @click='handleAuthUser(scope.row)'></el-button>
+						<el-button icon='User' link type='primary' vPermi="['system:role:edit']" @click='handleAuthUser(scope.row)'></el-button>
 					</el-tooltip>
 				</template>
 			</el-table-column>
 		</el-table>
-
+		
 		<pagination
 				v-show='total > 0'
 				v-model:limit='queryParams.pageSize'
@@ -142,7 +142,7 @@
 				:total='total'
 				@pagination='getList'
 		/>
-
+		
 		<!-- 添加或修改角色配置对话框 -->
 		<el-dialog v-model='open' :title='title' append-to-body width='500px'>
 			<el-form ref='roleRef' :model='form' :rules='rules' label-width='100px'>
@@ -169,7 +169,7 @@
 								v-for='dict in sys_normal_disable'
 								:key='dict.value'
 								:label='dict.value'
-						>{{ dict.label }}
+						>{{dict.label}}
 						</el-radio>
 					</el-radio-group>
 				</el-form-item>
@@ -199,7 +199,7 @@
 				</div>
 			</template>
 		</el-dialog>
-
+		
 		<!-- 分配角色数据权限对话框 -->
 		<el-dialog v-model='openDataScope' :title='title' append-to-body width='500px'>
 			<el-form :model='form' label-width='80px'>
@@ -250,31 +250,31 @@
 import { addRole, changeRoleStatus, dataScope, delRole, deptTreeSelect, getRole, listRole, updateRole } from '@/api/system/role';
 import { roleMenuTreeselect, treeselect as menuTreeselect } from '@/api/system/menu';
 import { useRouter } from 'vue-router';
-import {parseTime} from "../../../utils/ruoyi";
+import { parseTime } from '../../../utils/ruoyi';
 
-const router                 = useRouter();
-const { proxy }              = getCurrentInstance();
+const router = useRouter();
+const { proxy } = getCurrentInstance();
 const { sys_normal_disable } = proxy.useDict('sys_normal_disable');
 
-const roleList      = ref([]);
-const open          = ref(false);
-const loading       = ref(true);
-const showSearch    = ref(true);
-const ids           = ref([]);
-const single        = ref(true);
-const multiple      = ref(true);
-const total         = ref(0);
-const title         = ref('');
-const dateRange     = ref([]);
-const menuOptions   = ref([]);
-const menuExpand    = ref(false);
-const menuNodeAll   = ref(false);
-const deptExpand    = ref(true);
-const deptNodeAll   = ref(false);
-const deptOptions   = ref([]);
+const roleList = ref([]);
+const open = ref(false);
+const loading = ref(true);
+const showSearch = ref(true);
+const ids = ref([]);
+const single = ref(true);
+const multiple = ref(true);
+const total = ref(0);
+const title = ref('');
+const dateRange = ref([]);
+const menuOptions = ref([]);
+const menuExpand = ref(false);
+const menuNodeAll = ref(false);
+const deptExpand = ref(true);
+const deptNodeAll = ref(false);
+const deptOptions = ref([]);
 const openDataScope = ref(false);
-const menuRef       = ref(null);
-const deptRef       = ref(null);
+const menuRef = ref(null);
+const deptRef = ref(null);
 
 /** 数据范围选项*/
 const dataScopeOptions = ref([
@@ -308,8 +308,8 @@ function getList() {
 	loading.value = true;
 	listRole(proxy.addDateRange(queryParams.value, dateRange.value)).then(response => {
 		roleList.value = response.rows;
-		total.value    = response.total;
-		loading.value  = false;
+		total.value = response.total;
+		loading.value = false;
 	});
 }
 
@@ -346,8 +346,8 @@ function handleExport() {
 
 /** 多选框选中数据 */
 function handleSelectionChange(selection) {
-	ids.value      = selection.map(item => item.roleId);
-	single.value   = selection.length !== 1;
+	ids.value = selection.map(item => item.roleId);
+	single.value = selection.length !== 1;
 	multiple.value = !selection.length;
 }
 
@@ -392,7 +392,7 @@ function getMenuTreeselect() {
 /** 所有部门节点数据 */
 function getDeptAllCheckedKeys() {
 	// 目前被选中的部门节点
-	let checkedKeys     = deptRef.value.getCheckedKeys();
+	let checkedKeys = deptRef.value.getCheckedKeys();
 	// 半选中的部门节点
 	let halfCheckedKeys = deptRef.value.getHalfCheckedKeys();
 	checkedKeys.unshift.apply(checkedKeys, halfCheckedKeys);
@@ -401,60 +401,60 @@ function getDeptAllCheckedKeys() {
 
 /** 重置新增的表单以及其他数据  */
 function reset() {
-    if (menuRef.value) { // 添加条件检查
-        menuRef.value.setCheckedKeys([]);
-    }
-    menuExpand.value = false;
-    menuNodeAll.value = false;
-    deptExpand.value = true;
-    deptNodeAll.value = false;
-    form.value = {
-        roleId: undefined,
-        roleName: undefined,
-        roleKey: undefined,
-        roleSort: 0,
-        status: '0',
-        menuIds: [],
-        deptIds: [],
-        menuCheckStrictly: true,
-        deptCheckStrictly: true,
-        remark: undefined,
-    };
-    proxy.resetForm('roleRef');
+	if( menuRef.value ) { // 添加条件检查
+		menuRef.value.setCheckedKeys([]);
+	}
+	menuExpand.value = false;
+	menuNodeAll.value = false;
+	deptExpand.value = true;
+	deptNodeAll.value = false;
+	form.value = {
+		roleId: undefined,
+		roleName: undefined,
+		roleKey: undefined,
+		roleSort: 0,
+		status: '0',
+		menuIds: [],
+		deptIds: [],
+		menuCheckStrictly: true,
+		deptCheckStrictly: true,
+		remark: undefined,
+	};
+	proxy.resetForm('roleRef');
 }
+
 /** 添加角色 */
 function handleAdd() {
 	reset();
 	getMenuTreeselect();
-	open.value  = true;
+	open.value = true;
 	title.value = '添加角色';
 }
 
 /** 修改角色 */
 function handleUpdate(row) {
-    reset();
-    const roleId = row.roleId || ids.value;
-    const roleMenu = getRoleMenuTreeselect(roleId);
-    getRole(roleId).then(response => {
-        form.value = response.data;
-        form.value.roleSort = Number(form.value.roleSort);
-        open.value = true;
-        nextTick(() => {
-            roleMenu.then((res) => {
-                let checkedKeys = res.checkedKeys;
-                checkedKeys.forEach((v) => {
-                    nextTick(() => {
-                        if (menuRef.value) {
-                            menuRef.value.setChecked(v, true, false);
-                        }
-                    });
-                });
-            });
-        });
-        title.value = '修改角色';
-    });
+	reset();
+	const roleId = row.roleId || ids.value;
+	const roleMenu = getRoleMenuTreeselect(roleId);
+	getRole(roleId).then(response => {
+		form.value = response.data;
+		form.value.roleSort = Number(form.value.roleSort);
+		open.value = true;
+		nextTick(() => {
+			roleMenu.then((res) => {
+				let checkedKeys = res.checkedKeys;
+				checkedKeys.forEach((v) => {
+					nextTick(() => {
+						if( menuRef.value ) {
+							menuRef.value.setChecked(v, true, false);
+						}
+					});
+				});
+			});
+		});
+		title.value = '修改角色';
+	});
 }
-
 
 /** 根据角色ID查询菜单树结构 */
 function getRoleMenuTreeselect(roleId) {
@@ -508,7 +508,7 @@ function handleCheckedTreeConnect(value, type) {
 /** 所有菜单节点数据 */
 function getMenuAllCheckedKeys() {
 	// 目前被选中的菜单节点
-	let checkedKeys     = menuRef.value.getCheckedKeys();
+	let checkedKeys = menuRef.value.getCheckedKeys();
 	// 半选中的菜单节点
 	let halfCheckedKeys = menuRef.value.getHalfCheckedKeys();
 	checkedKeys.unshift.apply(checkedKeys, halfCheckedKeys);
@@ -556,7 +556,7 @@ function handleDataScope(row) {
 	reset();
 	const deptTreeSelect = getDeptTree(row.roleId);
 	getRole(row.roleId).then(response => {
-		form.value          = response.data;
+		form.value = response.data;
 		openDataScope.value = true;
 		nextTick(() => {
 			deptTreeSelect.then(res => {

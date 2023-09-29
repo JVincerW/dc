@@ -28,21 +28,21 @@
 		<el-row :gutter='10' class='mb8'>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:role:add']"
 						icon='Plus'
 						plain
 						type='primary'
+						vPermi="['system:role:add']"
 						@click='openSelectUser'
 				>添加用户
 				</el-button>
 			</el-col>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:role:remove']"
 						:disabled='multiple'
 						icon='CircleClose'
 						plain
 						type='danger'
+						vPermi="['system:role:remove']"
 						@click='cancelAuthUserAll'
 				>批量取消授权
 				</el-button>
@@ -72,12 +72,12 @@
 			</el-table-column>
 			<el-table-column align='center' label='创建时间' prop='createTime' width='180'>
 				<template #default='scope'>
-					<span>{{ parseTime(scope.row.createTime) }}</span>
+					<span>{{parseTime(scope.row.createTime)}}</span>
 				</template>
 			</el-table-column>
 			<el-table-column align='center' class-name='small-padding fixed-width' label='操作'>
 				<template #default='scope'>
-					<el-button v-hasPermi="['system:role:remove']" icon='CircleClose' link type='primary' @click='cancelAuthUser(scope.row)'>取消授权</el-button>
+					<el-button icon='CircleClose' link type='primary' vPermi="['system:role:remove']" @click='cancelAuthUser(scope.row)'>取消授权</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -98,16 +98,16 @@ import selectUser from './selectUser';
 import { allocatedUserList, authUserCancel, authUserCancelAll } from '@/api/system/role';
 import { useRoute } from 'vue-router';
 
-const route                  = useRoute();
-const { proxy }              = getCurrentInstance();
+const route = useRoute();
+const { proxy } = getCurrentInstance();
 const { sys_normal_disable } = proxy.useDict('sys_normal_disable');
 
-const userList   = ref([]);
-const loading    = ref(true);
+const userList = ref([]);
+const loading = ref(true);
 const showSearch = ref(true);
-const multiple   = ref(true);
-const total      = ref(0);
-const userIds    = ref([]);
+const multiple = ref(true);
+const total = ref(0);
+const userIds = ref([]);
 
 const queryParams = reactive({
 	pageNum: 1,
@@ -122,8 +122,8 @@ function getList() {
 	loading.value = true;
 	allocatedUserList(queryParams).then(response => {
 		userList.value = response.rows;
-		total.value    = response.total;
-		loading.value  = false;
+		total.value = response.total;
+		loading.value = false;
 	});
 }
 
@@ -147,7 +147,7 @@ function resetQuery() {
 
 // 多选框选中数据
 function handleSelectionChange(selection) {
-	userIds.value  = selection.map(item => item.userId);
+	userIds.value = selection.map(item => item.userId);
 	multiple.value = !selection.length;
 }
 
@@ -169,7 +169,7 @@ function cancelAuthUser(row) {
 /** 批量取消授权按钮操作 */
 function cancelAuthUserAll(row) {
 	const roleId = queryParams.roleId;
-	const uIds   = userIds.value.join(',');
+	const uIds = userIds.value.join(',');
 	proxy.$modal.confirm('是否取消选中用户授权数据项?').then(function() {
 		return authUserCancelAll({ roleId: roleId, userIds: uIds });
 	}).then(() => {
