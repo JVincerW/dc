@@ -13,9 +13,13 @@ import BasicEditor from '@/components/Editor/BasicEditor.vue';
 import Dig from '@/views/blogs/blogEditor/C/dig.vue';
 import store from '../../../store';
 
-const curBlog = store.state.value.curBlog;
-console.log('初始化数据', curBlog);
 const { proxy } = getCurrentInstance();
+
+onMounted(() => {
+	const blogData = store.state.value.curBlog;
+	console.log(blogData, 'blogData');
+	console.log(blogData.coverImage, 'coverImage');
+});
 const wEditorRef = ref();
 const dig = ref();
 const editorData = {
@@ -25,8 +29,7 @@ const editorData = {
 	hasTitle: true,
 	title: '初始化标题',
 };
-const initForm = proxy.$route.query;
-console.log(initForm, 'initForm');
+
 const getChildValueHtml = () => {
 	console.log('父页面获取到的值', wEditorRef.value.initEditor);
 	dig.value.handleShow();

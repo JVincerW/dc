@@ -292,26 +292,12 @@ function handleAdd() {
 
 /** 修改按钮操作 */
 function handleUpdate(row) {
-	reset();
+	
 	const _id = row.id || ids.value;
 	
 	getArticle(_id).then(response => {
-		form.value = response.data;
-		// console.log(form, 'form');
 		store.state.value.curBlog = response.data;
-		proxy.$router.push({
-			path: 'blogEditor/index',
-		});
-		// open.value = true;
-		title.value = '修改【文章】';
-		// 调用操作
-		
-		console.log(store.state.value, 'piana');
-		
-		// proxy.$router.push({
-		// 	path: '/blogs/weditor',
-		// 	query: store.state.value.,
-		// });
+		proxy.$router.push({ path: '/blogs/blogEditor' });
 	});
 	
 }
