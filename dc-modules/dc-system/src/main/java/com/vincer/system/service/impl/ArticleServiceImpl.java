@@ -9,7 +9,7 @@ import com.vincer.system.domain.Article;
 import com.vincer.system.service.IArticleService;
 
 /**
- * 【请填写功能名称】Service业务层处理
+ * 【文章】Service业务层处理
  *
  * @author vincer
  * @date 2023-09-29
@@ -21,10 +21,10 @@ public class ArticleServiceImpl implements IArticleService
     private ArticleMapper articleMapper;
 
     /**
-     * 查询【请填写功能名称】
+     * 查询【文章】
      *
-     * @param id 【请填写功能名称】主键
-     * @return 【请填写功能名称】
+     * @param id 【文章】主键
+     * @return 【文章】
      */
     @Override
     public Article selectArticleById(String id)
@@ -33,10 +33,10 @@ public class ArticleServiceImpl implements IArticleService
     }
 
     /**
-     * 查询【请填写功能名称】列表
+     * 查询【文章】列表
      *
-     * @param article 【请填写功能名称】
-     * @return 【请填写功能名称】
+     * @param article 【文章】
+     * @return 【文章】
      */
     @Override
     public List<Article> selectArticleList(Article article)
@@ -45,9 +45,9 @@ public class ArticleServiceImpl implements IArticleService
     }
 
     /**
-     * 新增【请填写功能名称】
+     * 新增【文章】
      *
-     * @param article 【请填写功能名称】
+     * @param article 【文章】
      * @return 结果
      */
     @Override
@@ -58,9 +58,9 @@ public class ArticleServiceImpl implements IArticleService
     }
 
     /**
-     * 修改【请填写功能名称】
+     * 修改【文章】
      *
-     * @param article 【请填写功能名称】
+     * @param article 【文章】
      * @return 结果
      */
     @Override
@@ -71,9 +71,9 @@ public class ArticleServiceImpl implements IArticleService
     }
 
     /**
-     * 批量删除【请填写功能名称】
+     * 批量删除【文章】
      *
-     * @param ids 需要删除的【请填写功能名称】主键
+     * @param ids 需要删除的【文章】主键
      * @return 结果
      */
     @Override
@@ -83,9 +83,9 @@ public class ArticleServiceImpl implements IArticleService
     }
 
     /**
-     * 删除【请填写功能名称】信息
+     * 删除【文章】信息
      *
-     * @param id 【请填写功能名称】主键
+     * @param id 【文章】主键
      * @return 结果
      */
     @Override
