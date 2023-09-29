@@ -59,7 +59,7 @@
             a.password,
             a.create_time,
             a.update_time,
-            t.id   as tag_id, -- 使用别名 'tag_id' 明确指定 'id' 列的来源为 tag 表
+            t.id   as tag_id,
             t.name as tag_name
         from article a
              left join article_tag ta on a.id=ta.article_id
