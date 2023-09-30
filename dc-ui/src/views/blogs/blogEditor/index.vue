@@ -42,7 +42,7 @@ onMounted(() => {
 const dig = ref();
 
 const getChildValueHtml = () => {
-	console.log('父页面获取到的值', editorData.value);
+	digData.value.editorData = editorData.value;
 	dig.value.handleShow();
 };
 </script>
