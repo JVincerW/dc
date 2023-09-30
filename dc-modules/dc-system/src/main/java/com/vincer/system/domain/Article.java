@@ -75,10 +75,10 @@ public class Article extends BaseEntity
 
     /** 是否推荐 */
     @Excel(name = "是否推荐")
-    private Integer recommended;
+    private Boolean recommended;
 
     /** 原创类型 */
-    private String original;
+    private Boolean original;
 
     /** 文章简介 */
     private String description;
@@ -88,7 +88,7 @@ public class Article extends BaseEntity
 
     /** 是否开启评论 */
     @Excel(name = "是否开启评论")
-    private Integer comment;
+    private Boolean comment;
 
     /** 文章私密访问时的密钥 */
     private String password;

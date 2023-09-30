@@ -233,8 +233,9 @@ function handleSelectionChange(selection) {
 /** 新增按钮操作 */
 function handleAdd() {
 	reset();
-	open.value = true;
-	title.value = '添加博客文章';
+	// open.value = true;
+	// title.value = '添加博客文章';
+	proxy.$router.push({ path: 'blogEditor', query: { createType: 'init' } });
 }
 
 /** 修改按钮操作 */

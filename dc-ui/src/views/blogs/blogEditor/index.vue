@@ -19,30 +19,30 @@ const { proxy } = getCurrentInstance();
 const editorData = ref({});
 const digData = ref({});
 const showBasicEditor = ref(false);
+const dig = ref();
 onMounted(() => {
 	const createType = proxy.$route.query.createType;
 	console.log('编辑器加载类型:', createType);
-	console.log('编辑页面加载');
+	
 	const articleStore = useArticleStore();
 	const articleData = articleStore.articleData;
 	
-	if( articleData ) {
+	if( createType && createType === 'Mod' ) {
 		const { title, content, coverImage, editorType, readType, status, id, tags, top, recommended, original, keywords, comment, password } = articleData;
-		editorData.value = { createType: createType, id, title, content, editorType, enableEditor: true, hasTtile: title && title.length > 1 };
+		editorData.value = { createType: createType, id, title, content, editorType, enableEditor: true, hasTtile: true };
 		digData.value = { createType: createType, id, readType, status, coverImage, top, tags, recommended, original, keywords, comment, password };
 		showBasicEditor.value = true;
 		console.log(articleData, '编辑页面被初始化的数据');
 	} else {
-		editorData.value = { createType: 'init', enableEditor: true };
-		digData.value = { createType: 'init', enableEditor: true };
+		editorData.value = { createType: createType, enableEditor: true, hasTtile: true };
+		digData.value = { createType: createType, enableEditor: true };
 		showBasicEditor.value = true;
-		console.log(articleData, '编辑页面被初始化的数据');
 	}
 });
-const dig = ref();
 
 const digShow = () => {
 	digData.value.editorData = editorData.value;
+	console.log(editorData.value, 'digData.value.editorData');
 	dig.value.handleShow();
 };
 </script>

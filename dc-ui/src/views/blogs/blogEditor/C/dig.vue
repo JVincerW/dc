@@ -2,7 +2,7 @@
 
 import { ref } from 'vue';
 import { Plus } from '@element-plus/icons-vue';
-import { updateArticle } from '../../../../api/system/article';
+import { addArticle, updateArticle } from '../../../../api/system/article';
 
 const { proxy } = getCurrentInstance();
 
@@ -25,7 +25,11 @@ function tagTrans(tag) {
 function addConfirm() {
 	console.log('添加新标签事件');
 	console.log(newTagValue.value, '新添加的标签');
-	digData.value.tags.push({ 'code': newTagValue.value, flag: true, label: newTagValue.value });
+	if( digData.value.tags ) {
+		digData.value.tags.push({ 'code': newTagValue.value, flag: true, label: newTagValue.value });
+	} else {
+		digData.value.tags = [ { 'code': newTagValue.value, flag: true, label: newTagValue.value } ];
+	}
 	newTagValue.value = null;
 	addVisible.value = false;
 }
@@ -41,12 +45,19 @@ function handleSubmit() {
 	const articleObj = { ...digData.value, ...digData.value.editorData };
 	delete articleObj.editorData;
 	console.log(articleObj, '最终的文章对象');
-	
-	updateArticle(articleObj).then(response => {
-		if( response.code === 200 ) {
-			proxy.$modal.msgSuccess('文章修改成功！');
-		}
-	});
+	if( articleObj.createType === 'Mod' ) {
+		updateArticle(articleObj).then(response => {
+			if( response.code === 200 ) {
+				proxy.$modal.msgSuccess('文章修改成功！');
+			}
+		});
+	} else if( articleObj.createType === 'init' ) {
+		addArticle(articleObj).then(response => {
+			if( response.code === 200 ) {
+				proxy.$modal.msgSuccess('创建文件成功！');
+			}
+		});
+	}
 }
 
 defineExpose({ handleShow });
@@ -141,7 +152,7 @@ defineExpose({ handleShow });
 				</el-button>
 			</el-form-item>
 			<el-form-item>
-				<el-button clearable maxlength='5' type='primary' @click='handleSubmit'>确认</el-button>
+				<el-button clearable maxlength='5' type='primary' @click='handleSubmit'>{{digData.createType === 'Mod' ? '确认修改' : '确认创建'}}</el-button>
 			</el-form-item>
 		</el-form>
 	</el-dialog>

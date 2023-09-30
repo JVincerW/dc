@@ -78,6 +78,7 @@ public class ArticleController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody Article article)
     {
+
         return toAjax(articleService.insertArticle(article));
     }
 
