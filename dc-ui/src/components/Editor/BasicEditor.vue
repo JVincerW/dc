@@ -2,7 +2,7 @@
 	<div ref='cref' class='bg-red'>
 		<Toolbar :editor='editorRef' class='tb' />
 		<div class='scroll-container'>
-			<div v-if='editorData.hasTtile' class='inputDeep'>
+			<div v-if='editorData.hasTitile' class='inputDeep'>
 				<el-input v-model='editorData.title' placeholder='请输入标题'></el-input>
 			</div>
 			<Editor v-model='editorData.content' :defaultConfig='editorConfig' style='background-color: #fff' @onCreated='handleCreated' />
@@ -20,10 +20,10 @@ const uploadFile = ref(import.meta.env.VITE_APP_BASE_API + '/file/uploadEditor')
 
 const editorRef = shallowRef();
 const props = defineProps({ editorData: Object });
-console.log(props.editorData, '大苏打大大大大大大大大大');
-const editorData = ref(props.editorData);
 
-const editorConfig = { placeholder: '请输入内容...', scroll: false, readOnly: editorData.enableEditor, MENU_CONF: {} };
+const editorData = props.editorData;
+console.log(editorData, 'BasicEditor获取到的值');
+const editorConfig = { placeholder: '请输入内容...', scroll: false, MENU_CONF: {} };
 // 修改 uploadImage 菜单配置
 // 插入图片
 editorConfig.MENU_CONF['uploadImage'] = {

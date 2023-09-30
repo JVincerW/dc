@@ -1,6 +1,6 @@
 <template>
 	<div class='app-container'>
-		<el-form v-show='showSearch' ref='queryRef' :inline='true' :model='queryParams' label-width='68px'>
+		<el-form ref='queryRef' :inline='true' :model='queryParams' label-width='68px'>
 			<el-form-item label='标题' prop='title'>
 				<el-input
 						v-model='queryParams.title'
@@ -66,7 +66,7 @@
 				>导出
 				</el-button>
 			</el-col>
-			<right-toolbar v-model:showSearch='showSearch' @queryTable='getList'></right-toolbar>
+			<right-toolbar @queryTable='getList'></right-toolbar>
 		</el-row>
 		
 		<el-table v-loading='loading' :data='articleList' @selection-change='handleSelectionChange'>
@@ -87,11 +87,7 @@
 			<el-table-column align='center' label='状态' prop='status' />
 			<el-table-column align='center' label='是否推荐' prop='recommended' />
 			<el-table-column align='center' label='是否开启评论' prop='comment' />
-			<el-table-column align='center' label='更新时间' prop='updateAt' width='180'>
-				<template #default='scope'>
-					<span>{{parseTime(scope.row.updateAt, '{y}-{m}-{d}')}}</span>
-				</template>
-			</el-table-column>
+			<el-table-column align='center' label='更新时间' prop='updateAt' width='180' />
 			<el-table-column align='center' class-name='small-padding fixed-width' label='操作'>
 				<template #default='scope'>
 					<el-button icon='Edit' link type='primary' vPermi="['system:article:edit']" @click='handleEditor(scope.row)'>编辑</el-button>
@@ -102,81 +98,34 @@
 		</el-table>
 		
 		<pagination
-				v-show='total>0'
+				v-show='total > 0'
 				v-model:limit='queryParams.pageSize'
 				v-model:page='queryParams.pageNum'
 				:total='total'
 				@pagination='getList'
 		/>
-		
-		<!-- 添加或修改博客文章对话框 -->
-		<el-dialog v-model='open' :title='title' append-to-body>
-			<el-form ref='articleRef' :model='form' :rules='rules'>
-				<el-form-item label='博客id' prop='uuid'>
-					<el-input v-model='form.uuid' placeholder='请输入博客id' />
-				</el-form-item>
-				<el-form-item label='版本号' prop='version'>
-					<el-input v-model='form.version' placeholder='请输入版本号' />
-				</el-form-item>
-				<el-form-item label='标题' prop='title'>
-					<el-input v-model='form.title' placeholder='请输入标题' />
-				</el-form-item>
-				<el-form-item label='文章内容'>
-					<editor v-model='form.content' :min-height='192' />
-				</el-form-item>
-				<el-form-item label='用户ID' prop='userId'>
-					<el-input v-model='form.userId' placeholder='请输入用户ID' />
-				</el-form-item>
-				<el-form-item label='点赞数' prop='pollCount'>
-					<el-input v-model='form.pollCount' placeholder='请输入点赞数' />
-				</el-form-item>
-				<el-form-item label='封面图' prop='coverImage'>
-					<image-upload v-model='form.coverImage' />
-				</el-form-item>
-				<el-form-item label='评论数' prop='commentCount'>
-					<el-input v-model='form.commentCount' placeholder='请输入评论数' />
-				</el-form-item>
-				<el-form-item label='二维码' prop='qrcodePath'>
-					<el-input v-model='form.qrcodePath' placeholder='请输入二维码' />
-				</el-form-item>
-				<el-form-item label='文章简介' prop='description'>
-					<el-input v-model='form.description' placeholder='请输入文章简介' />
-				</el-form-item>
-				<el-form-item label='关键字' prop='keywords'>
-					<el-input v-model='form.keywords' placeholder='请输入关键字' />
-				</el-form-item>
-				<el-form-item label='文章私密访问时的密钥' prop='password'>
-					<el-input v-model='form.password' placeholder='请输入文章私密访问时的密钥' />
-				</el-form-item>
-			</el-form>
-			<template #footer>
-				<div class='dialog-footer'>
-					<el-button type='primary' @click='submitForm'>确 定</el-button>
-					<el-button @click='cancel'>取 消</el-button>
-				</div>
-			</template>
-		</el-dialog>
+		<artic-dig ref='articleDig' :digData='digData'></artic-dig>
 	</div>
 </template>
 
-<script name='Article' setup>
-import { addArticle, delArticle, getArticle, listArticle, updateArticle } from '@/api/system/article';
+<script setup>
+import { reactive, ref } from 'vue';
+import { delArticle, listArticle } from '@/api/system/article';
 import { useArticleStore } from '../../../store/modules/articleStore';
+import ArticDig from '../../../components/Editor/ArticDig.vue';
+import { getArticle } from '../../../api/system/article';
 
 const { proxy } = getCurrentInstance();
-
 const articleList = ref([]);
-const open = ref(false);
 const loading = ref(true);
-const showSearch = ref(true);
 const ids = ref([]);
 const single = ref(true);
 const multiple = ref(true);
 const total = ref(0);
-const title = ref('');
-
+const articleDig = ref();
+const digData = ref();
+const curForm = ref({});
 const data = reactive({
-	form: {},
 	queryParams: {
 		pageNum: 1,
 		pageSize: 10,
@@ -184,31 +133,32 @@ const data = reactive({
 		userId: null,
 		status: null,
 	},
-	rules: {},
 });
 
-const { queryParams, form, rules } = toRefs(data);
+const { queryParams } = toRefs(data);
 
 /** 查询博客文章列表 */
 function getList() {
 	loading.value = true;
-	listArticle(queryParams.value).then(response => {
+	listArticle(queryParams.value)
+	.then((response) => {
 		articleList.value = response.rows;
 		total.value = response.total;
 		loading.value = false;
+	})
+	.catch((error) => {
+		console.error('Error fetching article list:', error);
 	});
 }
 
 // 取消按钮
 function cancel() {
-	open.value = false;
 	reset();
 }
 
 // 表单重置
 function reset() {
-	form.value = {};
-	proxy.resetForm('articleRef');
+	curForm.value = {};
 }
 
 /** 搜索按钮操作 */
@@ -225,7 +175,7 @@ function resetQuery() {
 
 // 多选框选中数据
 function handleSelectionChange(selection) {
-	ids.value = selection.map(item => item.id);
+	ids.value = selection.map((item) => item.id);
 	single.value = selection.length !== 1;
 	multiple.value = !selection.length;
 }
@@ -233,8 +183,6 @@ function handleSelectionChange(selection) {
 /** 新增按钮操作 */
 function handleAdd() {
 	reset();
-	// open.value = true;
-	// title.value = '添加博客文章';
 	proxy.$router.push({ path: 'blogEditor', query: { createType: 'init' } });
 }
 
@@ -242,14 +190,19 @@ function handleAdd() {
 function handleUpdate(row) {
 	reset();
 	const _id = row.id || ids.value;
-	getArticle(_id).then(response => {
-		form.value = response.data;
-		open.value = true;
-		title.value = '修改博客文章';
+	getArticle(_id)
+	.then((response) => {
+		digData.value = response.data;
+		const { readType, comment, coverImage, status, keywords, recommended, top, original, password, tags, title } = response.data;
+		digData.value = { id: _id, readType, comment, coverImage, status, keywords, recommended, top, original, password, tags, title, createType: 'Mod' };
+		articleDig.value.handleShow();
+	})
+	.catch((error) => {
+		proxy.$modal.msgSuccess('Error fetching article data:', error);
 	});
 }
 
-/** 修改按钮操作 */
+/** 编辑按钮操作 */
 function handleEditor(row) {
 	reset();
 	const _id = row.id || ids.value;
@@ -258,36 +211,21 @@ function handleEditor(row) {
 	proxy.$router.push({ path: 'blogEditor', query: { createType: 'Mod', id: _id } });
 }
 
-/** 提交按钮 */
-function submitForm() {
-	proxy.$refs['articleRef'].validate(valid => {
-		if( valid ) {
-			if( form.value.id != null ) {
-				updateArticle(form.value).then(() => {
-					proxy.$modal.msgSuccess('修改成功');
-					open.value = false;
-					getList();
-				});
-			} else {
-				addArticle(form.value).then(() => {
-					proxy.$modal.msgSuccess('新增成功');
-					open.value = false;
-					getList();
-				});
-			}
-		}
-	});
-}
-
 /** 删除按钮操作 */
 function handleDelete(row) {
 	const _ids = row.id || ids.value;
-	proxy.$modal.confirm('是否确认删除博客文章编号为"' + _ids + '"的数据项？').then(function() {
+	proxy.$modal
+	.confirm('是否确认删除博客文章编号为"' + _ids + '"的数据项？')
+	.then(function() {
 		return delArticle(_ids);
-	}).then(() => {
+	})
+	.then(() => {
 		getList();
 		proxy.$modal.msgSuccess('删除成功');
-	}).catch(() => {});
+	})
+	.catch((error) => {
+		console.error('Error deleting article:', error);
+	});
 }
 
 /** 导出按钮操作 */

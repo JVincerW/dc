@@ -1,19 +1,15 @@
-<script setup>
-
+<script name='articDig' setup>
 import { ref } from 'vue';
 import { Plus } from '@element-plus/icons-vue';
-import { addArticle, updateArticle } from '../../../../api/system/article';
+import { addArticle, updateArticle } from '../../api/system/article';
 
 const { proxy } = getCurrentInstance();
-
-const props = defineProps({ digData: Object });
-const digData = ref(props.digData);
 const dialogTableVisible = ref(false);
-// 标签输入状态
 const addVisible = ref(false);
+const { digData } = defineProps({ digData: Object });
+
 // 新标签
 const newTagValue = ref(null);
-console.log(digData.value.toString(), 'digData');
 const handleShow = () => {
 	dialogTableVisible.value = true;
 };
@@ -40,10 +36,9 @@ function showInput() {
 }
 
 function handleSubmit() {
-	console.log(digData.value, '确认按钮被点击，获取到的值');
-	digData.value.editorData;
-	const articleObj = { ...digData.value, ...digData.value.editorData };
-	delete articleObj.editorData;
+	console.log(proxy.digData, '确认按钮被点击，获取到的值');
+	const articleObj = proxy.digData;
+	
 	console.log(articleObj, '最终的文章对象');
 	if( articleObj.createType === 'Mod' ) {
 		updateArticle(articleObj).then(response => {
@@ -64,8 +59,11 @@ defineExpose({ handleShow });
 </script>
 
 <template>
-	<el-dialog v-model='dialogTableVisible' center title='文章信息'>
+	<el-dialog v-model='dialogTableVisible' center>
 		<el-form label-width='80px'>
+			<el-form-item label='文章标题'>
+				<el-input v-model='digData.title' placeholder='请输入文章标题' />
+			</el-form-item>
 			<el-form-item label='阅读类型'>
 				<el-radio-group v-model='digData.readType'>
 					<el-radio label='0'>无需验证</el-radio>
