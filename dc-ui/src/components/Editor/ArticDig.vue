@@ -6,7 +6,7 @@ import { addArticle, updateArticle } from '../../api/system/article';
 const { proxy } = getCurrentInstance();
 const dialogTableVisible = ref(false);
 const addVisible = ref(false);
-const { digData } = defineProps({ digData: Object });
+const { digData, getList } = defineProps({ digData: Object, getList: Function });
 
 // 新标签
 const newTagValue = ref(null);
@@ -52,7 +52,10 @@ function handleSubmit() {
 				proxy.$modal.msgSuccess('创建文件成功！');
 			}
 		});
+		
 	}
+	proxy.getList();
+	dialogTableVisible.value = false;
 }
 
 defineExpose({ handleShow });

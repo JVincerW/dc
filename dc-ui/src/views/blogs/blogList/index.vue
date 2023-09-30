@@ -104,7 +104,7 @@
 				:total='total'
 				@pagination='getList'
 		/>
-		<artic-dig ref='articleDig' :digData='digData'></artic-dig>
+		<artic-dig ref='articleDig' :digData='digData' :getList='getList'></artic-dig>
 	</div>
 </template>
 
@@ -139,6 +139,7 @@ const { queryParams } = toRefs(data);
 
 /** 查询博客文章列表 */
 function getList() {
+	console.log(3333333);
 	loading.value = true;
 	listArticle(queryParams.value)
 	.then((response) => {
