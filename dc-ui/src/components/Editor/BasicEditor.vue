@@ -22,6 +22,13 @@ const editorRef = shallowRef();
 const props = defineProps({ editorData: Object });
 console.log(props.editorData, '大苏打大大大大大大大大大');
 const editorData = ref(props.editorData);
+if( editorData.value.createType !== 'Mod' ) {
+	reset();
+}
+
+function reset() {
+	editorData.value = { title: null, content: null, editorType: '富文本', enableEditor: true, hasTtile: true };
+}
 
 const editorConfig = { placeholder: '请输入内容...', scroll: false, readOnly: editorData.enableEditor, MENU_CONF: {} };
 // 修改 uploadImage 菜单配置

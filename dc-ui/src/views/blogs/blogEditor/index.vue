@@ -22,17 +22,25 @@ const digData = ref({});
 const showBasicEditor = ref(false);
 onMounted(() => {
 	const createType = proxy.$route.query.createType;
-	// 现在，你可以使用 blogId 来访问传递的参数
 	console.log('编辑器加载类型:', createType);
 	console.log('编辑页面加载');
 	const articleStore = useArticleStore();
 	const articleData = articleStore.articleData;
-	console.log(articleStore.articleData, '编辑页面被初始化的数据');
-	const { title, content, coverImage, editorType, readType, status, id, tags, top, recommended, original, keywords, comment, password } = articleData;
-	editorData.value = { createType: createType, id, title, content, editorType, enableEditor: true, hasTtile: title && title.length > 1 };
-	digData.value = { createType: createType, id, readType, status, coverImage, top, tags, recommended, original, keywords, comment, password };
-	showBasicEditor.value = true;
+	
+	if( articleData ) {
+		const { title, content, coverImage, editorType, readType, status, id, tags, top, recommended, original, keywords, comment, password } = articleData;
+		editorData.value = { createType: createType, id, title, content, editorType, enableEditor: true, hasTtile: title && title.length > 1 };
+		digData.value = { createType: createType, id, readType, status, coverImage, top, tags, recommended, original, keywords, comment, password };
+		showBasicEditor.value = true;
+		console.log(articleData, '编辑页面被初始化的数据');
+	} else {
+		editorData.value = { createType: 'init', enableEditor: true };
+		digData.value = { createType: 'init', enableEditor: true };
+		showBasicEditor.value = true;
+		console.log(articleData, '编辑页面被初始化的数据');
+	}
 });
+
 const wEditorRef = ref();
 const dig = ref();
 
