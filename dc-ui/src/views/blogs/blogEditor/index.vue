@@ -13,7 +13,7 @@ import BasicEditor from '../../../components/Editor/BasicEditor.vue';
 import ArticDig from '../../../components/Editor/ArticDig.vue';
 import { getArticle } from '../../../api/system/article';
 
-const digData = ref();
+const digData = ref({ createType: 'init', enableEditor: true, hasTitile: true, content: '', title: '' });
 const proxy = getCurrentInstance().proxy;
 const editorData = ref({ createType: 'init', enableEditor: true, hasTitile: true, content: '' });
 const showBasicEditor = ref();
@@ -31,6 +31,7 @@ onBeforeMount(() => {
 		});
 	} else {
 		editorData.value = { createType: createType, enableEditor: true, hasTitile: true, title: '', content: '' };
+		digData.value = { createType: createType, title: '' };
 	}
 	editorIndex.showBasicEditor = true;
 	showBasicEditor.value = true;

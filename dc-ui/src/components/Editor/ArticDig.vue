@@ -6,7 +6,7 @@ import { addArticle, updateArticle } from '../../api/system/article';
 const { proxy } = getCurrentInstance();
 const dialogTableVisible = ref(false);
 const addVisible = ref(false);
-const { digData = {}, getList = () => {} } = defineProps({ digData: Object, getList: Function });
+const { digData = { createType: 'init', enableEditor: true, hasTitile: true, content: '', title: '' }, getList = () => {} } = defineProps({ digData: Object, getList: Function });
 
 // 新标签
 const newTagValue = ref(null);
