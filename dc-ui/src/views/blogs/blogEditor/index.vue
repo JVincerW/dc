@@ -2,7 +2,6 @@
 	<div>
 		<el-button circle class='push' icon='Promotion' type='success' @click='getChildValueHtml' />
 		<div>
-			<!--<BasicEditor ref='wEditorRef' :editorData='editorData' />-->
 			<async-basic-editor v-if='showBasicEditor' :editorData='editorData' />
 			<async-article-dig ref='dig' :digData='digData'></async-article-dig>
 		</div>
@@ -40,12 +39,10 @@ onMounted(() => {
 		console.log(articleData, '编辑页面被初始化的数据');
 	}
 });
-
-const wEditorRef = ref();
 const dig = ref();
 
 const getChildValueHtml = () => {
-	console.log('父页面获取到的值', wEditorRef.value);
+	console.log('父页面获取到的值', editorData.value);
 	dig.value.handleShow();
 };
 </script>
