@@ -2,8 +2,8 @@
 	<div>
 		<el-button circle class='push' icon='Promotion' type='success' @click='digShow' />
 		<div>
-			<basic-editor v-if='showBasicEditor' ref='editorIndex' :editorData='editorData' />
-			<artic-dig v-if='digData' ref='articleDig' :digData='digData'></artic-dig>
+			<basic-editor v-if='showBasicEditor' ref='editorIndex' :editorData='articleForm' :editorSetting='editorSetting' />
+			<artic-dig v-if='digData' ref='articleDig' :digData='articleForm'></artic-dig>
 		</div>
 	</div>
 </template>
@@ -15,31 +15,51 @@ import { getArticle } from '../../../api/system/article';
 
 const digData = ref({ createType: 'init', enableEditor: true, hasTitile: true, content: '', title: '' });
 const proxy = getCurrentInstance().proxy;
-const editorData = ref({ createType: 'init', enableEditor: true, hasTitile: true, content: '' });
 const showBasicEditor = ref();
 const editorIndex = ref();
 const articleDig = ref();
+const editorSetting = ref({
+	enableEditor: true,
+	hasTitile: true,
+});
+
+const articleForm = ref({});
 onBeforeMount(() => {
+	reset();
 	const createType = proxy.$route.query.createType || 'init';
 	console.log('编辑器加载类型:', createType);
 	console.log('要编辑的文章id:', proxy.$route.query.id);
 	if( createType === 'Mod' && proxy.$route.query.id ) {
 		getArticle(proxy.$route.query.id).then(response => {
-			const { title, content, coverImage, editorType, readType, status, id, tags, top, recommended, original, keywords, comment, password } = response.data;
-			editorData.value = { createType: createType, id, title, content, editorType, enableEditor: true, hasTitile: true };
-			digData.value = { createType: createType, title, id, readType, status, coverImage, top, tags, recommended, original, keywords, comment, password };
+			articleForm.value = response.data;
 		});
 	} else {
-		editorData.value = { createType: createType, enableEditor: true, hasTitile: true, title: '', content: '' };
-		digData.value = { createType: createType, title: '' };
+		reset();
 	}
 	editorIndex.showBasicEditor = true;
 	showBasicEditor.value = true;
 });
 
-function digShow() {
-	console.log(555);
+function reset() {
+	articleForm.value = {
+		title: '',
+		content: '',
+		coverImage: null,
+		editorType: '0',
+		readType: '0',
+		status: '',
+		tags: [],
+		top: false,
+		recommended: false,
+		original: '0',
+		keywords: null,
+		comment: false,
+		password: null,
+	};
 	
+}
+
+function digShow() {
 	articleDig.value.handleShow();
 }
 

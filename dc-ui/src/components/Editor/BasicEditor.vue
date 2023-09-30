@@ -2,7 +2,7 @@
 	<div ref='cref' class='bg-red'>
 		<Toolbar :editor='editorRef' class='tb' />
 		<div class='scroll-container'>
-			<div v-if='editorData.hasTitile' class='inputDeep'>
+			<div v-if='editorSetting.hasTitile' class='inputDeep'>
 				<el-input v-model='editorData.title' placeholder='请输入标题'></el-input>
 			</div>
 			<Editor v-model='editorData.content' :defaultConfig='editorConfig' style='background-color: #fff' @onCreated='handleCreated' />
@@ -19,14 +19,11 @@ import { getToken } from '@/utils/auth';
 const uploadFile = ref(import.meta.env.VITE_APP_BASE_API + '/file/uploadEditor'); // 上传的图片服务器地址
 
 const editorRef = shallowRef();
-const { editorData } = defineProps({ editorData: Object });
+const { editorData, editorSetting } = defineProps({ editorData: Object, editorSetting: Object });
 
 console.log(editorData, 'BasicEditor获取到的值');
-const editorConfig = { placeholder: '请输入内容...', scroll: false, MENU_CONF: {} };
-onBeforeMount(() => {
-	console.log(editorData, 'BasicEditor获取到的值');
-});
-console.log(editorData, 'BasicEditor获fffff取到的值');
+const editorConfig = { placeholder: '请输入内容...', scroll: false, mode: 'simple', readOnly: !editorSetting.enableEditor, MENU_CONF: {} };
+
 // 插入图片
 editorConfig.MENU_CONF['uploadImage'] = {
 	fieldName: 'file',
