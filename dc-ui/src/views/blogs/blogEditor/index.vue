@@ -2,59 +2,45 @@
 	<div>
 		<el-button circle class='push' icon='Promotion' type='success' @click='digShow' />
 		<div>
-			<basic-editor v-if='showBasicEditor' :editorData='editorData' />
-			<!--<dig ref='dig' digData='digData'></dig>-->
+			<basic-editor v-if='showBasicEditor' ref='editorIndex' :editorData='editorData' />
+			<artic-dig ref='articleDig' :digData='digData'></artic-dig>
 		</div>
 	</div>
 </template>
 
 <script setup>
 import BasicEditor from '../../../components/Editor/BasicEditor.vue';
+import ArticDig from '../../../components/Editor/ArticDig.vue';
 import { getArticle } from '../../../api/system/article';
 
+const digData = ref();
 const proxy = getCurrentInstance().proxy;
-let editorData;
-let digData;
-let showBasicEditor = false;
-// const dig = ref();
-onMounted(() => {
+const editorData = ref({ createType: 'init', enableEditor: true, hasTitile: true, content: '' });
+const showBasicEditor = ref();
+const editorIndex = ref();
+const articleDig = ref();
+onBeforeMount(() => {
 	const createType = proxy.$route.query.createType || 'init';
-	console.log('编辑器加载类型:', createType || 'init');
-	editorData = { createType: createType, enableEditor: true, hasTitile: true, content: '' };
-	digData = { createType: createType, enableEditor: true };
-	
-	if( createType && createType === 'Mod' && proxy.$route.query.id ) {
-		console.log('有文章可以做');
+	console.log('编辑器加载类型:', createType);
+	console.log('要编辑的文章id:', proxy.$route.query.id);
+	if( createType === 'Mod' && proxy.$route.query.id ) {
 		getArticle(proxy.$route.query.id).then(response => {
-			console.log(proxy.$route.query.id, '文章id');
-			let { title, content, coverImage, editorType, readType, status, id, tags, top, recommended, original, keywords, comment, password } = response.data;
-			editorData = { createType: createType, id, title, content, editorType, enableEditor: true, hasTitile: true };
-			console.log(editorData);
-			showBasicEditor = true;
-			// digData = { createType: createType, id, readType, status, coverImage, top, tags, recommended, original, keywords, comment, password };
+			const { title, content, coverImage, editorType, readType, status, id, tags, top, recommended, original, keywords, comment, password } = response.data;
+			editorData.value = { createType: createType, id, title, content, editorType, enableEditor: true, hasTitile: true };
+			digData.value = { createType: createType, title, id, readType, status, coverImage, top, tags, recommended, original, keywords, comment, password };
 		});
-		
-		// const { title, content, coverImage, editorType, readType, status, id, tags, top, recommended, original, keywords, comment, password } = articleData;
-		//
-		// editorData = { createType: createType, id, title, content, editorType, enableEditor: true, hasTtile: true };
-		//
-		// digData = { createType: createType, id, readType, status, coverImage, top, tags, recommended, original, keywords, comment, password };
-		// showBasicEditor.value = true;
-		// console.log(articleData, '编辑页面被初始化的数据');
+	} else {
+		editorData.value = { createType: createType, enableEditor: true, hasTitile: true, content: '' };
 	}
-	
+	editorIndex.showBasicEditor = true;
+	showBasicEditor.value = true;
 });
 
 function digShow() {
 	console.log(555);
-	
+	articleDig.value.handleShow();
 }
 
-// const digShow = () => {
-// 	digData.value.editorData = editorData.value;
-// 	console.log(editorData.value, 'digData.value.editorData');
-// 	dig.value.handleShow();
-// };
 </script>
 
 <style scoped>

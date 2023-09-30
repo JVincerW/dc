@@ -19,12 +19,14 @@ import { getToken } from '@/utils/auth';
 const uploadFile = ref(import.meta.env.VITE_APP_BASE_API + '/file/uploadEditor'); // 上传的图片服务器地址
 
 const editorRef = shallowRef();
-const props = defineProps({ editorData: Object });
+const { editorData } = defineProps({ editorData: Object });
 
-const editorData = props.editorData;
 console.log(editorData, 'BasicEditor获取到的值');
 const editorConfig = { placeholder: '请输入内容...', scroll: false, MENU_CONF: {} };
-// 修改 uploadImage 菜单配置
+onBeforeMount(() => {
+	console.log(editorData, 'BasicEditor获取到的值');
+});
+console.log(editorData, 'BasicEditor获fffff取到的值');
 // 插入图片
 editorConfig.MENU_CONF['uploadImage'] = {
 	fieldName: 'file',

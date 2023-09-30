@@ -111,7 +111,6 @@
 <script setup>
 import { reactive, ref } from 'vue';
 import { delArticle, listArticle } from '@/api/system/article';
-import { useArticleStore } from '../../../store/modules/articleStore';
 import ArticDig from '../../../components/Editor/ArticDig.vue';
 import { getArticle } from '../../../api/system/article';
 
@@ -134,7 +133,7 @@ const data = reactive({
 		status: null,
 	},
 });
-
+const articleForm = ref({});
 const { queryParams } = toRefs(data);
 
 /** 查询博客文章列表 */
@@ -150,6 +149,7 @@ function getList() {
 	.catch((error) => {
 		console.error('Error fetching article list:', error);
 	});
+	
 }
 
 // 取消按钮
@@ -193,7 +193,6 @@ function handleUpdate(row) {
 	const _id = row.id || ids.value;
 	getArticle(_id)
 	.then((response) => {
-		digData.value = response.data;
 		const { readType, comment, coverImage, status, keywords, recommended, top, original, password, tags, title } = response.data;
 		digData.value = { id: _id, readType, comment, coverImage, status, keywords, recommended, top, original, password, tags, title, createType: 'Mod' };
 		articleDig.value.handleShow();
@@ -207,9 +206,12 @@ function handleUpdate(row) {
 function handleEditor(row) {
 	reset();
 	const _id = row.id || ids.value;
-	const articleStore = useArticleStore();
-	articleStore.setArticleData(_id); // 传入文章ID
+	
 	proxy.$router.push({ path: 'blogEditor', query: { createType: 'Mod', id: _id } });
+}
+
+function doOpiontion() {
+
 }
 
 /** 删除按钮操作 */
