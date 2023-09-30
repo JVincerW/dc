@@ -26,42 +26,42 @@
 		<el-row :gutter='10' class='mb8'>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:article:add']"
 						icon='Plus'
 						plain
 						type='primary'
+						vPermi="['system:article:add']"
 						@click='handleAdd'
 				>新增
 				</el-button>
 			</el-col>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:article:edit']"
 						:disabled='single'
 						icon='Edit'
 						plain
 						type='success'
+						vPermi="['system:article:edit']"
 						@click='handleUpdate'
 				>修改
 				</el-button>
 			</el-col>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:article:remove']"
 						:disabled='multiple'
 						icon='Delete'
 						plain
 						type='danger'
+						vPermi="['system:article:remove']"
 						@click='handleDelete'
 				>删除
 				</el-button>
 			</el-col>
 			<el-col :span='1.5'>
 				<el-button
-						v-hasPermi="['system:article:export']"
 						icon='Download'
 						plain
 						type='warning'
+						vPermi="['system:article:export']"
 						@click='handleExport'
 				>导出
 				</el-button>
@@ -94,8 +94,9 @@
 			</el-table-column>
 			<el-table-column align='center' class-name='small-padding fixed-width' label='操作'>
 				<template #default='scope'>
-					<el-button v-hasPermi="['system:article:edit']" icon='Edit' link type='primary' @click='handleUpdate(scope.row)'>修改</el-button>
-					<el-button v-hasPermi="['system:article:remove']" icon='Delete' link type='primary' @click='handleDelete(scope.row)'>删除</el-button>
+					<el-button icon='Edit' link type='primary' vPermi="['system:article:edit']" @click='handleEditor(scope.row)'>编辑</el-button>
+					<el-button icon='Operation' link type='primary' vPermi="['system:article:edit']" @click='handleUpdate(scope.row)'>修改</el-button>
+					<el-button icon='Delete' link type='primary' vPermi="['system:article:remove']" @click='handleDelete(scope.row)'>删除</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -109,8 +110,8 @@
 		/>
 		
 		<!-- 添加或修改博客文章对话框 -->
-		<el-dialog v-model='open' :title='title' append-to-body width='500px'>
-			<el-form ref='articleRef' :model='form' :rules='rules' label-width='80px'>
+		<el-dialog v-model='open' :title='title' append-to-body>
+			<el-form ref='articleRef' :model='form' :rules='rules'>
 				<el-form-item label='博客id' prop='uuid'>
 					<el-input v-model='form.uuid' placeholder='请输入博客id' />
 				</el-form-item>
@@ -160,6 +161,7 @@
 
 <script name='Article' setup>
 import { addArticle, delArticle, getArticle, listArticle, updateArticle } from '@/api/system/article';
+import { useArticleStore } from '../../../store/modules/articleStore';
 
 const { proxy } = getCurrentInstance();
 
@@ -205,30 +207,7 @@ function cancel() {
 
 // 表单重置
 function reset() {
-	form.value = {
-		id: null,
-		uuid: null,
-		version: null,
-		title: null,
-		content: null,
-		userId: null,
-		pollCount: null,
-		coverImage: null,
-		commentCount: null,
-		readType: null,
-		editorType: null,
-		qrcodePath: null,
-		top: null,
-		status: null,
-		recommended: null,
-		original: null,
-		description: null,
-		keywords: null,
-		comment: null,
-		password: null,
-		createAt: null,
-		updateAt: null,
-	};
+	form.value = {};
 	proxy.resetForm('articleRef');
 }
 
@@ -247,7 +226,7 @@ function resetQuery() {
 // 多选框选中数据
 function handleSelectionChange(selection) {
 	ids.value = selection.map(item => item.id);
-	single.value = selection.length != 1;
+	single.value = selection.length !== 1;
 	multiple.value = !selection.length;
 }
 
@@ -269,18 +248,27 @@ function handleUpdate(row) {
 	});
 }
 
+/** 修改按钮操作 */
+function handleEditor(row) {
+	reset();
+	const _id = row.id || ids.value;
+	const articleStore = useArticleStore();
+	articleStore.setArticleData(_id); // 传入文章ID
+	proxy.$router.push({ path: 'blogEditor', query: { createType: 'Mod', id: _id } });
+}
+
 /** 提交按钮 */
 function submitForm() {
 	proxy.$refs['articleRef'].validate(valid => {
 		if( valid ) {
 			if( form.value.id != null ) {
-				updateArticle(form.value).then(response => {
+				updateArticle(form.value).then(() => {
 					proxy.$modal.msgSuccess('修改成功');
 					open.value = false;
 					getList();
 				});
 			} else {
-				addArticle(form.value).then(response => {
+				addArticle(form.value).then(() => {
 					proxy.$modal.msgSuccess('新增成功');
 					open.value = false;
 					getList();

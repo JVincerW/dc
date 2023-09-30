@@ -2,15 +2,15 @@
 	<div ref='cref' class='bg-red'>
 		<Toolbar :editor='editorRef' class='tb' />
 		<div class='scroll-container'>
-			<div v-if='initEditor.hasTitle' class='inputDeep'>
-				<el-input v-model='initEditor.title' placeholder='请输入标题'></el-input>
+			<div v-if='editorData.hasTtile' class='inputDeep'>
+				<el-input v-model='editorData.title' placeholder='请输入标题'></el-input>
 			</div>
-			<Editor v-model='initEditor.valueHtml' :defaultConfig='editorConfig' style='background-color: #fff' @onCreated='handleCreated' />
+			<Editor v-model='editorData.content' :defaultConfig='editorConfig' style='background-color: #fff' @onCreated='handleCreated' />
 		</div>
 	</div>
 </template>
 
-<script props='props' setup>
+<script setup>
 import '@wangeditor/editor/dist/css/style.css';
 import { ref, shallowRef } from 'vue';
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue';
@@ -20,29 +20,31 @@ const uploadFile = ref(import.meta.env.VITE_APP_BASE_API + '/file/uploadEditor')
 
 const editorRef = shallowRef();
 const props = defineProps({ editorData: Object });
-const initEditor = ref(props.editorData);
-const editorConfig = { placeholder: '请输入内容...', scroll: false, readOnly: initEditor.isOnlyRead, MENU_CONF: {} };
+console.log(props.editorData, '大苏打大大大大大大大大大');
+const editorData = ref(props.editorData);
+
+const editorConfig = { placeholder: '请输入内容...', scroll: false, readOnly: editorData.enableEditor, MENU_CONF: {} };
 // 修改 uploadImage 菜单配置
 // 插入图片
 editorConfig.MENU_CONF['uploadImage'] = {
-    fieldName: 'file',
-    server: uploadFile.value,
-    // 单个文件的最大体积限制，默认为 50M
-    maxFileSize: 20 * 1024 * 1024, // 100M
-    metaWithUrl: true,
-    withCredentials: true,
-    headers: { Authorization: 'Bearer ' + getToken() },
+	fieldName: 'file',
+	server: uploadFile.value,
+	// 单个文件的最大体积限制，默认为 50M
+	maxFileSize: 20 * 1024 * 1024, // 100M
+	metaWithUrl: true,
+	withCredentials: true,
+	headers: { Authorization: 'Bearer ' + getToken() },
 };
 editorConfig.MENU_CONF['uploadVideo'] = {
-    fieldName: 'file',
-    server: uploadFile.value,
-    metaWithUrl: true,
-    // 单个文件的最大体积限制，默认为 50M
-    maxFileSize: 100 * 1024 * 1024, // 100M
-    withCredentials: true,
-    headers: { Authorization: 'Bearer ' + getToken() },
-}
-console.log(props.editorData, 'editorData');
+	fieldName: 'file',
+	server: uploadFile.value,
+	metaWithUrl: true,
+	// 单个文件的最大体积限制，默认为 50M
+	maxFileSize: 100 * 1024 * 1024, // 100M
+	withCredentials: true,
+	headers: { Authorization: 'Bearer ' + getToken() },
+};
+
 // 使用 ref 引用元素
 const cref = ref(null);
 
@@ -54,7 +56,7 @@ const handleCreated = (editor) => {
 	console.log(uploadFile.value, '图片上传地址');
 };
 
-defineExpose({ initEditor });
+defineExpose({ editorData });
 
 </script>
 
@@ -92,7 +94,7 @@ defineExpose({ initEditor });
 	font-size: 2em;
 	height: 2.5em;
 	text-align: center;
-
+	
 }
 
 /* 去掉输入框的边框，聚焦时也没有边框 */
