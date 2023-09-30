@@ -23,10 +23,15 @@ function tagTrans(tag) {
 
 function addConfirm() {
 	console.log('添加新标签事件');
+	console.log(newTagValue.value, '新添加的标签');
+	digData.value.tags.push({ 'code': newTagValue.value, flag: true, label: newTagValue.value });
+	newTagValue.value = null;
+	addVisible.value = false;
 }
 
 function showInput() {
 	console.log('显示添加标签的输入框');
+	addVisible.value = true;
 }
 
 function handleSubmit() {
@@ -107,21 +112,21 @@ defineExpose({ handleShow });
 						:type="tag.flag ? 'success':'info'"
 						class='mx-1'
 						effect='dark'
-						style='cursor: pointer; margin-left: 10px;margin-top: 10px'
+						style='cursor: pointer; margin-left: 10px;'
 						@click='tagTrans(tag)'
 				>
-					{{tag.dictLabel}}
+					{{tag.label}}
 				</el-tag>
 				<el-input
 						v-if='addVisible'
 						v-model='newTagValue'
 						clearable
 						size='small'
-						style='margin-left: 10px;width: 80px;margin-top: 10px'
+						style='margin-left: 10px;width: 80px;'
 						@blur='addConfirm'
 						@keyup.enter.native='$event.target.blur()'
 				/>
-				<el-button v-else :icon='Plus' class='button-new-tag' size='small' style='width: 80px;margin-top: 10px' @click='showInput'>
+				<el-button v-else :icon='Plus' class='button-new-tag' size='small' style='width: 80px;' @click='showInput'>
 				</el-button>
 			</el-form-item>
 			<el-form-item>
