@@ -6,7 +6,7 @@ import { addArticle, updateArticle } from '../../api/system/article';
 const { proxy } = getCurrentInstance();
 const dialogTableVisible = ref(false);
 const addVisible = ref(false);
-const { digData, getList } = defineProps({ digData: Object, getList: Function });
+const { digData = {}, getList = () => {} } = defineProps({ digData: Object, getList: Function });
 
 // 新标签
 const newTagValue = ref(null);
@@ -54,7 +54,6 @@ function handleSubmit() {
 		});
 		
 	}
-	proxy.getList();
 	dialogTableVisible.value = false;
 }
 
@@ -62,7 +61,7 @@ defineExpose({ handleShow });
 </script>
 
 <template>
-	<el-dialog v-model='dialogTableVisible' center>
+	<el-dialog v-if='digData' v-model='dialogTableVisible' center>
 		<el-form label-width='80px'>
 			<el-form-item label='文章标题'>
 				<el-input v-model='digData.title' placeholder='请输入文章标题' />

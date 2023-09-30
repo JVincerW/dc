@@ -1,6 +1,6 @@
 <template>
 	<div class='app-container'>
-		<el-form ref='queryRef' :inline='true' :model='queryParams' label-width='68px'>
+		<el-form :inline='true' :model='queryParams' label-width='68px'>
 			<el-form-item label='标题' prop='title'>
 				<el-input
 						v-model='queryParams.title'
@@ -96,7 +96,6 @@
 				</template>
 			</el-table-column>
 		</el-table>
-		
 		<pagination
 				v-show='total > 0'
 				v-model:limit='queryParams.pageSize'
@@ -109,36 +108,36 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue';
+
 import { delArticle, listArticle } from '@/api/system/article';
 import ArticDig from '../../../components/Editor/ArticDig.vue';
 import { getArticle } from '../../../api/system/article';
 
 const { proxy } = getCurrentInstance();
 const articleList = ref([]);
+
 const loading = ref(true);
+
 const ids = ref([]);
+
 const single = ref(true);
 const multiple = ref(true);
+
 const total = ref(0);
 const articleDig = ref();
 const digData = ref();
-const curForm = ref({});
-const data = reactive({
-	queryParams: {
-		pageNum: 1,
-		pageSize: 10,
-		title: null,
-		userId: null,
-		status: null,
-	},
-});
-const articleForm = ref({});
-const { queryParams } = toRefs(data);
+const initParams = {
+	pageNum: 1,
+	pageSize: 50,
+	title: null,
+	userId: null,
+	status: null,
+};
+const queryParams = ref(initParams);
 
 /** 查询博客文章列表 */
 function getList() {
-	console.log(3333333);
+	console.log('获取文章列表');
 	loading.value = true;
 	listArticle(queryParams.value)
 	.then((response) => {
@@ -148,18 +147,8 @@ function getList() {
 	})
 	.catch((error) => {
 		console.error('Error fetching article list:', error);
+		loading.value = false;
 	});
-	
-}
-
-// 取消按钮
-function cancel() {
-	reset();
-}
-
-// 表单重置
-function reset() {
-	curForm.value = {};
 }
 
 /** 搜索按钮操作 */
@@ -170,11 +159,13 @@ function handleQuery() {
 
 /** 重置按钮操作 */
 function resetQuery() {
-	proxy.resetForm('queryRef');
+	queryParams.value = initParams;
 	handleQuery();
 }
 
 // 多选框选中数据
+// single 变量的值会根据选中的文章数量来改变。如果选中的文章数量不等于1，那么 single 的值将为 true，否则为 false。这个变量通常用于控制只能编辑单个文章的情况。
+// 如果没有选中任何文章（selection 数组为空），那么 multiple 的值将为 true，否则为 false。这个变量通常用于控制批量删除等需要选中多个文章的操作。
 function handleSelectionChange(selection) {
 	ids.value = selection.map((item) => item.id);
 	single.value = selection.length !== 1;
@@ -183,39 +174,35 @@ function handleSelectionChange(selection) {
 
 /** 新增按钮操作 */
 function handleAdd() {
-	reset();
 	proxy.$router.push({ path: 'blogEditor', query: { createType: 'init' } });
 }
 
 /** 修改按钮操作 */
 function handleUpdate(row) {
-	reset();
 	const _id = row.id || ids.value;
+	loading.value = true;
 	getArticle(_id)
 	.then((response) => {
 		const { readType, comment, coverImage, status, keywords, recommended, top, original, password, tags, title } = response.data;
 		digData.value = { id: _id, readType, comment, coverImage, status, keywords, recommended, top, original, password, tags, title, createType: 'Mod' };
 		articleDig.value.handleShow();
+		loading.value = false;
 	})
 	.catch((error) => {
 		proxy.$modal.msgSuccess('Error fetching article data:', error);
+		loading.value = false;
 	});
 }
 
 /** 编辑按钮操作 */
 function handleEditor(row) {
-	reset();
 	const _id = row.id || ids.value;
-	
 	proxy.$router.push({ path: 'blogEditor', query: { createType: 'Mod', id: _id } });
-}
-
-function doOpiontion() {
-
 }
 
 /** 删除按钮操作 */
 function handleDelete(row) {
+	loading.value = true;
 	const _ids = row.id || ids.value;
 	proxy.$modal
 	.confirm('是否确认删除博客文章编号为"' + _ids + '"的数据项？')
@@ -225,9 +212,11 @@ function handleDelete(row) {
 	.then(() => {
 		getList();
 		proxy.$modal.msgSuccess('删除成功');
+		loading.value = false;
 	})
 	.catch((error) => {
 		console.error('Error deleting article:', error);
+		loading.value = false;
 	});
 }
 

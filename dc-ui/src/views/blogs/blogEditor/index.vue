@@ -3,7 +3,7 @@
 		<el-button circle class='push' icon='Promotion' type='success' @click='digShow' />
 		<div>
 			<basic-editor v-if='showBasicEditor' ref='editorIndex' :editorData='editorData' />
-			<artic-dig ref='articleDig' :digData='digData'></artic-dig>
+			<artic-dig v-if='digData' ref='articleDig' :digData='digData'></artic-dig>
 		</div>
 	</div>
 </template>
@@ -30,7 +30,7 @@ onBeforeMount(() => {
 			digData.value = { createType: createType, title, id, readType, status, coverImage, top, tags, recommended, original, keywords, comment, password };
 		});
 	} else {
-		editorData.value = { createType: createType, enableEditor: true, hasTitile: true, content: '' };
+		editorData.value = { createType: createType, enableEditor: true, hasTitile: true, title: '', content: '' };
 	}
 	editorIndex.showBasicEditor = true;
 	showBasicEditor.value = true;
@@ -38,6 +38,7 @@ onBeforeMount(() => {
 
 function digShow() {
 	console.log(555);
+	
 	articleDig.value.handleShow();
 }
 
