@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<el-button circle class='push' icon='Promotion' type='success' @click='getChildValueHtml' />
+		<el-button circle class='push' icon='Promotion' type='success' @click='digShow' />
 		<div>
 			<async-basic-editor v-if='showBasicEditor' :editorData='editorData' />
 			<async-article-dig ref='dig' :digData='digData'></async-article-dig>
@@ -41,7 +41,7 @@ onMounted(() => {
 });
 const dig = ref();
 
-const getChildValueHtml = () => {
+const digShow = () => {
 	digData.value.editorData = editorData.value;
 	dig.value.handleShow();
 };

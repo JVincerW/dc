@@ -2,6 +2,7 @@
 
 import { ref } from 'vue';
 import { Plus } from '@element-plus/icons-vue';
+import { updateArticle } from '../../../../api/system/article';
 
 const { proxy } = getCurrentInstance();
 
@@ -36,6 +37,16 @@ function showInput() {
 
 function handleSubmit() {
 	console.log(digData.value, '确认按钮被点击，获取到的值');
+	digData.value.editorData;
+	const articleObj = { ...digData.value, ...digData.value.editorData };
+	delete articleObj.editorData;
+	console.log(articleObj, '最终的文章对象');
+	
+	updateArticle(articleObj).then(response => {
+		if( response.code === 200 ) {
+			proxy.$modal.msgSuccess('文章修改成功！');
+		}
+	});
 }
 
 defineExpose({ handleShow });
@@ -46,9 +57,9 @@ defineExpose({ handleShow });
 		<el-form label-width='80px'>
 			<el-form-item label='阅读类型'>
 				<el-radio-group v-model='digData.readType'>
-					<el-radio :label='0'>无需验证</el-radio>
-					<el-radio :label='1'>密码验证</el-radio>
-					<el-radio :label='2'>仅自己</el-radio>
+					<el-radio label='0'>无需验证</el-radio>
+					<el-radio label='1'>密码验证</el-radio>
+					<el-radio label='2'>仅自己</el-radio>
 				</el-radio-group>
 			</el-form-item>
 			<el-form-item label='允许评论'>
