@@ -6,12 +6,14 @@ import { addArticle, updateArticle } from '../../api/system/article';
 const { proxy } = getCurrentInstance();
 const dialogTableVisible = ref(false);
 const addVisible = ref(false);
-const { digData = { createType: 'init', enableEditor: true, hasTitile: true, content: '', title: '' }, getList = () => {} } = defineProps({ digData: Object, getList: Function });
+const { digData, getList } = defineProps({ digData: Object, getList: Function });
 
 // 新标签
 const newTagValue = ref(null);
 const handleShow = () => {
+	console.log(digData, 'digData显示');
 	dialogTableVisible.value = true;
+	
 };
 
 function tagTrans(tag) {
@@ -40,6 +42,7 @@ function handleSubmit() {
 	const articleObj = proxy.digData;
 	
 	console.log(articleObj, '最终的文章对象');
+	
 	if( articleObj.createType === 'Mod' ) {
 		updateArticle(articleObj).then(response => {
 			if( response.code === 200 ) {

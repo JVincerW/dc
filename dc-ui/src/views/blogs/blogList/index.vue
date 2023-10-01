@@ -1,9 +1,9 @@
 <template>
 	<div class='app-container'>
 		<el-dialog v-model='viewShow' title='预览博客'>
-			<h2 style='text-align: center;font-weight: bold'>
+			<h1 style='text-align: center;font-weight: bold'>
 				{{blogForm.title}}
-			</h2>
+			</h1>
 			<div v-html='blogForm.content'></div>
 		</el-dialog>
 		<el-form :inline='true' :model='queryParams' label-width='68px'>

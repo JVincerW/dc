@@ -3,7 +3,7 @@
 		<el-button circle class='push' icon='Promotion' type='success' @click='digShow' />
 		<div>
 			<basic-editor v-if='showBasicEditor' ref='editorIndex' :editorData='articleForm' :editorSetting='editorSetting' />
-			<artic-dig v-if='digData' ref='articleDig' :digData='articleForm'></artic-dig>
+			<artic-dig ref='articleDig' :digData='articleForm'></artic-dig>
 		</div>
 	</div>
 </template>
@@ -13,7 +13,6 @@ import BasicEditor from '../../../components/Editor/BasicEditor.vue';
 import ArticDig from '../../../components/Editor/ArticDig.vue';
 import { getArticle } from '../../../api/system/article';
 
-const digData = ref({ createType: 'init', enableEditor: true, hasTitile: true, content: '', title: '' });
 const proxy = getCurrentInstance().proxy;
 const showBasicEditor = ref();
 const editorIndex = ref();
@@ -23,7 +22,7 @@ const editorSetting = ref({
 	hasTitile: true,
 });
 
-const articleForm = ref({});
+const articleForm = ref();
 onBeforeMount(() => {
 	reset();
 	const createType = proxy.$route.query.createType || 'init';
@@ -32,9 +31,15 @@ onBeforeMount(() => {
 	if( createType === 'Mod' && proxy.$route.query.id ) {
 		getArticle(proxy.$route.query.id).then(response => {
 			articleForm.value = response.data;
+			articleForm.value.createType = 'Mod';
+			console.log(1111111);
+			console.log(articleForm, 'articleForm');
 		});
 	} else {
+		console.log(6666666);
+		
 		reset();
+		articleForm.createType = 'init';
 	}
 	editorIndex.showBasicEditor = true;
 	showBasicEditor.value = true;
