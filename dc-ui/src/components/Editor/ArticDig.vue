@@ -49,10 +49,13 @@ function handleSubmit() {
 				proxy.$modal.msgSuccess('文章修改成功！');
 			}
 		});
-	} else if( articleObj.createType === 'init' ) {
+	} else if( !articleObj.createType || articleObj.createType === 'init' ) {
 		addArticle(articleObj).then(response => {
 			if( response.code === 200 ) {
 				proxy.$modal.msgSuccess('创建文件成功！');
+			} else {
+				console.log(response);
+				proxy.$modal.msgSuccess(response);
 			}
 		});
 		
