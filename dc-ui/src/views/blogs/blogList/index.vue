@@ -1,5 +1,11 @@
 <template>
 	<div class='app-container'>
+		<el-dialog v-model='viewShow' title='预览博客'>
+			<h2 style='text-align: center;font-weight: bold'>
+				{{blogForm.title}}
+			</h2>
+			<div v-html='blogForm.content'></div>
+		</el-dialog>
 		<el-form :inline='true' :model='queryParams' label-width='68px'>
 			<el-form-item label='标题' prop='title'>
 				<el-input
@@ -90,9 +96,10 @@
 			<el-table-column align='center' label='更新时间' prop='updateAt' width='180' />
 			<el-table-column align='center' class-name='small-padding fixed-width' label='操作'>
 				<template #default='scope'>
-					<el-button icon='Edit' link type='primary' vPermi="['system:article:edit']" @click='handleEditor(scope.row)'>编辑</el-button>
-					<el-button icon='Operation' link type='primary' vPermi="['system:article:edit']" @click='handleUpdate(scope.row)'>修改</el-button>
-					<el-button icon='Delete' link type='primary' vPermi="['system:article:remove']" @click='handleDelete(scope.row)'>删除</el-button>
+					<el-button icon='View' link type='primary' vPermi="['system:article:remove']" @click='viewBlog(scope.row)'></el-button>
+					<el-button icon='Edit' link type='primary' vPermi="['system:article:edit']" @click='handleEditor(scope.row)'></el-button>
+					<el-button icon='Operation' link type='primary' vPermi="['system:article:edit']" @click='handleUpdate(scope.row)'></el-button>
+					<el-button icon='Delete' link type='primary' vPermi="['system:article:remove']" @click='handleDelete(scope.row)'></el-button>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -104,6 +111,7 @@
 				@pagination='getList'
 		/>
 		<artic-dig ref='articleDig' :digData='digData' :getList='getList'></artic-dig>
+	
 	</div>
 </template>
 
@@ -122,7 +130,7 @@ const ids = ref([]);
 
 const single = ref(true);
 const multiple = ref(true);
-
+const viewShow = ref(false);
 const total = ref(0);
 const articleDig = ref();
 const digData = ref();
@@ -134,6 +142,8 @@ const initParams = {
 	status: null,
 };
 const queryParams = ref(initParams);
+
+const blogForm = ref();
 
 /** 查询博客文章列表 */
 function getList() {
@@ -178,9 +188,33 @@ function handleAdd() {
 }
 
 /** 修改按钮操作 */
-function handleUpdate(row) {
+function viewBlog(row) {
 	const _id = row.id || ids.value;
 	loading.value = true;
+	getArticle(_id)
+	.then((response) => {
+		blogForm.value = response.data;
+		loading.value = false;
+		viewShow.value = true;
+		console.log(blogForm.value, 'blogForm');
+		console.log(viewShow.value, 'viewShow');
+		console.log(blogForm.value.content, 'blogForm.content');
+	})
+	.catch((error) => {
+		proxy.$modal.msgSuccess('获取博客数据失败:', error);
+		loading.value = false;
+	});
+}
+
+/** 编辑按钮操作 */
+function handleEditor(row) {
+	const _id = row.id || ids.value;
+	proxy.$router.push({ path: 'blogEditor', query: { createType: 'Mod', id: _id } });
+}
+
+function handleUpdate(row) {
+	loading.value = true;
+	const _id = row.id || ids.value;
 	getArticle(_id)
 	.then((response) => {
 		const { readType, comment, coverImage, status, keywords, recommended, top, original, password, tags, title } = response.data;
@@ -192,12 +226,6 @@ function handleUpdate(row) {
 		proxy.$modal.msgSuccess('Error fetching article data:', error);
 		loading.value = false;
 	});
-}
-
-/** 编辑按钮操作 */
-function handleEditor(row) {
-	const _id = row.id || ids.value;
-	proxy.$router.push({ path: 'blogEditor', query: { createType: 'Mod', id: _id } });
 }
 
 /** 删除按钮操作 */
