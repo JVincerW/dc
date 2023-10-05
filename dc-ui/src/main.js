@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 import ElementPlus from 'element-plus';
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs';
 import '@/assets/styles/index.scss'; // global css
-
+import '@/assets/styles/font.css'; // global css
 import App from './App';
 import store from './store';
 import router from './router';
@@ -41,13 +41,13 @@ import DictTag from '@/components/DictTag';
 const app = createApp(App);
 
 // 全局方法挂载
-app.config.globalProperties.useDict          = useDict;
-app.config.globalProperties.download         = download;
-app.config.globalProperties.parseTime        = parseTime;
-app.config.globalProperties.resetForm        = resetForm;
-app.config.globalProperties.handleTree       = handleTree;
-app.config.globalProperties.addDateRange     = addDateRange;
-app.config.globalProperties.selectDictLabel  = selectDictLabel;
+app.config.globalProperties.useDict = useDict;
+app.config.globalProperties.download = download;
+app.config.globalProperties.parseTime = parseTime;
+app.config.globalProperties.resetForm = resetForm;
+app.config.globalProperties.handleTree = handleTree;
+app.config.globalProperties.addDateRange = addDateRange;
+app.config.globalProperties.selectDictLabel = selectDictLabel;
 app.config.globalProperties.selectDictLabels = selectDictLabels;
 
 // 全局组件挂载
