@@ -75,7 +75,9 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
         // 转换流信息写出
         FastByteArrayOutputStream os = new FastByteArrayOutputStream();
         try {
-            ImageIO.write(image, "jpg", os);
+            if (image != null) {
+                ImageIO.write(image, "jpg", os);
+            }
         } catch (IOException e) {
             return AjaxResult.error(e.getMessage());
         }
