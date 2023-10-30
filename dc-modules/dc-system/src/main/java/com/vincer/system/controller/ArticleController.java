@@ -38,7 +38,7 @@ public class ArticleController extends BaseController
     /**
      * 查询博客文章列表
      */
-    @RequiresPermissions("system:article:list")
+//    @RequiresPermissions("system:article:list")
     @GetMapping("/list")
     public TableDataInfo list(Article article)
     {
@@ -50,7 +50,7 @@ public class ArticleController extends BaseController
     /**
      * 导出博客文章列表
      */
-    @RequiresPermissions("system:article:export")
+//    @RequiresPermissions("system:article:export")
     @Log(title = "博客文章", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Article article)
@@ -63,7 +63,7 @@ public class ArticleController extends BaseController
     /**
      * 获取博客文章详细信息
      */
-    @RequiresPermissions("system:article:query")
+//    @RequiresPermissions("system:article:query")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") String id)
     {
@@ -73,7 +73,7 @@ public class ArticleController extends BaseController
     /**
      * 新增博客文章
      */
-    @RequiresPermissions("system:article:add")
+//    @RequiresPermissions("system:article:add")
     @Log(title = "博客文章", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody Article article)
@@ -85,7 +85,7 @@ public class ArticleController extends BaseController
     /**
      * 修改博客文章
      */
-    @RequiresPermissions("system:article:edit")
+//    @RequiresPermissions("system:article:edit")
     @Log(title = "博客文章", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody Article article)
@@ -96,7 +96,7 @@ public class ArticleController extends BaseController
     /**
      * 删除博客文章
      */
-    @RequiresPermissions("system:article:remove")
+//    @RequiresPermissions("system:article:remove")
     @Log(title = "博客文章", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable String[] ids)
