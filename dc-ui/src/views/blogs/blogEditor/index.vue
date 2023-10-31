@@ -47,21 +47,17 @@ onBeforeMount(() => {
 
 function reset() {
 	articleForm.value = {
-		title: '',
-		content: '',
-		coverImage: null,
-		editorType: '0',
-		readType: '0',
-		status: '',
-		tags: [],
-		top: false,
-		recommended: false,
-		original: '0',
-		keywords: null,
-		comment: false,
-		password: null,
-	};
-	
+    "allowComment": 0,
+    "appreciation": 0,
+    "content": "string",
+    "createBy": "string",
+    "excerpt": "string",
+    "imageUrl": "string",
+    "remark": "string",
+    "status": 0,
+    "title": "",
+    "userId": 0,
+  }
 }
 
 function digShow() {
