@@ -1,11 +1,12 @@
 package com.vincer.blogs.service.impl;
 
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import com.vincer.blogs.mapper.BlogCategoryMapper;
 import com.vincer.blogs.domain.BlogCategory;
+import com.vincer.blogs.mapper.BlogCategoryMapper;
 import com.vincer.blogs.service.IBlogCategoryService;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 博客分类标Service业务层处理
@@ -26,8 +27,7 @@ public class BlogCategoryServiceImpl implements IBlogCategoryService
      * @return 博客分类标
      */
     @Override
-    public BlogCategory selectBlogCategoryById(Long id)
-    {
+    public BlogCategory selectBlogCategoryById(Long id) {
         return blogCategoryMapper.selectBlogCategoryById(id);
     }
 
@@ -38,8 +38,7 @@ public class BlogCategoryServiceImpl implements IBlogCategoryService
      * @return 博客分类标
      */
     @Override
-    public List<BlogCategory> selectBlogCategoryList(BlogCategory blogCategory)
-    {
+    public List<BlogCategory> selectBlogCategoryList(BlogCategory blogCategory) {
         return blogCategoryMapper.selectBlogCategoryList(blogCategory);
     }
 
@@ -50,8 +49,7 @@ public class BlogCategoryServiceImpl implements IBlogCategoryService
      * @return 结果
      */
     @Override
-    public int insertBlogCategory(BlogCategory blogCategory)
-    {
+    public int insertBlogCategory(BlogCategory blogCategory) {
         return blogCategoryMapper.insertBlogCategory(blogCategory);
     }
 
@@ -62,8 +60,7 @@ public class BlogCategoryServiceImpl implements IBlogCategoryService
      * @return 结果
      */
     @Override
-    public int updateBlogCategory(BlogCategory blogCategory)
-    {
+    public int updateBlogCategory(BlogCategory blogCategory) {
         return blogCategoryMapper.updateBlogCategory(blogCategory);
     }
 

@@ -21,8 +21,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/category")
-public class BlogCategoryController extends BaseController
-{
+public class BlogCategoryController extends BaseController {
     @Autowired
     private IBlogCategoryService blogCategoryService;
 
@@ -31,8 +30,7 @@ public class BlogCategoryController extends BaseController
      */
     // @RequiresPermissions("blogs:category:list")
     @GetMapping("/list")
-    public TableDataInfo list(BlogCategory blogCategory)
-    {
+    public TableDataInfo list(BlogCategory blogCategory) {
         startPage();
         List<BlogCategory> list = blogCategoryService.selectBlogCategoryList(blogCategory);
         return getDataTable(list);
@@ -43,8 +41,7 @@ public class BlogCategoryController extends BaseController
      */
     // @RequiresPermissions("blogs:category:query")
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id)
-    {
+    public AjaxResult getInfo(@PathVariable("id") Long id) {
         return success(blogCategoryService.selectBlogCategoryById(id));
     }
 
@@ -54,8 +51,7 @@ public class BlogCategoryController extends BaseController
     @RequiresPermissions("blogs:category:add")
     @Log(title = "博客分类", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody BlogCategory blogCategory)
-    {
+    public AjaxResult add(@RequestBody BlogCategory blogCategory) {
         return toAjax(blogCategoryService.insertBlogCategory(blogCategory));
     }
 
@@ -65,8 +61,7 @@ public class BlogCategoryController extends BaseController
     @RequiresPermissions("blogs:category:edit")
     @Log(title = "博客分类", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody BlogCategory blogCategory)
-    {
+    public AjaxResult edit(@RequestBody BlogCategory blogCategory) {
         return toAjax(blogCategoryService.updateBlogCategory(blogCategory));
     }
 

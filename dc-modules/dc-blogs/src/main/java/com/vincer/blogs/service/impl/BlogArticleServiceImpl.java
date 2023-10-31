@@ -26,8 +26,7 @@ public class BlogArticleServiceImpl implements IBlogArticleService
      * @return 博客文章
      */
     @Override
-    public BlogArticle selectBlogArticleById(Long id)
-    {
+    public BlogArticle selectBlogArticleById(Long id) {
         return blogArticleMapper.selectBlogArticleById(id);
     }
 
@@ -38,8 +37,7 @@ public class BlogArticleServiceImpl implements IBlogArticleService
      * @return 博客文章
      */
     @Override
-    public List<BlogArticle> selectBlogArticleList(BlogArticle blogArticle)
-    {
+    public List<BlogArticle> selectBlogArticleList(BlogArticle blogArticle) {
         return blogArticleMapper.selectBlogArticleList(blogArticle);
     }
 
@@ -50,8 +48,7 @@ public class BlogArticleServiceImpl implements IBlogArticleService
      * @return 结果
      */
     @Override
-    public int insertBlogArticle(BlogArticle blogArticle)
-    {
+    public int insertBlogArticle(BlogArticle blogArticle) {
         return blogArticleMapper.insertBlogArticle(blogArticle);
     }
 
@@ -62,8 +59,7 @@ public class BlogArticleServiceImpl implements IBlogArticleService
      * @return 结果
      */
     @Override
-    public int updateBlogArticle(BlogArticle blogArticle)
-    {
+    public int updateBlogArticle(BlogArticle blogArticle) {
         return blogArticleMapper.updateBlogArticle(blogArticle);
     }
 }

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vincer.blogs.mapper.BlogCategroyTagMapper">
+
+    <resultMap type="com.vincer.blogs.domain.BlogCategroyTag" id="BlogCategroyTagResult">
+        <result property="id" column="id"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="name" column="name"/>
+        <result property="desc" column="desc"/>
+        <result property="createAt" column="create_at"/>
+        <result property="updateAt" column="update_at"/>
+    </resultMap>
+
+    <sql id="selectBlogCategroyTagVo">
+        select id, category_id, name, desc, create_at, update_at from blog_categroy_tag
+    </sql>
+
+    <select id="selectBlogCategroyTagList" parameterType="BlogCategroyTag" resultMap="BlogCategroyTagResult">
+        <include refid="selectBlogCategroyTagVo"/>
+        <where>
+            <if test="categoryId != null ">and category_id = #{categoryId}</if>
+            <if test="name != null  and name != ''">and name like concat('%', #{name}, '%')</if>
+            <if test="desc != null  and desc != ''">and desc = #{desc}</if>
+            <if test="createAt != null ">and create_at = #{createAt}</if>
+            <if test="updateAt != null ">and update_at = #{updateAt}</if>
+        </where>
+    </select>
+
+    <select id="selectBlogCategroyTagById" parameterType="Long" resultMap="BlogCategroyTagResult">
+        <include refid="selectBlogCategroyTagVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBlogCategroyTag" parameterType="BlogCategroyTag">
+        insert into blog_categroy_tag
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="categoryId != null">category_id,</if>
+            <if test="name != null">name,</if>
+            <if test="desc != null">desc,</if>
+            <if test="createAt != null">create_at,</if>
+            <if test="updateAt != null">update_at,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="categoryId != null">#{categoryId},</if>
+            <if test="name != null">#{name},</if>
+            <if test="desc != null">#{desc},</if>
+            <if test="createAt != null">#{createAt},</if>
+            <if test="updateAt != null">#{updateAt},</if>
+        </trim>
+    </insert>
+
+    <update id="updateBlogCategroyTag" parameterType="BlogCategroyTag">
+        update blog_categroy_tag
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="categoryId != null">category_id = #{categoryId},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="desc != null">desc = #{desc},</if>
+            <if test="createAt != null">create_at = #{createAt},</if>
+            <if test="updateAt != null">update_at = #{updateAt},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+</mapper>

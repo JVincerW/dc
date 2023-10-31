@@ -1,42 +1,43 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.vincer.blogs.mapper.BlogCategoryMapper">
-    
-    <resultMap type="BlogCategory" id="BlogCategoryResult">
-        <result property="id"    column="id"    />
-        <result property="name"    column="name"    />
-        <result property="sort"    column="sort"    />
-        <result property="icon"    column="icon"    />
-
-        <result property="createAt"    column="create_at"    />
-        <result property="updateAt"    column="update_at"    />
+    <resultMap type="com.vincer.blogs.domain.BlogCategory" id="BlogCategoryResult">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="sort" column="sort"/>
+        <result property="icon" column="icon"/>
+        <result property="createAt" column="create_at"/>
+        <result property="updateAt" column="update_at"/>
         <collection property="blogCategroyTags" ofType="com.vincer.blogs.domain.BlogCategroyTag">
-            <result property="id"    column="id"    />
-            <result property="categoryId"    column="category_id"    />
-            <result property="name"    column="name"    />
-            <result property="desc"    column="desc"    />
-            <result property="createAt"    column="create_at"    />
-            <result property="updateAt"    column="update_at"    />
+            <result property="id" column="id"/>
+            <result property="categoryId" column="category_id"/>
+            <result property="name" column="name"/>
+            <result property="desc" column="desc"/>
+            <result property="createAt" column="create_at"/>
+            <result property="updateAt" column="update_at"/>
         </collection>
     </resultMap>
 
     <sql id="selectBlogCategoryVo">
-        select c.*,t.* from blog_category c left join blog_categroy_tag t on c.id=t.category_id
+        select c.*, t.*
+        from blog_category c
+        left join blog_categroy_tag t on c.id = t.category_id
     </sql>
 
-    <select id="selectBlogCategoryList" parameterType="BlogCategory" resultMap="BlogCategoryResult">
+    <select id="selectBlogCategoryList" parameterType="com.vincer.blogs.domain.BlogCategory"
+            resultMap="BlogCategoryResult">
         <include refid="selectBlogCategoryVo"/>
-        <where>  
-            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
-            <if test="sort != null "> and sort = #{sort}</if>
-            <if test="icon != null  and icon != ''"> and icon = #{icon}</if>
-            <if test="createAt != null "> and create_at = #{createAt}</if>
-            <if test="updateAt != null "> and update_at = #{updateAt}</if>
+        <where>
+            <if test="name != null  and name != ''">and name like concat('%', #{name}, '%')</if>
+            <if test="sort != null ">and sort = #{sort}</if>
+            <if test="icon != null  and icon != ''">and icon = #{icon}</if>
+            <if test="createAt != null ">and create_at = #{createAt}</if>
+            <if test="updateAt != null ">and update_at = #{updateAt}</if>
         </where>
     </select>
-    
+
     <select id="selectBlogCategoryById" parameterType="Long" resultMap="BlogCategoryResult">
         <include refid="selectBlogCategoryVo"/>
         where c.id = #{id}
@@ -51,7 +52,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="icon != null">icon,</if>
             <if test="createAt != null">create_at,</if>
             <if test="updateAt != null">update_at,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">#{id},</if>
             <if test="name != null and name != ''">#{name},</if>
@@ -59,7 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="icon != null">#{icon},</if>
             <if test="createAt != null">#{createAt},</if>
             <if test="updateAt != null">#{updateAt},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateBlogCategory" parameterType="BlogCategory">

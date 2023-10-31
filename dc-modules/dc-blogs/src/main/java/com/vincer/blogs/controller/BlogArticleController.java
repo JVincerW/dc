@@ -21,8 +21,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/article")
-public class BlogArticleController extends BaseController
-{
+public class BlogArticleController extends BaseController {
     @Autowired
     private IBlogArticleService blogArticleService;
 
@@ -31,8 +30,7 @@ public class BlogArticleController extends BaseController
      */
     // @RequiresPermissions("system:article:list")
     @GetMapping("/list")
-    public TableDataInfo list(BlogArticle blogArticle)
-    {
+    public TableDataInfo list(BlogArticle blogArticle) {
         startPage();
         List<BlogArticle> list = blogArticleService.selectBlogArticleList(blogArticle);
         return getDataTable(list);
@@ -43,8 +41,7 @@ public class BlogArticleController extends BaseController
      */
     // @RequiresPermissions("system:article:query")
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id)
-    {
+    public AjaxResult getInfo(@PathVariable("id") Long id) {
         return success(blogArticleService.selectBlogArticleById(id));
     }
 
@@ -54,8 +51,7 @@ public class BlogArticleController extends BaseController
     @RequiresPermissions("system:article:add")
     @Log(title = "博客文章", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody BlogArticle blogArticle)
-    {
+    public AjaxResult add(@RequestBody BlogArticle blogArticle) {
         return toAjax(blogArticleService.insertBlogArticle(blogArticle));
     }
 
@@ -65,8 +61,7 @@ public class BlogArticleController extends BaseController
     @RequiresPermissions("system:article:edit")
     @Log(title = "博客文章", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody BlogArticle blogArticle)
-    {
+    public AjaxResult edit(@RequestBody BlogArticle blogArticle) {
         return toAjax(blogArticleService.updateBlogArticle(blogArticle));
     }
 
