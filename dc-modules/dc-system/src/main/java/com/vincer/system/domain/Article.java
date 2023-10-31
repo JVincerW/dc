@@ -104,5 +104,4 @@ public class Article extends BaseEntity
 
     @Excel(name = "标签")
     private List<Tag> tags;
-
 }
