@@ -36,14 +36,6 @@ public interface BlogCommentMapper {
     int insertBlogComment(BlogComment blogComment);
 
     /**
-     * 修改评论
-     *
-     * @param blogComment 评论
-     * @return 结果
-     */
-    int updateBlogComment(BlogComment blogComment);
-
-    /**
      * 删除评论
      *
      * @param id 评论主键
