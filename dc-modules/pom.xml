@@ -6,6 +6,20 @@
         <artifactId>dc</artifactId>
         <version>3.6.3</version>
     </parent>
+    <dependencies>
+        <dependency>
+            <groupId>com.vincer</groupId>
+            <artifactId>dc-common-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.vincer</groupId>
+            <artifactId>dc-common-swagger</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
     <modelVersion>4.0.0</modelVersion>
 
     <modules>
@@ -13,6 +27,7 @@
         <module>dc-gen</module>
         <module>dc-job</module>
         <module>dc-file</module>
+        <module>dc-blogs</module>
     </modules>
 
     <artifactId>dc-modules</artifactId>

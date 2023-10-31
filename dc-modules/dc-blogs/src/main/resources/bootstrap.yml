@@ -1,12 +1,12 @@
 # Tomcat
 server:
-  port: 7008
+  port: 7015
 
 # Spring
 spring:
   application:
     # 应用名称
-    name: dc-monitor
+    name: dc-blogs
   profiles:
     # 环境配置
     active: dev
