@@ -40,7 +40,6 @@ function handleSubmit() {
   wait_loadding.value=true
 	console.log(proxy.digData, '确认按钮被点击，获取到的值');
 	const articleObj = proxy.digData;
-
 	console.log(articleObj, '最终的文章对象');
 	
 	if( articleObj.createType === 'Mod' ) {
@@ -111,7 +110,6 @@ defineExpose({ handleShow });
           <el-radio :label=9>删除</el-radio>
 				</el-radio-group>
 			</el-form-item>
-
 <!--			<el-form-item form.tags label='文章标签'>-->
 <!--				<el-tag-->
 <!--						v-for='tag in digData.tags'-->

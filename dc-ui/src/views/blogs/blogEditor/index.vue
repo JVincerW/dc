@@ -58,7 +58,6 @@ function reset() {
     "readType":0,
     "status": 0,
     "title": "",
-    "userId": 0,
   }
 }
 
