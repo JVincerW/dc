@@ -48,19 +48,6 @@ public class BlogArticleController extends BaseController
     }
 
     /**
-     * 导出博客文章列表
-     */
-    // @RequiresPermissions("system:article:export")
-    @Log(title = "博客文章", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, BlogArticle blogArticle)
-    {
-        List<BlogArticle> list = blogArticleService.selectBlogArticleList(blogArticle);
-        ExcelUtil<BlogArticle> util = new ExcelUtil<BlogArticle>(BlogArticle.class);
-        util.exportExcel(response, list, "博客文章数据");
-    }
-
-    /**
      * 获取博客文章详细信息
      */
     // @RequiresPermissions("system:article:query")
@@ -73,7 +60,7 @@ public class BlogArticleController extends BaseController
     /**
      * 新增博客文章
      */
-    // @RequiresPermissions("system:article:add")
+    @RequiresPermissions("system:article:add")
     @Log(title = "博客文章", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody BlogArticle blogArticle)
@@ -84,7 +71,7 @@ public class BlogArticleController extends BaseController
     /**
      * 修改博客文章
      */
-    // @RequiresPermissions("system:article:edit")
+    @RequiresPermissions("system:article:edit")
     @Log(title = "博客文章", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody BlogArticle blogArticle)
@@ -92,14 +79,5 @@ public class BlogArticleController extends BaseController
         return toAjax(blogArticleService.updateBlogArticle(blogArticle));
     }
 
-    /**
-     * 删除博客文章
-     */
-    // @RequiresPermissions("system:article:remove")
-    @Log(title = "博客文章", businessType = BusinessType.DELETE)
-    @DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Long[] ids)
-    {
-        return toAjax(blogArticleService.deleteBlogArticleByIds(ids));
-    }
+
 }

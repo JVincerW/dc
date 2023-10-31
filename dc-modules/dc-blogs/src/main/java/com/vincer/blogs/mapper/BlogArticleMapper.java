@@ -43,19 +43,4 @@ public interface BlogArticleMapper
      */
      int updateBlogArticle(BlogArticle blogArticle);
 
-    /**
-     * 删除博客文章
-     *
-     * @param id 博客文章主键
-     * @return 结果
-     */
-     int deleteBlogArticleById(Long id);
-
-    /**
-     * 批量删除博客文章
-     *
-     * @param ids 需要删除的数据主键集合
-     * @return 结果
-     */
-     int deleteBlogArticleByIds(Long[] ids);
 }

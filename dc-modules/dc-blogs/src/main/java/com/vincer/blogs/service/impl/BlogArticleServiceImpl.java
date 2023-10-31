@@ -66,28 +66,4 @@ public class BlogArticleServiceImpl implements IBlogArticleService
     {
         return blogArticleMapper.updateBlogArticle(blogArticle);
     }
-
-    /**
-     * 批量删除博客文章
-     *
-     * @param ids 需要删除的博客文章主键
-     * @return 结果
-     */
-    @Override
-    public int deleteBlogArticleByIds(Long[] ids)
-    {
-        return blogArticleMapper.deleteBlogArticleByIds(ids);
-    }
-
-    /**
-     * 删除博客文章信息
-     *
-     * @param id 博客文章主键
-     * @return 结果
-     */
-    @Override
-    public int deleteBlogArticleById(Long id)
-    {
-        return blogArticleMapper.deleteBlogArticleById(id);
-    }
 }
