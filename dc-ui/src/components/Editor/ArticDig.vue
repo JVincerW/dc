@@ -1,6 +1,5 @@
 <script name='articDig' setup>
 import { ref } from 'vue';
-import { Plus } from '@element-plus/icons-vue';
 import { addArticle, updateArticle } from '../../api/system/blogs';
 
 const { proxy } = getCurrentInstance();
@@ -10,6 +9,7 @@ const { digData, getList } = defineProps({ digData: Object, getList: Function })
 
 // 新标签
 const newTagValue = ref(null);
+const wait_loadding=ref(false)
 const handleShow = () => {
 	console.log(digData, 'digData显示');
 	dialogTableVisible.value = true;
@@ -37,9 +37,10 @@ function showInput() {
 }
 
 function handleSubmit() {
+  wait_loadding.value=true
 	console.log(proxy.digData, '确认按钮被点击，获取到的值');
 	const articleObj = proxy.digData;
-	
+
 	console.log(articleObj, '最终的文章对象');
 	
 	if( articleObj.createType === 'Mod' ) {
@@ -57,8 +58,8 @@ function handleSubmit() {
 				proxy.$modal.msgSuccess(response);
 			}
 		});
-		
 	}
+  wait_loadding.value=false
 	dialogTableVisible.value = false;
 }
 
@@ -136,7 +137,7 @@ defineExpose({ handleShow });
 <!--				</el-button>-->
 <!--			</el-form-item>-->
 			<el-form-item>
-				<el-button  clearable maxlength='5' type='primary' @click='handleSubmit'>{{digData.createType === 'Mod' ? '确认修改' : '确认创建'}}</el-button>
+				<el-button  clearable maxlength='5' :loading="wait_loadding" type='primary' @click='handleSubmit'>{{digData.createType === 'Mod' ? '确认修改' : '确认创建'}}</el-button>
 			</el-form-item>
 		</el-form>
 	</el-dialog>
