@@ -47,13 +47,15 @@ onBeforeMount(() => {
 
 function reset() {
 	articleForm.value = {
-    "allowComment": 0,
-    "appreciation": 0,
-    "content": "string",
-    "createBy": "string",
+    "allowComment": true,
+    "appreciation": true,
+    "contentType": 0,
+    "content": "",
+    "createBy": "",
     "excerpt": "string",
     "imageUrl": "string",
     "remark": "string",
+    "readType":0,
     "status": 0,
     "title": "",
     "userId": 0,
