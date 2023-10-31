@@ -1,7 +1,7 @@
 <script name='articDig' setup>
 import { ref } from 'vue';
 import { Plus } from '@element-plus/icons-vue';
-import { addArticle, updateArticle } from '../../api/system/article';
+import { addArticle, updateArticle } from '../../api/system/blogs';
 
 const { proxy } = getCurrentInstance();
 const dialogTableVisible = ref(false);

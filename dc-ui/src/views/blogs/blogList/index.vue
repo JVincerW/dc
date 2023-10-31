@@ -117,9 +117,9 @@
 
 <script setup>
 
-import { delArticle, listArticle } from '@/api/system/article';
+import { delArticle, listArticle,getArticle } from '@/api/system/blogs';
 import ArticDig from '../../../components/Editor/ArticDig.vue';
-import { getArticle } from '../../../api/system/article';
+
 
 const { proxy } = getCurrentInstance();
 const articleList = ref([]);

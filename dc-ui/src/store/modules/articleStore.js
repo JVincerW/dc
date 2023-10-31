@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { getArticle } from '../../api/system/article';
+import { getArticle } from '../../api/system/blogs';
 
 // 创建文章编辑页面的 store
 export const useArticleStore = defineStore('article', {

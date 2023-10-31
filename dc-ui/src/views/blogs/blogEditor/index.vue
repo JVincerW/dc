@@ -11,7 +11,7 @@
 <script setup>
 import BasicEditor from '../../../components/Editor/BasicEditor.vue';
 import ArticDig from '../../../components/Editor/ArticDig.vue';
-import { getArticle } from '../../../api/system/article';
+import { getArticle } from '../../../api/system/blogs';
 
 const proxy = getCurrentInstance().proxy;
 const showBasicEditor = ref();
