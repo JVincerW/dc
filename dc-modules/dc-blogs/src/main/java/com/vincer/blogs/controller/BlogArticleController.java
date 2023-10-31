@@ -10,7 +10,6 @@ import com.vincer.common.log.enums.BusinessType;
 import com.vincer.common.security.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 /**

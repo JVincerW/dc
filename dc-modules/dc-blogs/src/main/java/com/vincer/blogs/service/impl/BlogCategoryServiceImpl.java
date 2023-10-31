@@ -15,9 +15,8 @@ import java.util.List;
  * @date 2023-10-31
  */
 @Service
-public class BlogCategoryServiceImpl implements IBlogCategoryService
-{
-    @Autowired
+public class BlogCategoryServiceImpl implements IBlogCategoryService {
+    @Resource
     private BlogCategoryMapper blogCategoryMapper;
 
     /**

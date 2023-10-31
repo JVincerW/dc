@@ -1,11 +1,12 @@
 package com.vincer.blogs.service.impl;
 
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import com.vincer.blogs.mapper.BlogArticleMapper;
 import com.vincer.blogs.domain.BlogArticle;
+import com.vincer.blogs.mapper.BlogArticleMapper;
 import com.vincer.blogs.service.IBlogArticleService;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 博客文章Service业务层处理
@@ -14,9 +15,8 @@ import com.vincer.blogs.service.IBlogArticleService;
  * @date 2023-10-31
  */
 @Service
-public class BlogArticleServiceImpl implements IBlogArticleService
-{
-    @Autowired
+public class BlogArticleServiceImpl implements IBlogArticleService {
+    @Resource
     private BlogArticleMapper blogArticleMapper;
 
     /**
