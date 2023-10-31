@@ -10,8 +10,10 @@
         <result property="imageUrl" column="image_url"/>
         <result property="title" column="title"/>
         <result property="excerpt" column="excerpt"/>
+        <result property="contentType" column="content_type"/>
         <result property="content" column="content"/>
         <result property="status" column="status"/>
+        <result property="readType" column="readType"/>
         <result property="allowComment" column="allow_comment"/>
         <result property="likes" column="likes"/>
         <result property="views" column="views"/>
@@ -26,6 +28,7 @@
                image_url,
                title,
                excerpt,
+               content_type,
                status,
                allow_comment,
                likes,
@@ -46,6 +49,7 @@
             <if test="excerpt != null  and excerpt != ''">and excerpt = #{excerpt}</if>
             <if test="content != null  and content != ''">and content = #{content}</if>
             <if test="status != null ">and status = #{status}</if>
+            <if test="contentType != null ">and content_type = #{content_type}</if>
             <if test="allowComment != null ">and allow_comment = #{allowComment}</if>
             <if test="likes != null ">and likes = #{likes}</if>
             <if test="views != null ">and views = #{views}</if>
@@ -60,7 +64,7 @@
         where id = #{id}
     </select>
 
-    <insert id="insertBlogArticle" parameterType="BlogArticle">
+    <insert id="insertBlogArticle" parameterType="com.vincer.blogs.domain.BlogArticle">
         insert into blog_article
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">id,</if>
@@ -68,6 +72,7 @@
             <if test="imageUrl != null">image_url,</if>
             <if test="title != null">title,</if>
             <if test="excerpt != null">excerpt,</if>
+            <if test="contentType != null">content_type,</if>
             <if test="content != null">content,</if>
             <if test="status != null">status,</if>
             <if test="allowComment != null">allow_comment,</if>
@@ -83,6 +88,7 @@
             <if test="imageUrl != null">#{imageUrl},</if>
             <if test="title != null">#{title},</if>
             <if test="excerpt != null">#{excerpt},</if>
+            <if test="contentType != null">content_type,</if>
             <if test="content != null">#{content},</if>
             <if test="status != null">#{status},</if>
             <if test="allowComment != null">#{allowComment},</if>
@@ -101,6 +107,7 @@
             <if test="imageUrl != null">image_url = #{imageUrl},</if>
             <if test="title != null">title = #{title},</if>
             <if test="excerpt != null">excerpt = #{excerpt},</if>
+            <if test="contentType != null">content_type,</if>
             <if test="content != null">content = #{content},</if>
             <if test="status != null">status = #{status},</if>
             <if test="allowComment != null">allow_comment = #{allowComment},</if>

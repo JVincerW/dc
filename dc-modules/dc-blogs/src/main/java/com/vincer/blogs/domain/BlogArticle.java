@@ -51,6 +51,12 @@ public class BlogArticle extends BaseEntity {
     /**
      * 文章内容
      */
+    @Excel(name = "内容类型")
+    private Long contentType;
+
+    /**
+     * 文章内容
+     */
     @Excel(name = "文章内容")
     private String content;
 
@@ -61,10 +67,16 @@ public class BlogArticle extends BaseEntity {
     private Long status;
 
     /**
+     * 阅读类型：0.无需验证 1.密码验证 2.仅自己
+     */
+    @Excel(name = "阅读类型：0.无需验证 1.密码验证 2.仅自己")
+    private Long readType;
+
+    /**
      * 是否启用评论 0.否 1.是
      */
     @Excel(name = "是否启用评论 0.否 1.是")
-    private Long allowComment;
+    private Boolean allowComment;
 
     /**
      * 点赞次数
@@ -82,7 +94,7 @@ public class BlogArticle extends BaseEntity {
      * 是否开启赞赏 0.否 1.是
      */
     @Excel(name = "是否开启赞赏 0.否 1.是")
-    private Long appreciation;
+    private Boolean appreciation;
 
     /**
      * 创建时间
