@@ -60,6 +60,7 @@ public class BlogArticleServiceImpl implements IBlogArticleService {
      */
     @Override
     public int updateBlogArticle(BlogArticle blogArticle) {
+        // 获取博客的用户
         return blogArticleMapper.updateBlogArticle(blogArticle);
     }
 }

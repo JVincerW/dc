@@ -67,6 +67,4 @@ public class BlogArticleController extends BaseController {
     public AjaxResult edit(@RequestBody BlogArticle blogArticle) {
         return toAjax(blogArticleService.updateBlogArticle(blogArticle));
     }
-
-
 }
