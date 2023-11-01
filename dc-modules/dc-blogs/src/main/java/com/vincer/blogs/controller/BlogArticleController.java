@@ -8,6 +8,7 @@ import com.vincer.common.core.web.page.TableDataInfo;
 import com.vincer.common.log.annotation.Log;
 import com.vincer.common.log.enums.BusinessType;
 import com.vincer.common.security.annotation.RequiresPermissions;
+import com.vincer.common.security.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -51,6 +52,9 @@ public class BlogArticleController extends BaseController {
     @Log(title = "博客文章", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody BlogArticle blogArticle) {
+        System.out.println(SecurityUtils.getUserId());
+        System.out.println(SecurityUtils.getLoginUser().getUsername());
+        blogArticle.setUserId(SecurityUtils.getUserId());
         return toAjax(blogArticleService.insertBlogArticle(blogArticle));
     }
 
