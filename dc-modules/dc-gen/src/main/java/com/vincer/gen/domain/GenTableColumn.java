@@ -2,6 +2,8 @@ package com.vincer.gen.domain;
 
 import com.vincer.common.core.utils.StringUtils;
 import com.vincer.common.core.web.domain.BaseEntity;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
 
@@ -10,6 +12,9 @@ import javax.validation.constraints.NotBlank;
  *
  * @author vincer
  */
+
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class GenTableColumn extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
@@ -117,73 +122,28 @@ public class GenTableColumn extends BaseEntity {
         return StringUtils.equalsAnyIgnoreCase(javaField, "parentId", "orderNum", "remark");
     }
 
-    public Long getColumnId() {
-        return columnId;
-    }
-
     public void setColumnId(Long columnId) {
         this.columnId = columnId;
-    }
-
-    public Long getTableId() {
-        return tableId;
     }
 
     public void setTableId(Long tableId) {
         this.tableId = tableId;
     }
 
-    public String getColumnName() {
-        return columnName;
-    }
-
-    public void setColumnName(String columnName) {
-        this.columnName = columnName;
-    }
-
-    public String getColumnComment() {
-        return columnComment;
-    }
 
     public void setColumnComment(String columnComment) {
         this.columnComment = columnComment;
     }
 
-    public String getColumnType() {
-        return columnType;
-    }
-
-    public void setColumnType(String columnType) {
-        this.columnType = columnType;
-    }
-
-    public String getJavaType() {
-        return javaType;
-    }
 
     public void setJavaType(String javaType) {
         this.javaType = javaType;
-    }
-
-    public String getJavaField() {
-        return javaField;
     }
 
     public void setJavaField(String javaField) {
         this.javaField = javaField;
     }
 
-    public String getCapJavaField() {
-        return StringUtils.capitalize(javaField);
-    }
-
-    public String getIsPk() {
-        return isPk;
-    }
-
-    public void setIsPk(String isPk) {
-        this.isPk = isPk;
-    }
 
     public boolean isPk() {
         return isPk(this.isPk);
@@ -193,41 +153,11 @@ public class GenTableColumn extends BaseEntity {
         return isPk != null && StringUtils.equals("1", isPk);
     }
 
-    public String getIsIncrement() {
-        return isIncrement;
-    }
-
-    public void setIsIncrement(String isIncrement) {
-        this.isIncrement = isIncrement;
-    }
-
-    public boolean isIncrement() {
-        return isIncrement(this.isIncrement);
-    }
-
-    public boolean isIncrement(String isIncrement) {
-        return isIncrement != null && StringUtils.equals("1", isIncrement);
-    }
-
-    public String getIsRequired() {
-        return isRequired;
-    }
 
     public void setIsRequired(String isRequired) {
         this.isRequired = isRequired;
     }
 
-    public boolean isRequired() {
-        return isRequired(this.isRequired);
-    }
-
-    public boolean isRequired(String isRequired) {
-        return isRequired != null && StringUtils.equals("1", isRequired);
-    }
-
-    public String getIsInsert() {
-        return isInsert;
-    }
 
     public void setIsInsert(String isInsert) {
         this.isInsert = isInsert;
@@ -241,10 +171,6 @@ public class GenTableColumn extends BaseEntity {
         return isInsert != null && StringUtils.equals("1", isInsert);
     }
 
-    public String getIsEdit() {
-        return isEdit;
-    }
-
     public void setIsEdit(String isEdit) {
         this.isEdit = isEdit;
     }
@@ -253,13 +179,6 @@ public class GenTableColumn extends BaseEntity {
         return isInsert(this.isEdit);
     }
 
-    public boolean isEdit(String isEdit) {
-        return isEdit != null && StringUtils.equals("1", isEdit);
-    }
-
-    public String getIsList() {
-        return isList;
-    }
 
     public void setIsList(String isList) {
         this.isList = isList;
@@ -271,10 +190,6 @@ public class GenTableColumn extends BaseEntity {
 
     public boolean isList(String isList) {
         return isList != null && StringUtils.equals("1", isList);
-    }
-
-    public String getIsQuery() {
-        return isQuery;
     }
 
     public void setIsQuery(String isQuery) {
@@ -289,37 +204,18 @@ public class GenTableColumn extends BaseEntity {
         return isQuery != null && StringUtils.equals("1", isQuery);
     }
 
-    public String getQueryType() {
-        return queryType;
-    }
-
     public void setQueryType(String queryType) {
         this.queryType = queryType;
-    }
-
-    public String getHtmlType() {
-        return htmlType;
     }
 
     public void setHtmlType(String htmlType) {
         this.htmlType = htmlType;
     }
 
-    public String getDictType() {
-        return dictType;
-    }
-
     public void setDictType(String dictType) {
         this.dictType = dictType;
     }
 
-    public Integer getSort() {
-        return sort;
-    }
-
-    public void setSort(Integer sort) {
-        this.sort = sort;
-    }
 
     public boolean isSuperColumn() {
         return isSuperColumn(this.javaField);
@@ -329,20 +225,5 @@ public class GenTableColumn extends BaseEntity {
         return isUsableColumn(javaField);
     }
 
-    public String readConverterExp() {
-        String remarks = StringUtils.substringBetween(this.columnComment, "（", "）");
-        StringBuffer sb = new StringBuffer();
-        if (StringUtils.isNotEmpty(remarks)) {
-            for (String value : remarks.split(" ")) {
-                if (StringUtils.isNotEmpty(value)) {
-                    Object startStr = value.subSequence(0, 1);
-                    String endStr = value.substring(1);
-                    sb.append("").append(startStr).append("=").append(endStr).append(",");
-                }
-            }
-            return sb.deleteCharAt(sb.length() - 1).toString();
-        } else {
-            return this.columnComment;
-        }
-    }
+
 }

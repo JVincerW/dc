@@ -3,9 +3,9 @@ package com.vincer.gen.service;
 import com.vincer.common.core.text.Convert;
 import com.vincer.gen.domain.GenTableColumn;
 import com.vincer.gen.mapper.GenTableColumnMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Service
 public class GenTableColumnServiceImpl implements IGenTableColumnService {
-    @Autowired
+    @Resource
     private GenTableColumnMapper genTableColumnMapper;
 
     /**

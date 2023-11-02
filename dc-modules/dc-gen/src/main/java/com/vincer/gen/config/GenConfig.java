@@ -1,5 +1,6 @@
 package com.vincer.gen.config;
 
+import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -14,11 +15,13 @@ public class GenConfig {
     /**
      * 作者
      */
+    @Getter
     public static String author;
 
     /**
      * 生成包路径
      */
+    @Getter
     public static String packageName;
 
     /**
@@ -29,23 +32,8 @@ public class GenConfig {
     /**
      * 表前缀(类名不会包含表前缀)
      */
+    @Getter
     public static String tablePrefix;
-
-    public static String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        GenConfig.author = author;
-    }
-
-    public static String getPackageName() {
-        return packageName;
-    }
-
-    public void setPackageName(String packageName) {
-        GenConfig.packageName = packageName;
-    }
 
     public static boolean getAutoRemovePre() {
         return autoRemovePre;
@@ -55,8 +43,12 @@ public class GenConfig {
         GenConfig.autoRemovePre = autoRemovePre;
     }
 
-    public static String getTablePrefix() {
-        return tablePrefix;
+    public void setAuthor(String author) {
+        GenConfig.author = author;
+    }
+
+    public void setPackageName(String packageName) {
+        GenConfig.packageName = packageName;
     }
 
     public void setTablePrefix(String tablePrefix) {
