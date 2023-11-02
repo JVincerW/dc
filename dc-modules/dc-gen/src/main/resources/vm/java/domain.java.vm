@@ -54,6 +54,5 @@ public class ${ClassName} extends ${Entity}
 #if($table.sub)
     /** $table.subTable.functionName信息 */
     private List<${subClassName}> ${subclassName}List;
-
 #end
 }

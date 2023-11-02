@@ -8,9 +8,9 @@ import com.vincer.common.core.web.page.TableDataInfo;
 import com.vincer.common.log.annotation.Log;
 import com.vincer.common.log.enums.BusinessType;
 import com.vincer.common.security.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -22,7 +22,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/tag")
 public class BlogCategroyTagController extends BaseController {
-    @Autowired
+    @Resource
     private IBlogCategroyTagService blogCategroyTagService;
 
     /**
