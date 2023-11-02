@@ -122,28 +122,6 @@ public class GenTableColumn extends BaseEntity {
         return StringUtils.equalsAnyIgnoreCase(javaField, "parentId", "orderNum", "remark");
     }
 
-    public void setColumnId(Long columnId) {
-        this.columnId = columnId;
-    }
-
-    public void setTableId(Long tableId) {
-        this.tableId = tableId;
-    }
-
-
-    public void setColumnComment(String columnComment) {
-        this.columnComment = columnComment;
-    }
-
-
-    public void setJavaType(String javaType) {
-        this.javaType = javaType;
-    }
-
-    public void setJavaField(String javaField) {
-        this.javaField = javaField;
-    }
-
 
     public boolean isPk() {
         return isPk(this.isPk);
@@ -154,15 +132,6 @@ public class GenTableColumn extends BaseEntity {
     }
 
 
-    public void setIsRequired(String isRequired) {
-        this.isRequired = isRequired;
-    }
-
-
-    public void setIsInsert(String isInsert) {
-        this.isInsert = isInsert;
-    }
-
     public boolean isInsert() {
         return isInsert(this.isInsert);
     }
@@ -171,18 +140,11 @@ public class GenTableColumn extends BaseEntity {
         return isInsert != null && StringUtils.equals("1", isInsert);
     }
 
-    public void setIsEdit(String isEdit) {
-        this.isEdit = isEdit;
-    }
 
     public boolean isEdit() {
         return isInsert(this.isEdit);
     }
 
-
-    public void setIsList(String isList) {
-        this.isList = isList;
-    }
 
     public boolean isList() {
         return isList(this.isList);
@@ -192,9 +154,6 @@ public class GenTableColumn extends BaseEntity {
         return isList != null && StringUtils.equals("1", isList);
     }
 
-    public void setIsQuery(String isQuery) {
-        this.isQuery = isQuery;
-    }
 
     public boolean isQuery() {
         return isQuery(this.isQuery);
@@ -202,18 +161,6 @@ public class GenTableColumn extends BaseEntity {
 
     public boolean isQuery(String isQuery) {
         return isQuery != null && StringUtils.equals("1", isQuery);
-    }
-
-    public void setQueryType(String queryType) {
-        this.queryType = queryType;
-    }
-
-    public void setHtmlType(String htmlType) {
-        this.htmlType = htmlType;
-    }
-
-    public void setDictType(String dictType) {
-        this.dictType = dictType;
     }
 
 
