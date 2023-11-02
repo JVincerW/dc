@@ -14,6 +14,7 @@ import com.vincer.common.core.web.domain.TreeEntity;
 
 /**
  * ${functionName}对象 ${tableName}
+ * TODO Entity 这里显示不对，在前端看到的还是变量形式
  * @author ${author}
  * @date ${datetime}
  */
@@ -24,8 +25,7 @@ import com.vincer.common.core.web.domain.TreeEntity;
 #elseif($table.tree)
 #set($Entity="TreeEntity")
 #end
-public class ${ClassName} extends ${Entity}
-{
+public class ${ClassName} extends $Entity {
     private static final long serialVersionUID = 1L;
 
 #foreach ($column in $columns)

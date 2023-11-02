@@ -18,7 +18,6 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 public class BlogComment extends BaseEntity {
     private static final long serialVersionUID = 1L;
-
     /**
      * ID
      */
