@@ -68,7 +68,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
         from ${tableName} a
         left join ${subTableName} b on b.${subTableFkName} = a.${pkColumn.columnName}
-        where a.${pkColumn.columnName} = #{${pkColumn.javaField}}
+        where a.${pkColumn.columnName} = b.#{${pkColumn.javaField}}
 #end
     </select>
         
