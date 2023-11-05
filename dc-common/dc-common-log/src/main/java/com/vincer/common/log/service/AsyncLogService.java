@@ -21,7 +21,12 @@ public class AsyncLogService {
      * 保存系统日志记录
      */
     @Async
-    public void saveSysLog(SysOperLog sysOperLog) throws Exception {
-        remoteLogService.saveLog(sysOperLog, SecurityConstants.INNER);
+    public void saveSysLog(SysOperLog sysOperLog) {
+        try {
+            remoteLogService.saveLog(sysOperLog, SecurityConstants.INNER);
+        } catch (Exception e) {
+            System.out.println("遇到错误了");
+            throw new RuntimeException(e);
+        }
     }
 }
