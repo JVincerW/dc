@@ -47,6 +47,8 @@ public class BlogArticleServiceImpl implements IBlogArticleService {
      */
     @Override
     public int insertBlogArticle(BlogArticle blogArticle) {
+
+        System.out.println(blogArticle);
         return blogArticleMapper.insertBlogArticle(blogArticle);
     }
 
@@ -58,6 +60,8 @@ public class BlogArticleServiceImpl implements IBlogArticleService {
      */
     @Override
     public int updateBlogArticle(BlogArticle blogArticle) {
+        System.out.println(blogArticle);
+
         // 获取博客的用户
         return blogArticleMapper.updateBlogArticle(blogArticle);
     }

@@ -33,8 +33,13 @@ public class TokenController {
 
     @PostMapping("login")
     public R<?> login(@RequestBody LoginBody form) {
+        System.out.println("登录getUsername");
+        System.out.println(form.getUsername());
         // 用户登录
         LoginUser userInfo = sysLoginService.login(form.getUsername(), form.getPassword());
+        System.out.println(userInfo.getSysUser());
+        System.out.println("userInfogetUserid");
+        System.out.println(userInfo.getUserid());
         // 获取登录token
         return R.ok(tokenService.createToken(userInfo));
     }

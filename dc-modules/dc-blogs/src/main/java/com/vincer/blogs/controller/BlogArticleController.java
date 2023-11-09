@@ -53,7 +53,12 @@ public class BlogArticleController extends BaseController {
     @Log(title = "博客文章", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody BlogArticle blogArticle) {
+        System.out.println("前端传递过来的用户id");
+        System.out.println(blogArticle.getUserId());
+        System.out.println("登录用户的id");
         System.out.println(SecurityUtils.getUserId());
+
+        System.out.println(blogArticle);
         System.out.println(SecurityUtils.getLoginUser().getUsername());
         blogArticle.setUserId(SecurityUtils.getUserId());
         return toAjax(blogArticleService.insertBlogArticle(blogArticle));
@@ -66,6 +71,8 @@ public class BlogArticleController extends BaseController {
     @Log(title = "博客文章", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody BlogArticle blogArticle) {
+        System.out.println("接收到");
+        System.out.println(blogArticle);
         return toAjax(blogArticleService.updateBlogArticle(blogArticle));
     }
 }

@@ -58,6 +58,7 @@ public class SysFileController {
             json.put("data", data);
             System.out.println(json);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             log.error("上传文件失败", e);
             json.put("errno", 1);
             json.put("message", "文件上传失败");
